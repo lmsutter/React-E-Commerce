@@ -24,7 +24,7 @@ function App() {
   // console.log(items[0].image)
 
   return (
-    <Router>
+    <Router basename={process.env.PUBLIC_URL}>
       <Background />
       <HeaderContainer />
 
