@@ -1,9 +1,10 @@
 
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link, NavLink } from 'react-router-dom'
-import Category from './Components/Category';
-import Header from './Components/Header'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import Category from './Pages/Category';
+import HeaderContainer from './Containers/Header'
 import Background from './Components/Background'
+import Home from './Pages/Home'
 
 
 
@@ -25,12 +26,13 @@ function App() {
   return (
     <Router>
       <Background />
-      <Header />
+      <HeaderContainer />
 
       <Switch>
         <Route path='/' exact>
-          Home
+          <Home />
         </Route>
+
         <Route path='/category/:category'>
           <Category />
         </Route>

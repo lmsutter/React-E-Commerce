@@ -1,35 +1,52 @@
 import * as Styled from './StyledHeader'
 
-export default function Header () {
-  return (
-    <Styled.HeaderDiv>
-      <Styled.PageTitle>React Page</Styled.PageTitle>
-      <Styled.Nav>
-        <ul>
-          
-            <Styled.SNavItem to="/">Home</Styled.SNavItem>
-          
-          {/* <li>
-            <Styled.SNavItem 
-            to="/category/mens-clothing"
-            
-            >
-              Men's Clothing
-            </Styled.SNavItem>
-          </li>
-          <li>
-            <Styled.SNavItem>
-              Link 
-            </Styled.SNavItem>
-          </li>
-          <li>
-            <Styled.CartButton as="NavLink" to="/cart">Cart</Styled.CartButton>
-          </li> */}
+export default function Header ({children}) {
+  return <> {children} </>
+}
 
-        </ul>
-      </Styled.Nav>
-    </Styled.HeaderDiv>
+Header.Frame = ({children}) => {
+  return (
+    <Styled.HeaderDiv>{children}</Styled.HeaderDiv>
+  )
+}
+
+
+Header.Title = ({children}) => {
+  return (
+    <Styled.PageTitle>{children}</Styled.PageTitle>
+  )
+}
+
+Header.Nav = ({children}) => {
+  return (
+    <Styled.Nav>
+      <ul>
+        {children}
+      </ul>
+    </Styled.Nav>
+  )
+}
+
+Header.Link = ({to, activeClassName, children }) => {
+  return (
+    <li>
+      <Styled.SNavLink 
+        to={to}
+        activeClassName={activeClassName}
+        exact
+      >
+        {children}
+      </Styled.SNavLink>
+    </li>
 
   )
 }
+
+Header.Cart = () => (
+  <li>
+    <Styled.CartButton as="NavLink" to="/cart">Cart</Styled.CartButton>
+  </li>
+)
+
+
  
