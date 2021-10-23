@@ -6,6 +6,10 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     background-color: #e1f7f0;
+
+    max-width: 100vw;
+    max-height: 100vh;
+    overflow-X: hidden;
   }
 `
 

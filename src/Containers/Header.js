@@ -1,14 +1,24 @@
 import Header from "../Components/Header"
-import  DropDown  from "../Components/ReUsable/Dropdown/index"
+import { useState } from "react"
 
 export default function HeaderContainer () {
+  const [active, setActive] = useState('')
+  const [open, setOpen] = useState(false)
+  //could make it multi layered by having an array with the strings in it & the dropdown checks if active includes the title
+  //activeSwitch only clears it if the passed category isn't any of the strings in the active array.
+  const activeSwitch = (category) => {
+    category === active ? setActive('') : setActive(category)
+  }
   return (
-    <Header>
-      <Header.Frame>
-        <Header.Title>React Page</Header.Title>
+    <Header >
+      <Header.Toggle open={open} onClick={() => setOpen(c => !c)} />
+      <Header.Title mobile={true}>React E-Commerce</Header.Title>
+      <Header.Frame open={open} >
+        <Header.Title mobile={false}>React E-Commerce</Header.Title>
         <Header.Nav>
+
           <Header.Link
-            to='/'
+            to='/'     
           >
             Home
           </Header.Link>
@@ -18,32 +28,30 @@ export default function HeaderContainer () {
             Electronics
           </Header.Link>
           <Header.Link
-            to='/category/jewelry'
+            to='/category/jewelery'
           >
             Jewelry
           </Header.Link>
 
-          <DropDown
-            title="Clothing"
-          >
+          <Header.DropDown onClick={() => activeSwitch('Clothing')} active={active} title="Clothing" >
             <Header.Link
-              to='/category/electronics'
+              to="/category/men's-clothing"
             >
-              Electronics
+              Men's<br/>Clothing
             </Header.Link>
             <Header.Link
-              to='/category/jewelry'
+              to="/category/women's-clothing"
             >
-              Jewelry
+              Women's<br/>Clothing
             </Header.Link>
-            <DropDown
-              title="OtherCategory"
-            >
-              <h3>Option 1</h3>
-              <h3>Option 2</h3>
-            </DropDown>
-          </DropDown>
+            
+          </Header.DropDown>
 
+          <Header.Cart
+            to="/cart"
+          >
+            Cart
+          </Header.Cart>
         </Header.Nav>
       </Header.Frame>
     </Header>
