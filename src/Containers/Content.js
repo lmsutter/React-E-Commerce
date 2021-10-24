@@ -2,30 +2,34 @@ import Content from '../Components/Content/ContentComponents'
 import { useState, useEffect } from 'react'
 
 export default function ContentContainer ({ data, category, breakpoints, categoryPretty })  {
-  //sort filter logic goes here and returns a new array based on data
+
   const [open, setOpen] = useState('')
   const [sFOption, setSFOption] = useState({mutation: '', type: '', value: ''})
-  const [filteredData, setFilteredData] = useState(data)
-  console.log(filteredData)
-  
+  const [filteredData, setFilteredData] = useState([])
+
+  useEffect(() => {
+    setFilteredData(data)
+  }, [data])
+
+  //trt calling setFilteredData Directly when
   useEffect(() => {
     if (sFOption.mutation === 'sort') {
-
-      setFilteredData(data.sort((a, b) => {
+      const my = filteredData.sort((a, b) => {
         if (sFOption.type === 'price') {
-          return sFOption.value === 'HighLow' ? a.price - b.price : b.price - a.price
+          return sFOption.value === 'HighLow' ?  b.price - a.price : a.price - b.price
         }  else if (sFOption.type === 'rating') {
-          return sFOption.value === 'HighLow' ? a.rating.rate - b.rating.rate : b.rating.rate - a.rating.rate
+          return sFOption.value === 'HighLow' ?  b.rating.rate - a.rating.rate : a.rating.rate - b.rating.rate
         } else {
-          return sFOption.value === 'HighLow' ? a.rating.count - b.rating.count : b.rating.count - a.rating.count
+          return sFOption.value === 'HighLow' ? b.rating.count - a.rating.count : a.rating.count - b.rating.count
         }
-      }))
+      })
+
+      setFilteredData(my)
 
     }
-  }, [sFOption, data])
+  }, [sFOption, filteredData])
 
   const currentBP = breakpoints[category.replaceAll('-', ' ')]
-  //
 
   const openToggle = (string) => {
     if(open === string) {
