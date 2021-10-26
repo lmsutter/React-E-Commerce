@@ -104,7 +104,7 @@ export const Nav = styled.nav`
 export const PageTitle = styled.h1`
   font-size: 1.7rem;
   margin: 1em;
-  display: ${({mobile}) => mobile ? 'inline' : 'none'};
+  display: ${({mobile}) => mobile ? 'block' : 'none'};
   @media (min-width: 970px) {
     font-size: 2.5rem;
     display: ${({mobile}) => mobile ? 'none' : 'inline'};

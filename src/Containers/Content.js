@@ -4,30 +4,49 @@ import { useState, useEffect } from 'react'
 export default function ContentContainer ({ data, category, breakpoints, categoryPretty })  {
 
   const [open, setOpen] = useState('')
-  const [sFOption, setSFOption] = useState({mutation: '', type: '', value: ''})
   const [filteredData, setFilteredData] = useState([])
+
 
   useEffect(() => {
     setFilteredData(data)
   }, [data])
 
-  //trt calling setFilteredData Directly when
-  useEffect(() => {
-    if (sFOption.mutation === 'sort') {
-      const my = filteredData.sort((a, b) => {
-        if (sFOption.type === 'price') {
-          return sFOption.value === 'HighLow' ?  b.price - a.price : a.price - b.price
-        }  else if (sFOption.type === 'rating') {
-          return sFOption.value === 'HighLow' ?  b.rating.rate - a.rating.rate : a.rating.rate - b.rating.rate
-        } else {
-          return sFOption.value === 'HighLow' ? b.rating.count - a.rating.count : a.rating.count - b.rating.count
-        }
-      })
+  const sortFilter = (mutation, type, value) => {
+    let newData = []
 
-      setFilteredData(my)
+    if(mutation === 'sort') {
+      if(type === 'price') {
+        newData = data.sort((a,b) => {
+         return value === 'HighLow' ? b.price - a.price : a.price - b.price
+        })
+      } else if (type === 'rating') {
+        newData = data.sort((a,b) => {
+          return value === 'HighLow' ? b.rating.rate - a.rating.rate : a.rating.rate - b.rating.rate
+        })
+      } else if (type === 'popularity') {
+        newData = data.sort((a,b) => {
+          return value === 'HighLow' ? b.rating.count - a.rating.count : a.rating.count - b.rating.count
+        })
+      }
 
+    } else {
+      if(type === 'price') {
+        newData = data.filter(item => {
+          return item.price >= value[0] && item.price <= value[1]
+        })
+      } else if (type === 'rating') {
+        newData = data.filter(item => {
+          return item.rating.rate >= value[0] && item.rating.rate <= value[1]
+        })
+      } else if (type === 'popularity') {
+        newData = data.filter(item => {
+          return item.rating.count >= value[0] && item.rating.count <= value[1]
+        })
+      }
     }
-  }, [sFOption, filteredData])
+
+    setFilteredData(newData)
+  } 
 
   const currentBP = breakpoints[category.replaceAll('-', ' ')]
 
@@ -39,15 +58,16 @@ export default function ContentContainer ({ data, category, breakpoints, categor
 
   const bpOptions = (type, bp1, bp2) => (
     <div 
-      onClick={() => setSFOption({mutation: 'filter', type: type, value: [bp1, bp2]})}
+      className="subOption"
+      onClick={() => sortFilter('filter', type, [bp1, bp2])}
     >
-      {category === 'price' && '$'}
+      {type === 'price' && '$'} 
       {bp1}
       {(() => {
-        if (bp2) {
+        if (bp2 !== Infinity) {
         return (
           <>
-          - {category === 'price' && '$'}
+          - {type === 'price' && '$'}
           {bp2}
           </>
         )
@@ -57,55 +77,54 @@ export default function ContentContainer ({ data, category, breakpoints, categor
     </div>
   )
 
-
-
-
   return (
     <>
       <Content.Category>
-        {categoryPretty}
+        <h2>
+          {categoryPretty}
+        </h2>
       </Content.Category>
       <Content.Options>
-        <Content.SortFilter onClick={() => openToggle('sort')} y={'0'} x={'-90px'} open={open === 'sort'}>
+        <Content.SortFilter onClick={() => openToggle('sort')} y={'0'} x={'-243px'} open={open === 'sort'}>
           <h3>Sort</h3>
           <div className="optionContainer">
-            <div className="option">
-              Price
-              <div className="subOption" onClick={() => setSFOption({mutation: 'sort', type: 'price', value: 'LowHigh'})}>Low-High</div>
-              <div className="subOption" onClick={() => setSFOption({mutation: 'sort', type: 'price', value: 'HighLow'})}>High-Low</div>
+            <div className="option first">
+              <h4 className="catHeader" >Price</h4>
+              <div className="subOption" onClick={() => sortFilter('sort', 'price', 'LowHigh')}>Low-High</div>
+              <div className="subOption" onClick={() => sortFilter('sort', 'price', 'HighLow')}>High-Low</div>
             </div>
             <div className="option">
-              Rating
-              <div className="subOption" onClick={() => setSFOption({mutation: 'sort', type: 'rating', value: 'LowHigh'})}>Low-High</div>
-              <div className="subOption" onClick={() => setSFOption({mutation: 'sort', type: 'rating', value: 'HighLow'})}>High-Low</div>
+              <h4 className="catHeader">Rating</h4>
+              <div className="subOption" onClick={() => sortFilter('sort', 'rating', 'LowHigh')}>Low-High</div>
+              <div className="subOption" onClick={() => sortFilter('sort', 'rating', 'HighLow')}>High-Low</div>
             </div>
             <div className="option">
-              Popularity
-              <div className="subOption" onClick={() => setSFOption({mutation: 'sort', type: 'popularity', value: 'LowHigh'})}>Low-High</div>
-              <div className="subOption" onClick={() => setSFOption({mutation: 'sort', type: 'popularity', value: 'HighLow'})}>High-Low</div>
+              <h4 className="catHeader">Popularity</h4>
+              <div className="subOption" onClick={() => sortFilter('sort', 'popularity', 'LowHigh')}>Low-High</div>
+              <div className="subOption" onClick={() => sortFilter('sort', 'popularity', 'HighLow')}>High-Low</div>
             </div>
           </div>
         </Content.SortFilter>
-        <Content.SortFilter onClick={() => openToggle('filter')} y={'6em'} x='-91px' open={open === 'filter'}>
+        <Content.SortFilter onClick={() => openToggle('filter')} y={'8em'} x='-263px' open={open === 'filter'}>
           <h3>Filter</h3>
           <div className="optionContainer">
             <div className="option">
-              Price
+              <h4 className="catHeader first">Price</h4>
               {bpOptions('price', currentBP.price[0], currentBP.price[1])}
               {bpOptions('price', currentBP.price[2], currentBP.price[3])}
-              {bpOptions('price', currentBP.price[4])}
+              {bpOptions('price', currentBP.price[4], Infinity) }
             </div>
             <div className="option">
-              Rating
+              <h4 className="catHeader">Rating</h4>
               {bpOptions('rating', currentBP.rating[0], currentBP.rating[1])}
               {bpOptions('rating', currentBP.rating[2], currentBP.rating[3])}
-              {bpOptions('rating', currentBP.rating[4])}
+              {bpOptions('rating', currentBP.rating[4], Infinity)}
             </div>
             <div className="option">
-              Popularity
+              <h4 className="catHeader">Popularity</h4>
               {bpOptions('popularity', currentBP.popularity[0], currentBP.popularity[1])}
               {bpOptions('popularity', currentBP.popularity[2], currentBP.popularity[3])}
-              {bpOptions('popularity', currentBP.popularity[4])}
+              {bpOptions('popularity', currentBP.popularity[4], Infinity)}
             </div>
           </div>
         </Content.SortFilter>

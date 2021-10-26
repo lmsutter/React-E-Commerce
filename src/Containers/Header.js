@@ -4,25 +4,28 @@ import { useState } from "react"
 export default function HeaderContainer () {
   const [active, setActive] = useState('')
   const [open, setOpen] = useState(false)
-  //could make it multi layered by having an array with the strings in it & the dropdown checks if active includes the title
-  //activeSwitch only clears it if the passed category isn't any of the strings in the active array.
+  console.log(open)
+
   const activeSwitch = (category) => {
     category === active ? setActive('') : setActive(category)
+  
   }
   return (
-    <Header >
+    <Header onClick={() => console.log('click')}>
       <Header.Toggle open={open} onClick={() => setOpen(c => !c)} />
       <Header.Title mobile={true}>React E-Commerce</Header.Title>
       <Header.Frame open={open} >
         <Header.Title mobile={false}>React E-Commerce</Header.Title>
-        <Header.Nav>
+        <Header.Nav >
 
           <Header.Link
+            onClick={() => setOpen(false)}
             to='/'     
           >
             Home
           </Header.Link>
           <Header.Link
+           onClick={() => setOpen(false)}
             to='/category/electronics'
           >
             Electronics
