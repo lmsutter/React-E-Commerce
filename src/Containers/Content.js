@@ -1,4 +1,5 @@
 import Content from '../Components/Content/ContentComponents'
+import { Star } from '../Components/Svg/Svgs' 
 import { useState, useEffect } from 'react'
 
 export default function ContentContainer ({ data, category, breakpoints, categoryPretty })  {
@@ -87,7 +88,7 @@ export default function ContentContainer ({ data, category, breakpoints, categor
       <Content.Options>
         <Content.SortFilter onClick={() => openToggle('sort')} y={'0'} x={'-243px'} open={open === 'sort'}>
           <h3>Sort</h3>
-          <div className="optionContainer">
+          <div className="sort optionContainer">
             <div className="option first">
               <h4 className="catHeader" >Price</h4>
               <div className="subOption" onClick={() => sortFilter('sort', 'price', 'LowHigh')}>Low-High</div>
@@ -105,9 +106,9 @@ export default function ContentContainer ({ data, category, breakpoints, categor
             </div>
           </div>
         </Content.SortFilter>
-        <Content.SortFilter onClick={() => openToggle('filter')} y={'8em'} x='-263px' open={open === 'filter'}>
+        <Content.SortFilter onClick={() => openToggle('filter')} y={'100px'} x='-243px' open={open === 'filter'}>
           <h3>Filter</h3>
-          <div className="optionContainer">
+          <div className="filter optionContainer">
             <div className="option">
               <h4 className="catHeader first">Price</h4>
               {bpOptions('price', currentBP.price[0], currentBP.price[1])}
@@ -132,11 +133,14 @@ export default function ContentContainer ({ data, category, breakpoints, categor
       <Content.Frame>
       {filteredData.map(item => (
         <Content.ContentCard key={item.id}>
-          <Content.Name>{item.title}</Content.Name>
           <Content.Image src={item.image}/>
+          <Content.Name>{item.title}</Content.Name>
           <Content.InfoBox>
             <Content.Price>${item.price}</Content.Price>
-            <Content.Rating>{item.rating.rate}</Content.Rating>
+            <Content.Rating>
+              {item.rating.rate}
+              <Star rating={item.rating.rate}/>
+            </Content.Rating>
           </Content.InfoBox>
           <Content.MoreInfo />
           <Content.AddCart />

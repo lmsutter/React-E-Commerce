@@ -1,5 +1,7 @@
 import * as Styled from './StyledHeader'
 import { NavLink } from "react-router-dom"
+import useClickOutside from '.../hooks/useClickOutside';
+
 import { useEffect, useState, useRef } from "react";
 
 export default function Header ({ children}) {
@@ -7,7 +9,9 @@ export default function Header ({ children}) {
   return <> {children} </>
 }
 
-Header.Frame = ({ open, children}) => {
+Header.Frame = function Frame ({ open, setOpen, children})  {
+
+
   return (
     <Styled.Frame open={open}>{children}</Styled.Frame>
   )

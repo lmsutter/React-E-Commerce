@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import {Blobs} from './Svg'
+import {Blobs} from '../Components/Svg/Svgs'
 
 
 const Wrapper = styled.div`

@@ -20,10 +20,7 @@ Content.SortFilter = function SortFilter ({ onClick, open, x, y, children }) {
   )
 }
 
-
-
-
-Content.Frame = function Frame ({children}) {
+Content.Frame = function Frame ({ children }) {
   return (
     <Styled.Frame>
       {children}
@@ -70,8 +67,8 @@ Content.Rating = function Rating ({ children }) {
 Content.MoreInfo = function MoreInfo ({children}) {
   return (
     <Styled.MoreInfo>
-      <div>+</div>
-      <div>More Info</div>
+      <span>+ </span>
+      <span>Info</span>
     </Styled.MoreInfo>
   )
 }
@@ -79,8 +76,8 @@ Content.MoreInfo = function MoreInfo ({children}) {
 Content.AddCart = function AddCart ({ children }) {
   return (
     <Styled.AddCart>
-      <div>+</div>
-      <div>Add to Cart</div>
+      <span>+ </span>
+      <span>Cart</span>
     </Styled.AddCart>
   )
 }

@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import Category from './Pages/Category';
 import HeaderContainer from './Containers/Header'
-import Background from './Components/Background'
+import Background from './Containers/Background'
 import Home from './Pages/Home'
 
 
