@@ -1,10 +1,10 @@
 
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import Category from './Pages/Category';
-import HeaderContainer from './Containers/Header'
-import Background from './Containers/Background'
-import Home from './Pages/Home'
+import Category from './pages/Category';
+import HeaderContainer from './containers/Header'
+import Background from './containers/Background'
+import Home from './pages/Home'
 
 
 
@@ -21,6 +21,8 @@ function App() {
               console.log(error)
             })
   }, [])
+
+  console.log(data)
 
 // I hardcoded the ratings because those were consistent across all categories
   const breakpoints = {
@@ -101,8 +103,12 @@ function App() {
           <Home />
         </Route>
 
-        <Route path='/category/:category'>
+        <Route path='/category/:category' exact>
           <Category data={data} breakpoints={breakpoints}/>
+        </Route>
+
+        <Route path='/category/:category/:item'>
+          <h2>Item page</h2>
         </Route>
 
         <Route path='/cart'>

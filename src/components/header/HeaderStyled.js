@@ -1,12 +1,12 @@
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { Button } from '../ReUsable/Button'
+import { Button } from '../reUsable/Button'
 import { ChevronDown } from 'akar-icons'
 
 const height = '100px'
 
 export const Toggle = styled.div`
-  position: absolute;
+  position: fixed;
   top: 15px;
   right: 15px;
   z-index: 1;
@@ -33,7 +33,7 @@ export const Toggle = styled.div`
     display: ${({open})=> open ? 'none' : 'block'}
   }
 
-  @media (min-width: 970px) {
+  @media (min-width: 600px) {
     display: none;
   }
 `
@@ -112,8 +112,6 @@ export const PageTitle = styled.h1`
   }
 `
 
-
-
 export const CartButton = styled(Button)`
   background-color: ${ props  => props.theme.color1 };
   margin: 0 2em;
@@ -124,7 +122,26 @@ export const SNavLink = styled(NavLink)`
   color: black;
   text-decoration: none;
   margin: 0 ;
+  position: relative;
+  display: inline-block;
+
+  &:before {
+    content: '';
+    width: 80%;
+    transform: scaleX(0);
+    transition: transform .2s ease-in;
+    transform-origin: left;
+    height: 5px;
+    background-color: ${({ theme }) => theme.color2};
+    bottom: 0;
+    left: 0;
+    position: absolute;
+  }
   
+  &.active:before,
+  &:hover&:before {
+    transform: scaleX(100%);
+  }
 `
 
 

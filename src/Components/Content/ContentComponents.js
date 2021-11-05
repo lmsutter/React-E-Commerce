@@ -1,4 +1,5 @@
-import * as Styled from './StyledContent' 
+import * as Styled from './ContentStyled' 
+import { Link } from 'react-router-dom'
 
 export default function Content ({children}) {
   return <> {children} </>
@@ -64,11 +65,13 @@ Content.Rating = function Rating ({ children }) {
   )
 }
 
-Content.MoreInfo = function MoreInfo ({children}) {
+Content.MoreInfo = function MoreInfo ({ category, children, item}) {
   return (
     <Styled.MoreInfo>
-      <span>+ </span>
-      <span>Info</span>
+      <Link to={`/category/${category}/${item}`}>
+        <span>+ </span>
+        <span>Info</span>
+      </Link>
     </Styled.MoreInfo>
   )
 }

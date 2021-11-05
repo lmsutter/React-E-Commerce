@@ -5,10 +5,10 @@ export default function useClickOutside(ref, handler) {
   useEffect(() => {
     const listener = event => {
       const el = ref?.current
-      if(!el || el.contains(event.targt)) {
+      const toggle = event.target.classList.contains('toggle')
+      if(!el || el.contains(event.target) || toggle) {
         return
       }
-
       handler(event)
     }
 

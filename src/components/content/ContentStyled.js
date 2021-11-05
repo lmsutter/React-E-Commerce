@@ -1,8 +1,16 @@
 import styled from "styled-components"
-import { Card } from "../ReUsable/Card"
-import { Button } from "../ReUsable/Button"
+import { Card } from "../reUsable/Card"
+import { Button } from "../reUsable/Button"
 
-export const Options = styled.div``
+export const Options = styled.div`
+  @media (min-width: 600px) {
+    display: flex;
+    flex-direction: row;
+    width: 100vw;
+    justify-content: space-around;
+    background-color: #fff;
+  }
+`
 
 export const SortFilter = styled.div`
   position: fixed;
@@ -13,7 +21,7 @@ export const SortFilter = styled.div`
   transform: 
     ${({ open, x, y }) => {
       if (open) return `translateX(3em) translateY(0)  rotate(0) ` 
-      else return `translateX(-280px) translateY(${y})  rotate(90deg) `
+      else return `translateX(-297px) translateY(${y})  rotate(90deg) `
     }};
   transition: all .5s ease-in-out;
 
@@ -32,10 +40,6 @@ export const SortFilter = styled.div`
     cursor: pointer;
   }
 
-  h4 {
-    margin: 0 1em;
-  }
-
   .sort .option {
     display: grid;
     grid-template-rows: auto auto;
@@ -50,6 +54,7 @@ export const SortFilter = styled.div`
 
   .catHeader { 
     grid-row: 1 / 2;
+    margin: 0 1em;
   }
 
   .first {
@@ -59,10 +64,7 @@ export const SortFilter = styled.div`
   .optionContainer {
     border-radius: 0 .7em .7em .7em;
     background-color: ${({theme}) => theme.color3};
-    /* display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center; */
+
   }
 
   .subOption {
@@ -82,6 +84,48 @@ export const SortFilter = styled.div`
   .filter .subOption {
     grid-row: 2 / 3;
   }
+
+  @media (min-width: 600px) {
+    transform: unset;
+    position: static;
+    width: initial;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #fff;
+
+    h3 {
+      background-color: #fff;
+      margin-right: 1em;
+    }
+
+    .catHeader {
+      background-color: #fff;
+      margin: 0;
+      justify-self: center;
+      text-align: center;
+      grid-column: 1 / 3;
+    }
+
+    .optionContainer {
+      display: flex;
+      flex-direction: row;
+      background-color: #fff;
+    }
+
+    .first {
+      padding-top: 0;
+      grid-row: 1 / 3;
+      align-self: center;
+      margin: 0 1em;
+    }
+
+    .subOption {
+      padding: .7em;
+      font-size: 1em;
+    }
+    
+  }
 `
 
 
@@ -89,12 +133,22 @@ export const Frame = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  `
+
+  @media (min-width: 600px) {
+    flex-direction: row;
+    flex-wrap: wrap;
+    max-width: 80vw;
+    overflow-y: auto;
+    margin: 0 auto;
+    justify-content: center;
+  }
+`
 
 export const Category = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  
   
   h2 {
     margin: 0;
@@ -102,8 +156,12 @@ export const Category = styled.div`
     background: rgba(255, 255, 255, 1);
     padding: 1em; 
     border-radius: 1.7em;
+    box-shadow: 0 0 15px 3px rgba(20, 20, 20, .2);
   }
   
+  @media (min-width: 600px) {
+    margin-top: 2em;
+  }
   `
 
 export const ContentCard = styled(Card)`
@@ -119,7 +177,15 @@ export const ContentCard = styled(Card)`
     "image image image"
     "info moreinfo addcart";
   background-color: white;
-  box-shadow: 0 0 15px 3px rgba(20, 20, 20, .3);
+  box-shadow: 0 0 15px 3px rgba(20, 20, 20, .2);
+
+  @media (min-width: 600px) {
+    width: initial;
+    height: 450px;
+    max-width: 450px;
+    max-heigth: 450px;
+    margin: 2em;
+  }
 `
 
 export const Name = styled.h3`
@@ -152,11 +218,18 @@ export const Rating = styled.p``
 export const MoreInfo = styled(Button)`
   grid-area: moreinfo;
   place-self: center;
+  a {
+    color: #fff;
+    text-decoration: none;
+  }
 `
 
 export const AddCart = styled(Button)`
   grid-area: addcart;
   background-color: ${({theme}) => theme.color1};
   place-self: center;
+  &:hover {
+    cursor: pointer;
+  }
 `
 

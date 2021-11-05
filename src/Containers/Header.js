@@ -1,4 +1,4 @@
-import Header from "../Components/Header"
+import Header from "../components/header/HeaderComponent"
 import { useState } from "react"
 
 export default function HeaderContainer () {
