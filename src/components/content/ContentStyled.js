@@ -85,6 +85,18 @@ export const SortFilter = styled.div`
     grid-row: 2 / 3;
   }
 
+  div.activeSF {
+    display: inline-block;
+    position: absolute;
+    content: '';
+    width: .7em;
+    height: .7em;
+    background-color: ${({theme}) => theme.color2};
+    border-radius: 5em;
+    margin-left: .2em;
+    transform: translateY(40%);
+  }
+
   @media (min-width: 600px) {
     transform: unset;
     position: static;

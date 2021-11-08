@@ -1,6 +1,6 @@
 import Content from '../components/content/ContentComponents'
 import { Star } from '../components/svg/Svgs' 
-import { useState, useEffect, useLayoutEffect, forceUpdate } from 'react'
+import { useState, useEffect } from 'react'
 
 
 export default function ContentContainer ({ data, category, breakpoints, categoryPretty })  {
@@ -11,17 +11,18 @@ export default function ContentContainer ({ data, category, breakpoints, categor
     )
   const [filteredData, setFilteredData] = useState([])
 
-  console.table(filteredData)
 
-  
-  
+
   useEffect(() => {
     setFilteredData(data)
   }, [data])
   
+
   useEffect(() => {
     let newData = []
+
     let {sortOption, sortValue, filterOption, filterValue } = sortFilterOption
+
 
     if(filterOption === 'none') {
       newData = data
@@ -40,20 +41,21 @@ export default function ContentContainer ({ data, category, breakpoints, categor
     }
     
     if(sortOption === 'price') {
-      newData = data.sort((a,b) => {
+      newData.sort((a,b) => {
         return sortValue === 'HighLow' ? b.price - a.price : a.price - b.price
       })
     } else if (sortOption === 'rating') {
-      newData = data.sort((a,b) => {
+      newData.sort((a,b) => {
         return sortValue === 'HighLow' ? b.rating.rate - a.rating.rate : a.rating.rate - b.rating.rate
       })
     } else if (sortOption === 'popularity') {
-      newData = data.sort((a,b) => {
+      newData.sort((a,b) => {
         return sortValue === 'HighLow' ? b.rating.count - a.rating.count : a.rating.count - b.rating.count
       })
     }
-    console.log('go')
-    setFilteredData(newData)
+
+    //used JSON.parse here because it wasn't recognizing that the data had changed.
+    setFilteredData( JSON.parse(JSON.stringify(newData)))
 
   }, [data, sortFilterOption])
 
@@ -83,7 +85,7 @@ export default function ContentContainer ({ data, category, breakpoints, categor
         )
         } else return "+"
       })()}
-      
+      <div className={sortFilterOption.filterOption === type && sortFilterOption.filterValue[0] === bp1 && sortFilterOption.filterValue[1] === bp2  ? "activeSF" : ""} ></div>
     </div>
   )
 
@@ -95,22 +97,64 @@ export default function ContentContainer ({ data, category, breakpoints, categor
           <h3>Sort</h3>
           <div className="sort optionContainer">
           <div className="option">
-              <h4 className="catHeader first" onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'none', sortValue: 'none'}})}>None</h4>
+              <h4 
+                className="catHeader first" 
+                onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'none', sortValue: 'none'}})}
+              >
+                None  
+                <div className={sortFilterOption.sortOption === "none" ? "activeSF" : ""} ></div>
+              </h4>
+              
             </div>
             <div className="option first">
               <h4 className="catHeader" >Price</h4>
-              <div className="subOption" onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'price', sortValue: 'LowHigh'}})}>Low-High</div>
-              <div className="subOption" onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'price', sortValue: 'HighLow'}})}>High-Low</div>
+              <div 
+                className="subOption" 
+                onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'price', sortValue: 'LowHigh'}})}
+              >
+                Low-High
+                <div className={sortFilterOption.sortOption === "price" && sortFilterOption.sortValue === "LowHigh" ? "activeSF" : ""} ></div>
+              </div>
+              <div 
+                className="subOption" onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'price', sortValue: 'HighLow'}})}
+              >
+                High-Low
+                <div className={sortFilterOption.sortOption === "price" && sortFilterOption.sortValue === "HighLow" ? "activeSF" : ""} ></div>
+              </div>
             </div>
             <div className="option">
               <h4 className="catHeader">Rating</h4>
-              <div className="subOption" onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'rating', sortValue: 'LowHigh'}})}>Low-High</div>
-              <div className="subOption" onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'rating', sortValue: 'HighLow'}})}>High-Low</div>
+              <div 
+                className="subOption" 
+                onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'rating', sortValue: 'LowHigh'}})}
+              >
+                Low-High
+                <div className={sortFilterOption.sortOption === "rating" && sortFilterOption.sortValue === "LowHigh" ? "activeSF" : ""} ></div>
+              </div>
+              <div 
+                className="subOption" 
+                onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'rating', sortValue: 'HighLow'}})}
+              >
+                High-Low
+                <div className={sortFilterOption.sortOption === "rating" && sortFilterOption.sortValue === "HighLow" ? "activeSF" : ""} ></div>
+              </div>
             </div>
             <div className="option">
               <h4 className="catHeader">Popularity</h4>
-              <div className="subOption" onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'popularity', sortValue: 'LowHigh'}})}>Low-High</div>
-              <div className="subOption" onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'popularity', sortValue: 'HighLow'}})}>High-Low</div>
+              <div 
+                className="subOption" 
+                onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'popularity', sortValue: 'LowHigh'}})}
+              >
+                Low-High
+                <div className={sortFilterOption.sortOption === "popularity" && sortFilterOption.sortValue === "LowHigh" ? "activeSF" : ""} ></div>
+              </div>
+              <div 
+                className="subOption" 
+                onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'popularity', sortValue: 'HighLow'}})}
+              >
+                High-Low
+                <div className={sortFilterOption.sortOption === "popularity" && sortFilterOption.sortValue === "HighLow" ? "activeSF" : ""} ></div>
+              </div>
             </div>
           </div>
         </Content.SortFilter>
@@ -118,7 +162,13 @@ export default function ContentContainer ({ data, category, breakpoints, categor
           <h3>Filter</h3>
           <div className="filter optionContainer">
             <div className="option">
-              <h4 className="catHeader first" onClick={() => setSortFilterOption(c => {return {...c, filterOption: 'none', filterValue: 'none'}})}>None</h4>
+              <h4 
+                className="catHeader first" 
+                onClick={() => setSortFilterOption(c => {return {...c, filterOption: 'none', filterValue: 'none'}})}
+              >
+                None
+                <div className={sortFilterOption.filterOption === "none" ? "activeSF" : ""} ></div>
+              </h4>
             </div>
             <div className="option first">
               <h4 className="catHeader">Price</h4>
@@ -147,7 +197,7 @@ export default function ContentContainer ({ data, category, breakpoints, categor
         </h2>
       </Content.Category>
       <Content.Frame>
-      {filteredData.map(item => (
+      {!filteredData ? null : filteredData.map(item => (
         <Content.ContentCard key={item.id + 'j'}>
           <Content.Image src={item.image}/>
           <Content.Name>{item.title}</Content.Name>
