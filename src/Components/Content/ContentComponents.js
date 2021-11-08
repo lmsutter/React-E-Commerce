@@ -1,4 +1,5 @@
-import * as Styled from './StyledContent' 
+import * as Styled from './ContentStyled' 
+import { Link } from 'react-router-dom'
 
 export default function Content ({children}) {
   return <> {children} </>
@@ -20,10 +21,7 @@ Content.SortFilter = function SortFilter ({ onClick, open, x, y, children }) {
   )
 }
 
-
-
-
-Content.Frame = function Frame ({children}) {
+Content.Frame = function Frame ({ children }) {
   return (
     <Styled.Frame>
       {children}
@@ -67,11 +65,13 @@ Content.Rating = function Rating ({ children }) {
   )
 }
 
-Content.MoreInfo = function MoreInfo ({children}) {
+Content.MoreInfo = function MoreInfo ({ category, children, item}) {
   return (
     <Styled.MoreInfo>
-      <div>+</div>
-      <div>More Info</div>
+      <Link to={`/category/${category}/${item}`}>
+        <span>+ </span>
+        <span>Info</span>
+      </Link>
     </Styled.MoreInfo>
   )
 }
@@ -79,8 +79,8 @@ Content.MoreInfo = function MoreInfo ({children}) {
 Content.AddCart = function AddCart ({ children }) {
   return (
     <Styled.AddCart>
-      <div>+</div>
-      <div>Add to Cart</div>
+      <span>+ </span>
+      <span>Cart</span>
     </Styled.AddCart>
   )
 }

@@ -1,31 +1,31 @@
-import Header from "../Components/Header"
+import Header from "../components/header/HeaderComponent"
 import { useState } from "react"
 
 export default function HeaderContainer () {
   const [active, setActive] = useState('')
   const [open, setOpen] = useState(false)
-  console.log(open)
+
 
   const activeSwitch = (category) => {
     category === active ? setActive('') : setActive(category)
-  
   }
+
+
+
   return (
-    <Header onClick={() => console.log('click')}>
+    <Header>
       <Header.Toggle open={open} onClick={() => setOpen(c => !c)} />
       <Header.Title mobile={true}>React E-Commerce</Header.Title>
-      <Header.Frame open={open} >
+      <Header.Frame setOpen={setOpen} open={open} >
         <Header.Title mobile={false}>React E-Commerce</Header.Title>
         <Header.Nav >
 
           <Header.Link
-            onClick={() => setOpen(false)}
             to='/'     
           >
             Home
           </Header.Link>
           <Header.Link
-           onClick={() => setOpen(false)}
             to='/category/electronics'
           >
             Electronics

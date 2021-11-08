@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom"
-import ContentContainer from "../Containers/Content"
+import ContentContainer from "../containers/Content"
 
 export default function Category ( props )  {
   const { category } = useParams()

@@ -1,5 +1,6 @@
-import * as Styled from './StyledHeader'
+import * as Styled from './HeaderStyled'
 import { NavLink } from "react-router-dom"
+import useClickOutside from '../../hooks/useClickOutside'
 import { useEffect, useState, useRef } from "react";
 
 export default function Header ({ children}) {
@@ -7,15 +8,18 @@ export default function Header ({ children}) {
   return <> {children} </>
 }
 
-Header.Frame = ({ open, children}) => {
+Header.Frame = function Frame ({ open, setOpen, children})  {
+  const ref = useRef(null)  
+  useClickOutside(ref, () => setOpen(false))
+
   return (
-    <Styled.Frame open={open}>{children}</Styled.Frame>
+    <Styled.Frame ref={ref} open={open}>{children}</Styled.Frame>
   )
 }
 
 Header.Toggle = ({ open, onClick }) => {
   return (
-    <Styled.Toggle open={open} onClick={onClick}>
+    <Styled.Toggle className="toggle" open={open} onClick={onClick}>
       <div></div>
       <div></div>
       <div></div>
@@ -40,12 +44,12 @@ Header.Nav = ({children}) => {
   )
 }
 
-Header.Link = ({to, activeClassName, children }) => {
+Header.Link = ({to, children }) => {
   return (
     <li>
       <Styled.SNavLink 
         to={to}
-        activeClassName={activeClassName}
+        activeClassName="active"
         exact
       >
         {children}
