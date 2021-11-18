@@ -85,6 +85,10 @@ export const SortFilter = styled.div`
     grid-row: 2 / 3;
   }
 
+  .none:hover {
+    cursor: pointer;
+  }
+
   div.activeSF {
     display: inline-block;
     position: absolute;
@@ -109,6 +113,11 @@ export const SortFilter = styled.div`
     h3 {
       background-color: #fff;
       margin-right: 1em;
+    }
+
+    h3:hover,
+    h3:focus {
+      cursor: default;
     }
 
     .catHeader {

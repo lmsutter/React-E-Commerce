@@ -17,7 +17,14 @@ export default function Category ( props )  {
 
   return (
     <section>
-      <ContentContainer data={categoryData} category={category} categoryPretty={categoryPretty} breakpoints={props.breakpoints}/>
+      <ContentContainer 
+        data={categoryData} 
+        category={category} 
+        categoryPretty={categoryPretty} 
+        breakpoints={props.breakpoints} 
+        sortFilterOption={props.sortFilterOption} 
+        setSortFilterOption={props.setSortFilterOption}
+      />
     </section>
   )
 }

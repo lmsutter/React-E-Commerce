@@ -44,12 +44,13 @@ Header.Nav = ({children}) => {
   )
 }
 
-Header.Link = ({to, children }) => {
+Header.Link = ({to, children, onClick }) => {
   return (
     <li>
       <Styled.SNavLink 
         to={to}
         activeClassName="active"
+        onClick={onClick}
         exact
       >
         {children}

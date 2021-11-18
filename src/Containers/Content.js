@@ -3,12 +3,11 @@ import { Star } from '../components/svg/Svgs'
 import { useState, useEffect } from 'react'
 
 
-export default function ContentContainer ({ data, category, breakpoints, categoryPretty })  {
+export default function ContentContainer ({ data, category, breakpoints, categoryPretty, sortFilterOption, setSortFilterOption })  {
+  console.log(sortFilterOption)
 
   const [open, setOpen] = useState('')
-  const [sortFilterOption, setSortFilterOption] = useState(
-      {sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'}
-    )
+
   const [filteredData, setFilteredData] = useState([])
 
 
@@ -98,7 +97,7 @@ export default function ContentContainer ({ data, category, breakpoints, categor
           <div className="sort optionContainer">
           <div className="option">
               <h4 
-                className="catHeader first" 
+                className="catHeader first none" 
                 onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'none', sortValue: 'none'}})}
               >
                 None  
@@ -163,7 +162,7 @@ export default function ContentContainer ({ data, category, breakpoints, categor
           <div className="filter optionContainer">
             <div className="option">
               <h4 
-                className="catHeader first" 
+                className="catHeader first none" 
                 onClick={() => setSortFilterOption(c => {return {...c, filterOption: 'none', filterValue: 'none'}})}
               >
                 None
@@ -191,28 +190,36 @@ export default function ContentContainer ({ data, category, breakpoints, categor
           </div>
         </Content.SortFilter>
       </Content.Options>
+      {!data ? 
       <Content.Category>
-        <h2>
-          {categoryPretty}
-        </h2>
+        <h2>Items not found, try reloading the page</h2>
       </Content.Category>
-      <Content.Frame>
-      {!filteredData ? null : filteredData.map(item => (
-        <Content.ContentCard key={item.id + 'j'}>
-          <Content.Image src={item.image}/>
-          <Content.Name>{item.title}</Content.Name>
-          <Content.InfoBox>
-            <Content.Price>${item.price}</Content.Price>
-            <Content.Rating>
-              {item.rating.rate}
-              <Star rating={item.rating.rate}/>
-            </Content.Rating>
-          </Content.InfoBox>
-          <Content.MoreInfo category={category} item={item.id}/>
-          <Content.AddCart />
-        </Content.ContentCard>
-      ))}
-      </Content.Frame>
+      : 
+      <>
+        <Content.Category>
+          <h2>
+            {categoryPretty}
+          </h2>
+        </Content.Category>
+        <Content.Frame>
+        {!filteredData ? null : filteredData.map(item => (
+          <Content.ContentCard key={item.id + 'j'}>
+            <Content.Image src={item.image}/>
+            <Content.Name>{item.title}</Content.Name>
+            <Content.InfoBox>
+              <Content.Price>${item.price}</Content.Price>
+              <Content.Rating>
+                {item.rating.rate}
+                <Star rating={item.rating.rate}/>
+              </Content.Rating>
+            </Content.InfoBox>
+            <Content.MoreInfo category={category} item={item.id}/>
+            <Content.AddCart />
+          </Content.ContentCard>
+        ))}
+        </Content.Frame>
+      </>
+      }
     </>
   )
 }
