@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.js": "/React-E-Commerce/static/js/main.ea5b4826.chunk.js",
-    "main.js.map": "/React-E-Commerce/static/js/main.ea5b4826.chunk.js.map",
+    "main.js": "/React-E-Commerce/static/js/main.ac04b547.chunk.js",
+    "main.js.map": "/React-E-Commerce/static/js/main.ac04b547.chunk.js.map",
     "runtime-main.js": "/React-E-Commerce/static/js/runtime-main.5771bf80.js",
     "runtime-main.js.map": "/React-E-Commerce/static/js/runtime-main.5771bf80.js.map",
-    "static/js/2.68928c02.chunk.js": "/React-E-Commerce/static/js/2.68928c02.chunk.js",
-    "static/js/2.68928c02.chunk.js.map": "/React-E-Commerce/static/js/2.68928c02.chunk.js.map",
+    "static/js/2.d841de6f.chunk.js": "/React-E-Commerce/static/js/2.d841de6f.chunk.js",
+    "static/js/2.d841de6f.chunk.js.map": "/React-E-Commerce/static/js/2.d841de6f.chunk.js.map",
     "index.html": "/React-E-Commerce/index.html",
-    "static/js/2.68928c02.chunk.js.LICENSE.txt": "/React-E-Commerce/static/js/2.68928c02.chunk.js.LICENSE.txt"
+    "static/js/2.d841de6f.chunk.js.LICENSE.txt": "/React-E-Commerce/static/js/2.d841de6f.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.5771bf80.js",
-    "static/js/2.68928c02.chunk.js",
-    "static/js/main.ea5b4826.chunk.js"
+    "static/js/2.d841de6f.chunk.js",
+    "static/js/main.ac04b547.chunk.js"
   ]
 }
