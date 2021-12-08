@@ -1,7 +1,11 @@
+import CompanyMotto from '../containers/CompanyMotto'
+import HomeContentContainer from '../containers/HomeContent'
 
-
-export default function Home () {
+export default function Home ({ data }) {
   return (
-    <h1>Home</h1>
+    <>
+      <HomeContentContainer data={data} />
+      <CompanyMotto />
+    </>
   )
 }

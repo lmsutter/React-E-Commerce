@@ -9,7 +9,7 @@ import HeaderContainer from './containers/Header'
 import Background from './containers/Background'
 import Home from './pages/Home'
 import Footer from './containers/Footer'
-
+import InfoPage from './pages/InfoPage'
 
 
 function App() {
@@ -18,7 +18,7 @@ function App() {
     {sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'}
   )
 
-  console.log(sortFilterOption)
+
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
@@ -31,19 +31,22 @@ function App() {
             })
   }, [])
 
+console.log(data)
+
 
   const breakpoints = useBreakpoints(data)
 
 
 
   return (
+    <>
     <Router basename={process.env.PUBLIC_URL}>
       <Background />
       <HeaderContainer setSortFilterOption={setSortFilterOption} />
 
       <Switch>
-        <Route path='/' exact>
-          <Home />
+        <Route path='/' exact >
+          <Home data={data} />
         </Route>
 
         <Route path='/category/:category' exact>
@@ -51,7 +54,8 @@ function App() {
         </Route>
 
         <Route path='/category/:category/:item'>
-          <h2>Item page</h2>
+         
+          <InfoPage data={data} />
         </Route>
 
         <Route path='/cart'>
@@ -63,6 +67,7 @@ function App() {
       <Footer />
 
     </Router>
+  </>
   );
 }
 

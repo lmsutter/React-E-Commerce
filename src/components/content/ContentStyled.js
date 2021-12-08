@@ -10,6 +10,11 @@ export const Options = styled.div`
     justify-content: space-around;
     background-color: #fff;
   }
+
+  @media (max-width: 1278px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 export const SortFilter = styled.div`
@@ -19,7 +24,7 @@ export const SortFilter = styled.div`
   width: 335px;
 
   transform: 
-    ${({ open, x, y }) => {
+    ${({ open, y }) => {
       if (open) return `translateX(3em) translateY(0)  rotate(0) ` 
       else return `translateX(-297px) translateY(${y})  rotate(90deg) `
     }};
@@ -101,7 +106,7 @@ export const SortFilter = styled.div`
     transform: translateY(40%);
   }
 
-  @media (min-width: 600px) {
+  @media (min-width: 970px) {
     transform: unset;
     position: static;
     width: initial;
@@ -147,6 +152,10 @@ export const SortFilter = styled.div`
     }
     
   }
+
+  @media (max-width: 1278px) {
+    margin-top: 1em;
+  }
 `
 
 
@@ -158,7 +167,7 @@ export const Frame = styled.div`
   @media (min-width: 600px) {
     flex-direction: row;
     flex-wrap: wrap;
-    max-width: 80vw;
+    max-width: 86vw;
     overflow-y: auto;
     margin: 0 auto;
     justify-content: center;

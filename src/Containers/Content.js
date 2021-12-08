@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react'
 
 
 export default function ContentContainer ({ data, category, breakpoints, categoryPretty, sortFilterOption, setSortFilterOption })  {
-  console.log(sortFilterOption)
 
   const [open, setOpen] = useState('')
 
@@ -213,7 +212,7 @@ export default function ContentContainer ({ data, category, breakpoints, categor
                 <Star rating={item.rating.rate}/>
               </Content.Rating>
             </Content.InfoBox>
-            <Content.MoreInfo category={category} item={item.id}/>
+            <Content.MoreInfo category={category} item={item.id -1}/>
             <Content.AddCart />
           </Content.ContentCard>
         ))}

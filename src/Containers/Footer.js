@@ -16,16 +16,16 @@ export default function Footer () {
              ©1990-2021
             </TextBlock.Text>
             <TextBlock.Text>
-              Filler Test
+              Privacy
             </TextBlock.Text>
             <TextBlock.Text>
-              Filler Test
+              Terms
             </TextBlock.Text>
           </TextBlock.Section>
         </TextBlock.Section>
 
 
-        <TextBlock.Section mflex="column">
+        <TextBlock.Group mflex="column">
 
         <TextBlock.Section mflex="column">
           <TextBlock.Subtitle>
@@ -34,13 +34,13 @@ export default function Footer () {
 
           <TextBlock.Section mflex="row">
             <TextBlock.Text>
-              Filler Test
+              Email
             </TextBlock.Text>
             <TextBlock.Text>
-              Filler Test
+              Phone
             </TextBlock.Text>
             <TextBlock.Text>
-              Filler Test
+              Form
             </TextBlock.Text>
           </TextBlock.Section>
         </TextBlock.Section>
@@ -99,7 +99,7 @@ export default function Footer () {
           </TextBlock.Section>
         </TextBlock.Section>
 
-        </TextBlock.Section>
+        </TextBlock.Group>
 
       </TextBlock>
     </>

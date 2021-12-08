@@ -10,16 +10,18 @@ export default function Header ({ children}) {
 
 Header.Frame = function Frame ({ open, setOpen, children})  {
   const ref = useRef(null)  
-  useClickOutside(ref, () => setOpen(false))
-
+  useClickOutside(ref, () => {
+    open && setOpen(false)
+  })
+  
   return (
     <Styled.Frame ref={ref} open={open}>{children}</Styled.Frame>
   )
 }
 
-Header.Toggle = ({ open, onClick }) => {
+Header.Toggle = ({ open, onMouseDown }) => {
   return (
-    <Styled.Toggle className="toggle" open={open} onClick={onClick}>
+    <Styled.Toggle className='toggle' open={open} onMouseDown={onMouseDown}>
       <div></div>
       <div></div>
       <div></div>
