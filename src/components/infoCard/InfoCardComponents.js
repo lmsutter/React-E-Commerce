@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
 import * as Styled from './InfoCardStyled'
 
 export default function InfoCardComponent ({children}) {
@@ -63,19 +64,62 @@ InfoCardComponent.Description = function ({ children }) {
   )
 }
 
-InfoCardComponent.Quantity = function ({ children }) {
+InfoCardComponent.Quantity = function DropDown ({ children, setQuantity }) {
+
+  const [open, setOpen] = useState(false)
+  const dropper = useRef()
+
+  const collapse = () => {
+    let sectionHeight = dropper.current.scrollHeight
+    let elementTransition = dropper.current.style.transition
+    dropper.current.style.transition = ''
+    requestAnimationFrame(() => {
+      dropper.current.style.height = sectionHeight + 'px'
+      dropper.current.style.transition = elementTransition
+      requestAnimationFrame(() => {
+        dropper.current.style.height = 0 + 'px'
+      })
+    })
+  }
+
+  
+  const expand = () => {
+    let sectionHeight = dropper.current.scrollHeight
+    dropper.current.style.height = sectionHeight + 'px'  
+  }
+
+  useEffect(() => {
+    if (open) {
+      expand()
+    } else { 
+      collapse()
+    }
+    return expand()
+  }, [open])
+
   return (
-    <Styled.Quantity>
-      {children}
-    </Styled.Quantity>
+    <>
+      <Styled.QuantityFrame onClick={() => setOpen(c => !c)} open={open}>
+        <Styled.BlueButton >{children} <span className="arrow">^</span></Styled.BlueButton>
+        <div className="optionFrame" ref={dropper}>
+          <Styled.BlueButton onClick={() => setQuantity(1)} className="option">1</Styled.BlueButton>
+          <Styled.BlueButton onClick={() => setQuantity(2)} className="option">2</Styled.BlueButton>
+          <Styled.BlueButton onClick={() => setQuantity(3)} className="option">3</Styled.BlueButton>
+          <Styled.BlueButton onClick={() => setQuantity(4)} className="option">4</Styled.BlueButton>
+          <Styled.BlueButton onClick={() => setQuantity(5)} className="option">5</Styled.BlueButton>
+          
+        </div>
+      </Styled.QuantityFrame>
+
+    </>
   )
 }
 
-InfoCardComponent.CartButton = function ({ children }) {
+InfoCardComponent.CartButton = function ({ children, id }) {
   return (
-    <Styled.CartButton>
+    <Styled.InfoCartButton className="CartButton" id={id}>
       {children}
-    </Styled.CartButton>
+    </Styled.InfoCartButton>
   )
 }
 

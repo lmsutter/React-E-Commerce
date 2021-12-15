@@ -88,6 +88,8 @@ Header.DropDown = function DropDownComponent ({ title, active, onClick, children
       })
     })
   }
+
+  
   const expand = () => {
     let sectionHeight = dropper.current.scrollHeight
     dropper.current.style.height = sectionHeight + 'px'  

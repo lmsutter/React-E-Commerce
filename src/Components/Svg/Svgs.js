@@ -35,7 +35,7 @@ const SvgStar = styled(Svg)`
 `
 
 export const Star = ({rating}) => {
-  const percentage = rating * 20
+  const percentage = (rating * 20) 
 
   return (
     <SvgStar fill="black" viewBox="-4 -5 63 63"  >

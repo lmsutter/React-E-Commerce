@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import { Card } from '../reUsable/Card'
 import { Button } from '../reUsable/Button'
+import CartButton from '../reUsable/CartButton'
 import * as Content from '../../components/content/ContentStyled'
 
 export const InfoCard = styled(Card)`
@@ -27,10 +28,34 @@ export const InfoCard = styled(Card)`
 
   grid-row-gap: 1em;
   grid-column-gap: 1em;
+
+  @media (min-width: 970px) {
+    grid-template-columns: 50% 50%;
+    grid-template-rows: repeat(5, auto);
+    grid-template-areas: 
+    "image name"
+    "image details"
+    "image description"
+    "image quantity"
+    "image similarText"
+    "image similar"
+  }
+  grid-row-gap: 1.5em;
+  grid-column-gap: 1.5em;
+
+  padding: 1.5em;
 `
 
 export const Title = styled(Content.Name)`
   grid-area: name;
+
+  @media (min-width: 970px) {
+    background-color: unset;
+    color: black;
+    font-size: 24px;
+    margin: 0;
+    padding: 0;
+  }
 `
 
 export const Image = styled.img`
@@ -40,6 +65,9 @@ export const Image = styled.img`
   aspect-ratio: 1 /1;
   object-fit: cover;
   object-position: top;
+  @media (min-width: 970px) {
+    grid-area: image;
+  }
 `
 
 export const Price = styled.p`
@@ -47,6 +75,12 @@ export const Price = styled.p`
 `
 export const QuantityTitle = styled(Price)`
   opacity: 0;
+
+  @media (min-width: 970px) {
+    grid-area: quantity;
+    opacity: 1;
+    align-self: center;
+  }
 `
 
 export const SimilarText = styled(Price)`
@@ -63,13 +97,57 @@ export const Description = styled.p`
   grid-area: description;
 `
 
-export const Quantity = styled(Button)`
-  grid-area: quantity;
-`
 
-export const CartButton = styled(Button)`
-  grid-area: cart;
-  background-color: ${({theme}) => theme.color1}
+export const BlueButton = styled(Button)`
+ 
+ `
+
+ export const QuantityFrame = styled.div`
+   grid-area: quantity;  
+   position: relative;
+
+  .arrow {
+    display: inline-block;
+    transition: transform .2s linear;
+    transform: ${({open}) => open && 'rotateX(180deg)'};
+  }
+ 
+  .optionFrame {
+    position: absolute;
+    top: 3em;
+    right: 0;
+    z-index: 2;
+  }
+  
+  ${BlueButton}.option {
+    transition: height .3s linear, opacity .3s ease-in;
+    position: relative;
+    right: -1em;
+    margin-bottom: 5px;
+    opacity: ${({open}) => open ? "1" : "0"};
+    height: ${({open}) => open ? "2.5em" : "0"};
+  } 
+
+  @media (min-width: 970px) {
+    margin-left: 5em;
+
+    .optionFrame {
+      display: flex;
+      flex-direction: column;
+      left: 0;
+      right: unset;
+    }
+  }
+
+ `
+
+export const InfoCartButton = styled(CartButton)`
+grid-area: quantity;
+
+margin-left: 5em;
+  a {
+    color: red;
+  }
 `
 
 export const SuggestionsBox = styled.div`
@@ -77,18 +155,36 @@ export const SuggestionsBox = styled.div`
   height: 20%;
   display: flex;
   flex-direction: row;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: auto;
   height: 200px;
+  margin-right: 1em;
 
   .suggestionItem {
     position: relative;
-    min-width: 200px;
+    min-height: 100%;
+    margin-right: 1em;
+  }
+
+  .suggestionItem:last-of-type {
+    margin: 0;
+  }
+
+  @media (min-width: 970px) {
+    .suggestionItem {
+    }
   }
 `
 
 export const SuggestionsImage = styled.img`
-  max-height: 90%;
+  height: 90%;
+  min-width: 180px;
+  width: 100%;
+  object-fit: cover;
+
+  @media (min-width: 1320px) {
+    min-width: 160px;
+  }
 `
 
 export const SuggestionsLink = styled(Content.Name)`

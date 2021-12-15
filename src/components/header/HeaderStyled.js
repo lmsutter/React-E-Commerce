@@ -201,10 +201,10 @@ export const Dropper = styled.ul`
 
 export const StyledDropDown = styled.li`
   @media (min-width: 970px) {
-    height: ${()=>height};
+    height: ${height};
  
     div {
-      height: ${()=>height};
+      height: ${height};
       display: flex;
       align-items: center;
       justify-content: center;
