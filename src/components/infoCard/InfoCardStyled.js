@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { Card } from '../reUsable/Card'
 import { Button } from '../reUsable/Button'
-import CartButton from '../reUsable/CartButton'
 import * as Content from '../../components/content/ContentStyled'
 
 export const InfoCard = styled(Card)`
@@ -21,7 +20,7 @@ export const InfoCard = styled(Card)`
   grid-template-areas: 
     "name name name"
     "image image image"
-    "details quantity cart"
+    "details buttons buttons"
     "description description description"
     "similarText similarText . "
     "similar similar similar";
@@ -29,21 +28,41 @@ export const InfoCard = styled(Card)`
   grid-row-gap: 1em;
   grid-column-gap: 1em;
 
+
+  .buttons {
+    grid-area: buttons;
+    display: flex;
+    flex-direction: row;
+    justify-self: start;
+  }
+
+
   @media (min-width: 970px) {
     grid-template-columns: 50% 50%;
     grid-template-rows: repeat(5, auto);
     grid-template-areas: 
-    "image name"
-    "image details"
-    "image description"
-    "image quantity"
-    "image similarText"
-    "image similar"
-  }
-  grid-row-gap: 1.5em;
-  grid-column-gap: 1.5em;
+      "image name"
+      "image details"
+      "image description"
+      "image buttons"
+      "image similarText"
+      "image similar" ;
+    grid-row-gap: 1.5em;
+    grid-column-gap: 1.5em;
+    padding: 1.5em;
 
+  }
+
+`
+
+export const CartConfirmationCard = styled(Card)`
+  margin: 2em auto;
   padding: 1.5em;
+  width: 630px;
+
+  .checkMark {
+    margin-right: .4em;
+  }
 `
 
 export const Title = styled(Content.Name)`
@@ -70,6 +89,12 @@ export const Image = styled.img`
   }
 `
 
+export const Text = styled.p``
+
+export const CConfirmationText = styled.p`
+  margin: 1em 0;
+`
+
 export const Price = styled.p`
   grid-area: details;
 `
@@ -77,7 +102,6 @@ export const QuantityTitle = styled(Price)`
   opacity: 0;
 
   @media (min-width: 970px) {
-    grid-area: quantity;
     opacity: 1;
     align-self: center;
   }
@@ -98,27 +122,27 @@ export const Description = styled.p`
 `
 
 
-export const BlueButton = styled(Button)`
- 
- `
+export const BlueButton = styled(Button)``
 
- export const QuantityFrame = styled.div`
-   grid-area: quantity;  
-   position: relative;
+export const QuantityFrame = styled.div`
+  grid-area: quantityBtn;  
+  position: relative;
+  align-self: center;
 
   .arrow {
     display: inline-block;
     transition: transform .2s linear;
     transform: ${({open}) => open && 'rotateX(180deg)'};
   }
- 
+
   .optionFrame {
     position: absolute;
     top: 3em;
     right: 0;
     z-index: 2;
+    
   }
-  
+
   ${BlueButton}.option {
     transition: height .3s linear, opacity .3s ease-in;
     position: relative;
@@ -129,26 +153,33 @@ export const BlueButton = styled(Button)`
   } 
 
   @media (min-width: 970px) {
-    margin-left: 5em;
+    margin: 0 1.5em;
 
     .optionFrame {
       display: flex;
       flex-direction: column;
       left: 0;
       right: unset;
+      
     }
   }
+  //added this additionally here to always have the frame hidden while full closed
+  .optionFrame {
+    display: ${({open}) => open ? 'block' : 'none'};
+  }
 
- `
+`
 
-export const InfoCartButton = styled(CartButton)`
-grid-area: quantity;
 
-margin-left: 5em;
-  a {
-    color: red;
+export const AddCart = styled(Button)`
+  grid-area: cart;
+  background-color: ${({theme}) => theme.color1};
+  place-self: center;
+  &:hover {
+    cursor: pointer;
   }
 `
+
 
 export const SuggestionsBox = styled.div`
   grid-area: similar;
@@ -163,6 +194,7 @@ export const SuggestionsBox = styled.div`
   .suggestionItem {
     position: relative;
     min-height: 100%;
+    max-width: 200px;
     margin-right: 1em;
   }
 
@@ -170,10 +202,7 @@ export const SuggestionsBox = styled.div`
     margin: 0;
   }
 
-  @media (min-width: 970px) {
-    .suggestionItem {
-    }
-  }
+
 `
 
 export const SuggestionsImage = styled.img`
@@ -194,7 +223,7 @@ export const SuggestionsLink = styled(Content.Name)`
   padding: .5em;
 
   a {
-    font-size: 16px;
+    font-size: 12px;
     color: white;
     text-decoration: none;
   }

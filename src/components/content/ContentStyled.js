@@ -197,10 +197,10 @@ export const Category = styled.div`
 export const ContentCard = styled(Card)`
   margin-bottom: 2em;
   width: 80vw;
-  height: 300px;
+  max-height: 300px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto 1fr auto;
   grid-row-gap: .7em;
   grid-template-areas: 
     "name name name"
@@ -210,10 +210,10 @@ export const ContentCard = styled(Card)`
   box-shadow: 0 0 15px 3px rgba(20, 20, 20, .2);
 
   @media (min-width: 600px) {
-    width: initial;
+    width: 450px;
     height: 450px;
     max-width: 450px;
-    max-heigth: 450px;
+    max-height: 450px;
     margin: 2em;
   }
 `
@@ -230,6 +230,7 @@ export const Name = styled.h3`
 export const Image = styled.img`
   grid-area: name-start / name-start / image-end / image-end;
   min-width: 100%;
+  min-height: 100%;
   max-height: 100%;
   object-fit: cover;
 `

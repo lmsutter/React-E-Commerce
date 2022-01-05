@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import useBreakpoints from './hooks/useBreakpoints';
+import useLocalStorage from './hooks/useLocalStorage'
 
 //Components
 import Category from './pages/Category';
@@ -10,6 +11,7 @@ import Background from './containers/Background'
 import Home from './pages/Home'
 import Footer from './containers/Footer'
 import InfoPage from './pages/InfoPage'
+import CartConfirmation from './pages/CartConfirmation';
 
 
 function App() {
@@ -17,7 +19,9 @@ function App() {
   const [sortFilterOption, setSortFilterOption] = useState(
     {sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'}
   )
+  // console.log(data)
 
+  const [cartData, setCartData] = useLocalStorage('cart', [])
 
 
   useEffect(() => {
@@ -29,44 +33,52 @@ function App() {
             .catch(error => {
               updateData(null)
             })
+    
   }, [])
-
-console.log(data)
 
 
   const breakpoints = useBreakpoints(data)
 
 
-
   return (
     <>
-    <Router basename={process.env.PUBLIC_URL}>
-      <Background />
-      <HeaderContainer setSortFilterOption={setSortFilterOption} />
+      <Router basename={process.env.PUBLIC_URL}>
+        <Background />
+        <HeaderContainer setSortFilterOption={setSortFilterOption} />
 
-      <Switch>
-        <Route path='/' exact >
-          <Home data={data} />
-        </Route>
+        <Switch>
+          <Route path='/' exact >
+            <Home data={data} />
+          </Route>
 
-        <Route path='/category/:category' exact>
-          <Category data={data} breakpoints={breakpoints} sortFilterOption={sortFilterOption} setSortFilterOption={setSortFilterOption} />
-        </Route>
+          <Route path='/category/:category' exact>
+            <Category 
+              data={data} 
+              breakpoints={breakpoints} 
+              sortFilterOption={sortFilterOption} 
+              setSortFilterOption={setSortFilterOption}
+              cartData={cartData}
+              setCartData={setCartData}
+              />
+          </Route>
 
-        <Route path='/category/:category/:item'>
-         
-          <InfoPage data={data} />
-        </Route>
+          <Route path='/category/:category/:item'>
+            <InfoPage data={data} cartData={cartData} setCartData={setCartData} />
+          </Route>
 
-        <Route path='/cart'>
-          Cart
-        </Route>
+          <Route exact path='/cart'>
+            Cart
+          </Route>
 
-      </Switch>
+          <Route path='/cart-confirmation/:item'>
+            <CartConfirmation data={data} cartData={cartData} setCartData={setCartData} />
+          </Route>
 
-      <Footer />
+        </Switch>
 
-    </Router>
+        <Footer />
+
+      </Router>
   </>
   );
 }

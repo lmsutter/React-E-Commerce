@@ -1,5 +1,6 @@
 import * as Styled from './ContentStyled' 
 import { Link } from 'react-router-dom'
+import CartButton from '../reUsable/CartButton'
 
 export default function Content ({children}) {
   return <> {children} </>
@@ -76,11 +77,13 @@ Content.MoreInfo = function MoreInfo ({ category, children, item}) {
   )
 }
 
-Content.AddCart = function AddCart ({ children }) {
+Content.AddCart = function AddCart ({ id, quantity, gridArea, cartData, setCartData }) {
   return (
     <Styled.AddCart>
-      <span>+ </span>
-      <span>Cart</span>
+      <CartButton id={id} quantity={quantity} gridArea={''} cartData={cartData} setCartData={setCartData}>
+        <span>+ </span>
+        <span>Cart</span>
+      </CartButton>
     </Styled.AddCart>
   )
 }

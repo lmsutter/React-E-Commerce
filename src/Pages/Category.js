@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom"
 import ContentContainer from "../containers/Content"
 
-export default function Category ( props )  {
+export default function Category ( { breakpoints, data, sortFilterOption, setSortFilterOption, cartData, setCartData} )  {
   const { category } = useParams()
   let categoryPretty = category.split(' ').map(element => {
     return element[0].toUpperCase() + element.substring(1)
   }).join(' ')
-  const categoryData = props.data.filter(item => {
+  const categoryData = data.filter(item => {
     if(category === item.category) {
 
       return true
@@ -20,9 +20,11 @@ export default function Category ( props )  {
         data={categoryData} 
         category={category} 
         categoryPretty={categoryPretty} 
-        breakpoints={props.breakpoints} 
-        sortFilterOption={props.sortFilterOption} 
-        setSortFilterOption={props.setSortFilterOption}
+        breakpoints={breakpoints} 
+        sortFilterOption={sortFilterOption} 
+        setSortFilterOption={setSortFilterOption}
+        cartData={cartData}
+        setCartData={setCartData}
       />
     </section>
   )

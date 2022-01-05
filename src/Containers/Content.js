@@ -3,7 +3,15 @@ import { Star } from '../components/svg/Svgs'
 import { useState, useEffect } from 'react'
 
 
-export default function ContentContainer ({ data, category, breakpoints, categoryPretty, sortFilterOption, setSortFilterOption })  {
+export default function ContentContainer ({ 
+  data, 
+  category, 
+  breakpoints, 
+  categoryPretty, 
+  sortFilterOption, 
+  setSortFilterOption,
+  cartData,
+  setCartData })  {
 
   const [open, setOpen] = useState('')
 
@@ -212,8 +220,8 @@ export default function ContentContainer ({ data, category, breakpoints, categor
                 <Star rating={item.rating.rate}/>
               </Content.Rating>
             </Content.InfoBox>
-            <Content.MoreInfo category={category} item={item.id -1}/>
-            <Content.AddCart />
+            <Content.MoreInfo category={category} item={item.id}/>
+            <Content.AddCart id={item.id} quantity={1} gridarea={null} cartData={cartData} setCartData={setCartData}/>
           </Content.ContentCard>
         ))}
         </Content.Frame>

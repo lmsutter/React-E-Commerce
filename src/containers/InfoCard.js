@@ -16,16 +16,18 @@ function debounce(fn, ms) {
   }
 }
 
-export default function InfoCard ({data}) {
+export default function InfoCard ({data, cartData, setCartData}) {
   const {category, item} = useParams()
   const [quantity, setQuantity] = useState(1)
   const [dimensions, setDimensions] = useState({height: window.innerHeight, width: window.innerWidth})
   const [limitedCategory, setLimitedCategory] = useState([])
 
+  const currentItemIndex = parseInt(item) - 1
+
   useEffect(() => {
     setLimitedCategory(data.filter(e => {
 
-      return (e.category === category) && ((e.id - 1) !== parseInt(item))
+      return (e.category === category) && ((e.id - 1) !== parseInt(item - 1 ))
     }).sort(() => .5 - Math.random()).slice(0, 3))
     setQuantity(1)
   }, [item, data, category])
@@ -69,27 +71,30 @@ export default function InfoCard ({data}) {
 
   return (
     <>
+
       {!data[item] ? null : (
         <InfoCardComponent>
           
-          <InfoCardComponent.Image src={data[item].image}></InfoCardComponent.Image>
+          <InfoCardComponent.Image src={data[currentItemIndex].image}></InfoCardComponent.Image>
           <InfoCardComponent.Title>
-            {data[item].title}
+            {data[currentItemIndex].title}
           </InfoCardComponent.Title>
-          <InfoCardComponent.Price>${data[item].price}</InfoCardComponent.Price>
+          <InfoCardComponent.Price>${data[currentItemIndex].price}</InfoCardComponent.Price>
           
-          <InfoCardComponent.FullRating >{data[item].rating.rate} {dimensions.width < 970 ? <Star rating={data[item].rating.rate} /> : StarSet(data[item].rating.rate)} </InfoCardComponent.FullRating>
-          <InfoCardComponent.Description> {data[item].description} </InfoCardComponent.Description>
-          <InfoCardComponent.QuantityTitle>Quantity:</InfoCardComponent.QuantityTitle>
-          <InfoCardComponent.Quantity setQuantity={setQuantity} > {quantity}</InfoCardComponent.Quantity>
-          <InfoCardComponent.CartButton id={data[item].id} > + Cart </InfoCardComponent.CartButton>
+          <InfoCardComponent.FullRating >{data[currentItemIndex].rating.rate} {dimensions.width < 970 ? <Star rating={data[currentItemIndex].rating.rate} /> : StarSet(data[currentItemIndex].rating.rate)} </InfoCardComponent.FullRating>
+          <InfoCardComponent.Description> {data[currentItemIndex].description} </InfoCardComponent.Description>
+          <div className="buttons">
+            <InfoCardComponent.QuantityTitle>Quantity:</InfoCardComponent.QuantityTitle>
+            <InfoCardComponent.Quantity setQuantity={setQuantity} > {quantity}</InfoCardComponent.Quantity>
+            <CartButton id={data[currentItemIndex].id} gridArea={"cart"} quantity={quantity} cartData={cartData} setCartData={setCartData} >+ Cart</CartButton>
+          </div>
           <InfoCardComponent.SimilarText>Similar Items:</InfoCardComponent.SimilarText>
           <InfoCardComponent.SuggestionsBox>
 
-          {limitedCategory.map((e, i)=> (
-            <div key={i+"suggestion"} className={"suggestionItem"} id={"SB" + e.id}>
+          {limitedCategory.map(e => (
+            <div key={e.id + "cartConfirmationSuggestion"} className={"suggestionItem"} id={"SB" + e.id}>
               <InfoCardComponent.SuggestionsImage src={e.image} />
-              <InfoCardComponent.SuggestionsLink category={category} item={e.id - 1} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>
+              <InfoCardComponent.SuggestionsLink category={category} item={e.id} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>
             </div>
           ))}
 

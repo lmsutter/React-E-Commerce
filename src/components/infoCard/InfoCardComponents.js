@@ -10,6 +10,14 @@ export default function InfoCardComponent ({children}) {
   )
 }
 
+InfoCardComponent.CartConfirmationCard = function ({ children }) {
+  return (
+    <Styled.CartConfirmationCard>
+      {children}
+    </Styled.CartConfirmationCard>
+  )
+}
+
 InfoCardComponent.Title = function ({ children }) {
   return (
     <Styled.Title>
@@ -23,6 +31,22 @@ InfoCardComponent.Image = function ({ children, src }) {
     <Styled.Image src={src}>
       {children}
     </Styled.Image>
+  )
+}
+
+InfoCardComponent.Text = function ({ children }) {
+  return (
+    <Styled.Text>
+      {children}
+    </Styled.Text>
+  )
+}
+
+InfoCardComponent.CConfirmationText = function ({ children }) {
+  return (
+    <Styled.CConfirmationText>
+      {children}
+    </Styled.CConfirmationText>
   )
 }
 
@@ -40,6 +64,16 @@ InfoCardComponent.QuantityTitle = function ({ children }) {
     </Styled.QuantityTitle>
   )
 }
+
+InfoCardComponent.AddCart = function ({ children } ) {
+  return (
+    
+    <Styled.AddCart>
+
+    </Styled.AddCart>
+  )
+}
+
 InfoCardComponent.SimilarText = function ({ children }) {
   return (
     <Styled.SimilarText>
@@ -115,13 +149,7 @@ InfoCardComponent.Quantity = function DropDown ({ children, setQuantity }) {
   )
 }
 
-InfoCardComponent.CartButton = function ({ children, id }) {
-  return (
-    <Styled.InfoCartButton className="CartButton" id={id}>
-      {children}
-    </Styled.InfoCartButton>
-  )
-}
+
 
 InfoCardComponent.SuggestionsBox = function ({ children }) {
   return (
