@@ -80,10 +80,8 @@ Content.MoreInfo = function MoreInfo ({ category, children, item}) {
 Content.AddCart = function AddCart ({ id, quantity, gridArea, cartData, setCartData }) {
   return (
     <Styled.AddCart>
-      <CartButton id={id} quantity={quantity} gridArea={''} cartData={cartData} setCartData={setCartData}>
         <span>+ </span>
         <span>Cart</span>
-      </CartButton>
     </Styled.AddCart>
   )
 }

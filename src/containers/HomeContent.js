@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react'
 
 import Content from '../components/content/ContentComponents'
 import ProgressBar from '../components/progressbar/ProgressBarComponents'
+import CartButton from '../components/reUsable/CartButton'
 import { Star } from '../components/svg/Svgs'
 
-export default function HomeContentContainer ({ data }) {
+export default function HomeContentContainer ({ data, cartData, setCartData }) {
   const [highlights, setHighlights] = useState([2, 5, 10])
   const [countdown, setCountdown] = useState(10)
   const [paused, setPaused] = useState(false)
 
+  console.log(cartData, setCartData)
   
   //change this to countdown from 1, once it counts down, have state go down by 1, once the timer hits 0, set countdown back to 
   //original and change highlights
@@ -67,7 +69,11 @@ export default function HomeContentContainer ({ data }) {
                   </Content.Rating>
                 </Content.InfoBox>
                 <Content.MoreInfo category={item.category} item={item.id}/>
-                <Content.AddCart />
+                
+                <CartButton id={item.id} quantity={1} cartData={cartData} setCartData={setCartData} >
+                  <Content.AddCart />
+                </CartButton>
+
               </Content.ContentCard>
             )
           }

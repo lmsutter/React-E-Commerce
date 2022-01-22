@@ -48,7 +48,7 @@ function App() {
 
         <Switch>
           <Route path='/' exact >
-            <Home data={data} />
+            <Home data={data} cartData={cartData} setCartData={setCartData}/>
           </Route>
 
           <Route path='/category/:category' exact>

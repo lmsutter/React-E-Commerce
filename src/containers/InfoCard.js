@@ -86,7 +86,11 @@ export default function InfoCard ({data, cartData, setCartData}) {
           <div className="buttons">
             <InfoCardComponent.QuantityTitle>Quantity:</InfoCardComponent.QuantityTitle>
             <InfoCardComponent.Quantity setQuantity={setQuantity} > {quantity}</InfoCardComponent.Quantity>
-            <CartButton id={data[currentItemIndex].id} gridArea={"cart"} quantity={quantity} cartData={cartData} setCartData={setCartData} >+ Cart</CartButton>
+            <InfoCardComponent.AddCart>
+              <CartButton id={data[currentItemIndex].id} quantity={quantity} cartData={cartData} setCartData={setCartData} >
+              
+              </CartButton>
+            </InfoCardComponent.AddCart>
           </div>
           <InfoCardComponent.SimilarText>Similar Items:</InfoCardComponent.SimilarText>
           <InfoCardComponent.SuggestionsBox>

@@ -67,9 +67,8 @@ InfoCardComponent.QuantityTitle = function ({ children }) {
 
 InfoCardComponent.AddCart = function ({ children } ) {
   return (
-    
     <Styled.AddCart>
-
+        + Cart
     </Styled.AddCart>
   )
 }

@@ -172,9 +172,8 @@ export const QuantityFrame = styled.div`
 
 
 export const AddCart = styled(Button)`
-  grid-area: cart;
   background-color: ${({theme}) => theme.color1};
-  place-self: center;
+  align-self: center;
   &:hover {
     cursor: pointer;
   }
