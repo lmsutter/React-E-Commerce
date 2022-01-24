@@ -10,16 +10,18 @@ export default function Header ({ children}) {
 
 Header.Frame = function Frame ({ open, setOpen, children})  {
   const ref = useRef(null)  
-  useClickOutside(ref, () => setOpen(false))
-
+  useClickOutside(ref, () => {
+    open && setOpen(false)
+  })
+  
   return (
     <Styled.Frame ref={ref} open={open}>{children}</Styled.Frame>
   )
 }
 
-Header.Toggle = ({ open, onClick }) => {
+Header.Toggle = ({ open, onMouseDown }) => {
   return (
-    <Styled.Toggle className="toggle" open={open} onClick={onClick}>
+    <Styled.Toggle className='toggle' open={open} onMouseDown={onMouseDown}>
       <div></div>
       <div></div>
       <div></div>
@@ -44,12 +46,13 @@ Header.Nav = ({children}) => {
   )
 }
 
-Header.Link = ({to, children }) => {
+Header.Link = ({to, children, onClick }) => {
   return (
     <li>
       <Styled.SNavLink 
         to={to}
         activeClassName="active"
+        onClick={onClick}
         exact
       >
         {children}
@@ -85,6 +88,8 @@ Header.DropDown = function DropDownComponent ({ title, active, onClick, children
       })
     })
   }
+
+  
   const expand = () => {
     let sectionHeight = dropper.current.scrollHeight
     dropper.current.style.height = sectionHeight + 'px'  

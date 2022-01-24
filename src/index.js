@@ -4,6 +4,9 @@ import App from './App';
 import GlobalStyle from './GlobalStyles'
 import ThemeContextProvider from './context/ThemeProvider'
 
+//deploy to github by just npm run deploy. It will automatically deploy to the right repo and be available at the page site
+
+
 ReactDOM.render(
  
     <>

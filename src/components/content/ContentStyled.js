@@ -10,6 +10,11 @@ export const Options = styled.div`
     justify-content: space-around;
     background-color: #fff;
   }
+
+  @media (max-width: 1278px) {
+    flex-direction: column;
+    align-items: center;
+  }
 `
 
 export const SortFilter = styled.div`
@@ -19,7 +24,7 @@ export const SortFilter = styled.div`
   width: 335px;
 
   transform: 
-    ${({ open, x, y }) => {
+    ${({ open, y }) => {
       if (open) return `translateX(3em) translateY(0)  rotate(0) ` 
       else return `translateX(-297px) translateY(${y})  rotate(90deg) `
     }};
@@ -85,6 +90,10 @@ export const SortFilter = styled.div`
     grid-row: 2 / 3;
   }
 
+  .none:hover {
+    cursor: pointer;
+  }
+
   div.activeSF {
     display: inline-block;
     position: absolute;
@@ -97,7 +106,7 @@ export const SortFilter = styled.div`
     transform: translateY(40%);
   }
 
-  @media (min-width: 600px) {
+  @media (min-width: 970px) {
     transform: unset;
     position: static;
     width: initial;
@@ -109,6 +118,11 @@ export const SortFilter = styled.div`
     h3 {
       background-color: #fff;
       margin-right: 1em;
+    }
+
+    h3:hover,
+    h3:focus {
+      cursor: default;
     }
 
     .catHeader {
@@ -138,6 +152,10 @@ export const SortFilter = styled.div`
     }
     
   }
+
+  @media (max-width: 1278px) {
+    margin-top: 1em;
+  }
 `
 
 
@@ -149,7 +167,7 @@ export const Frame = styled.div`
   @media (min-width: 600px) {
     flex-direction: row;
     flex-wrap: wrap;
-    max-width: 80vw;
+    max-width: 86vw;
     overflow-y: auto;
     margin: 0 auto;
     justify-content: center;
@@ -179,10 +197,10 @@ export const Category = styled.div`
 export const ContentCard = styled(Card)`
   margin-bottom: 2em;
   width: 80vw;
-  height: 300px;
+  max-height: 300px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: auto auto auto;
+  grid-template-rows: auto 1fr auto;
   grid-row-gap: .7em;
   grid-template-areas: 
     "name name name"
@@ -192,10 +210,10 @@ export const ContentCard = styled(Card)`
   box-shadow: 0 0 15px 3px rgba(20, 20, 20, .2);
 
   @media (min-width: 600px) {
-    width: initial;
+    width: 450px;
     height: 450px;
     max-width: 450px;
-    max-heigth: 450px;
+    max-height: 450px;
     margin: 2em;
   }
 `
@@ -212,6 +230,7 @@ export const Name = styled.h3`
 export const Image = styled.img`
   grid-area: name-start / name-start / image-end / image-end;
   min-width: 100%;
+  min-height: 100%;
   max-height: 100%;
   object-fit: cover;
 `

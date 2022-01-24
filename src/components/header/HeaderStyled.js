@@ -9,7 +9,11 @@ export const Toggle = styled.div`
   position: fixed;
   top: 15px;
   right: 15px;
-  z-index: 1;
+  z-index: 2;
+
+  &:hover {
+    cursor: pointer;
+  }
 
   div {
     content: '';
@@ -33,7 +37,7 @@ export const Toggle = styled.div`
     display: ${({open})=> open ? 'none' : 'block'}
   }
 
-  @media (min-width: 600px) {
+  @media (min-width: 970px) {
     display: none;
   }
 `
@@ -53,6 +57,7 @@ export const Frame = styled.div`
   right: 0;
   height: 100vh;
   box-sizing: border-box;
+  z-index: 1;
 
  @media (min-width: 970px) {
    flex-direction: row;
@@ -105,6 +110,7 @@ export const PageTitle = styled.h1`
   font-size: 1.7rem;
   margin: 1em;
   display: ${({mobile}) => mobile ? 'block' : 'none'};
+
   @media (min-width: 970px) {
     font-size: 2.5rem;
     display: ${({mobile}) => mobile ? 'none' : 'inline'};
@@ -195,10 +201,10 @@ export const Dropper = styled.ul`
 
 export const StyledDropDown = styled.li`
   @media (min-width: 970px) {
-    height: ${()=>height};
+    height: ${height};
  
     div {
-      height: ${()=>height};
+      height: ${height};
       display: flex;
       align-items: center;
       justify-content: center;

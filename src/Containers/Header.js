@@ -1,10 +1,9 @@
 import Header from "../components/header/HeaderComponent"
 import { useState } from "react"
 
-export default function HeaderContainer () {
+export default function HeaderContainer ({ setSortFilterOption }) {
   const [active, setActive] = useState('')
   const [open, setOpen] = useState(false)
-
 
   const activeSwitch = (category) => {
     category === active ? setActive('') : setActive(category)
@@ -14,36 +13,41 @@ export default function HeaderContainer () {
 
   return (
     <Header>
-      <Header.Toggle open={open} onClick={() => setOpen(c => !c)} />
+      <Header.Toggle open={open} onMouseDown={() => setOpen(c => !c)} />
       <Header.Title mobile={true}>React E-Commerce</Header.Title>
       <Header.Frame setOpen={setOpen} open={open} >
         <Header.Title mobile={false}>React E-Commerce</Header.Title>
         <Header.Nav >
 
           <Header.Link
-            to='/'     
+            to='/'  
+            onClick={() => setSortFilterOption({sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'})}   
           >
             Home
           </Header.Link>
           <Header.Link
             to='/category/electronics'
+            onClick={() => setSortFilterOption({sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'})}  
           >
             Electronics
           </Header.Link>
           <Header.Link
             to='/category/jewelery'
+            onClick={() => setSortFilterOption({sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'})}  
           >
             Jewelry
           </Header.Link>
 
           <Header.DropDown onClick={() => activeSwitch('Clothing')} active={active} title="Clothing" >
             <Header.Link
-              to="/category/men's-clothing"
+              to="/category/men's clothing"
+              onClick={() => setSortFilterOption({sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'})}  
             >
               Men's<br/>Clothing
             </Header.Link>
             <Header.Link
-              to="/category/women's-clothing"
+              to="/category/women's clothing"
+              onClick={() => setSortFilterOption({sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'})}  
             >
               Women's<br/>Clothing
             </Header.Link>
@@ -52,6 +56,7 @@ export default function HeaderContainer () {
 
           <Header.Cart
             to="/cart"
+            onClick={() => setSortFilterOption({sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'})}  
           >
             Cart
           </Header.Cart>

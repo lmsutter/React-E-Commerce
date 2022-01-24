@@ -19,7 +19,6 @@ const Wrapper = styled.div`
 `
 
 export default function Background () {
-
   return (
     <Wrapper>
       <div>

@@ -76,11 +76,11 @@ Content.MoreInfo = function MoreInfo ({ category, children, item}) {
   )
 }
 
-Content.AddCart = function AddCart ({ children }) {
+Content.AddCart = function AddCart ({ onClick }) {
   return (
-    <Styled.AddCart>
-      <span>+ </span>
-      <span>Cart</span>
+    <Styled.AddCart onClick={onClick}>
+        <span>+ </span>
+        <span>Cart</span>
     </Styled.AddCart>
   )
 }
