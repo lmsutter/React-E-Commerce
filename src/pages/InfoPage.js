@@ -1,12 +1,12 @@
 import { useParams } from 'react-router'
 import InfoCard from '../containers/InfoCard'
 
-export default function InfoPage ({data, cartData, setCartData}) {
+export default function InfoPage ({data, cartUpdater}) {
   const { category, item } = useParams()
 
   return (
     <>
-      <InfoCard data={data} category={category} item={item} cartData={cartData} setCartData={setCartData} />
+      <InfoCard data={data} category={category} item={item} cartUpdater={cartUpdater} />
     </>
   )
 }

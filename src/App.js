@@ -12,6 +12,7 @@ import Home from './pages/Home'
 import Footer from './containers/Footer'
 import InfoPage from './pages/InfoPage'
 import CartConfirmation from './pages/CartConfirmation';
+import useCartUpdater from './hooks/useCartUpdater';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
   // console.log(data)
 
   const [cartData, setCartData] = useLocalStorage('cart', [])
+  const cartUpdater = useCartUpdater(cartData, setCartData)
 
 
   useEffect(() => {
@@ -48,7 +50,7 @@ function App() {
 
         <Switch>
           <Route path='/' exact >
-            <Home data={data} cartData={cartData} setCartData={setCartData}/>
+            <Home data={data} cartUpdater={cartUpdater} />
           </Route>
 
           <Route path='/category/:category' exact>
@@ -57,13 +59,12 @@ function App() {
               breakpoints={breakpoints} 
               sortFilterOption={sortFilterOption} 
               setSortFilterOption={setSortFilterOption}
-              cartData={cartData}
-              setCartData={setCartData}
+              cartUpdater={cartUpdater}
               />
           </Route>
 
           <Route path='/category/:category/:item'>
-            <InfoPage data={data} cartData={cartData} setCartData={setCartData} />
+            <InfoPage data={data} cartUpdater={cartUpdater} />
           </Route>
 
           <Route exact path='/cart'>
@@ -71,7 +72,7 @@ function App() {
           </Route>
 
           <Route path='/cart-confirmation/:item'>
-            <CartConfirmation data={data} cartData={cartData} setCartData={setCartData} />
+            <CartConfirmation data={data} />
           </Route>
 
         </Switch>

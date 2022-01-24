@@ -1,8 +1,8 @@
 import { useParams } from "react-router"
 import { useState, useEffect } from 'react'
 import { Star } from '../components/svg/Svgs'
-import CartButton from "../components/reUsable/CartButton"
 import InfoCardComponent from "../components/infoCard/InfoCardComponents"
+import { useHistory } from 'react-router-dom'
 
 
 function debounce(fn, ms) {
@@ -16,11 +16,13 @@ function debounce(fn, ms) {
   }
 }
 
-export default function InfoCard ({data, cartData, setCartData}) {
+export default function InfoCard ({data, cartUpdater}) {
   const {category, item} = useParams()
   const [quantity, setQuantity] = useState(1)
   const [dimensions, setDimensions] = useState({height: window.innerHeight, width: window.innerWidth})
   const [limitedCategory, setLimitedCategory] = useState([])
+
+  const history = useHistory()
 
   const currentItemIndex = parseInt(item) - 1
 
@@ -86,11 +88,7 @@ export default function InfoCard ({data, cartData, setCartData}) {
           <div className="buttons">
             <InfoCardComponent.QuantityTitle>Quantity:</InfoCardComponent.QuantityTitle>
             <InfoCardComponent.Quantity setQuantity={setQuantity} > {quantity}</InfoCardComponent.Quantity>
-            <InfoCardComponent.AddCart>
-              <CartButton id={data[currentItemIndex].id} quantity={quantity} cartData={cartData} setCartData={setCartData} >
-              
-              </CartButton>
-            </InfoCardComponent.AddCart>
+            <InfoCardComponent.AddCart onClick={() => cartUpdater(data[currentItemIndex].id, quantity, history)}/>
           </div>
           <InfoCardComponent.SimilarText>Similar Items:</InfoCardComponent.SimilarText>
           <InfoCardComponent.SuggestionsBox>

@@ -1,6 +1,7 @@
 import Content from '../components/content/ContentComponents'
 import { Star } from '../components/svg/Svgs' 
 import { useState, useEffect } from 'react'
+import { useHistory } from 'react-router-dom'
 
 
 export default function ContentContainer ({ 
@@ -10,12 +11,14 @@ export default function ContentContainer ({
   categoryPretty, 
   sortFilterOption, 
   setSortFilterOption,
-  cartData,
-  setCartData })  {
+  cartUpdater
+ })  {
 
   const [open, setOpen] = useState('')
 
   const [filteredData, setFilteredData] = useState([])
+
+  const history = useHistory()
 
 
 
@@ -221,7 +224,7 @@ export default function ContentContainer ({
               </Content.Rating>
             </Content.InfoBox>
             <Content.MoreInfo category={category} item={item.id}/>
-            <Content.AddCart id={item.id} quantity={1} gridarea={null} cartData={cartData} setCartData={setCartData}/>
+            <Content.AddCart onClick={() => cartUpdater(item.id, 1,  history)} />
           </Content.ContentCard>
         ))}
         </Content.Frame>

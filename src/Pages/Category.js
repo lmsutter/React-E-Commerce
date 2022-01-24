@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import ContentContainer from "../containers/Content"
 
-export default function Category ( { breakpoints, data, sortFilterOption, setSortFilterOption, cartData, setCartData} )  {
+export default function Category ( { breakpoints, data, sortFilterOption, setSortFilterOption, cartUpdater } )  {
   const { category } = useParams()
   let categoryPretty = category.split(' ').map(element => {
     return element[0].toUpperCase() + element.substring(1)
@@ -23,8 +23,7 @@ export default function Category ( { breakpoints, data, sortFilterOption, setSor
         breakpoints={breakpoints} 
         sortFilterOption={sortFilterOption} 
         setSortFilterOption={setSortFilterOption}
-        cartData={cartData}
-        setCartData={setCartData}
+        cartUpdater={cartUpdater}
       />
     </section>
   )

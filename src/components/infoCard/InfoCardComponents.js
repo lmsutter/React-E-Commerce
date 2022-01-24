@@ -65,9 +65,9 @@ InfoCardComponent.QuantityTitle = function ({ children }) {
   )
 }
 
-InfoCardComponent.AddCart = function ({ children } ) {
+InfoCardComponent.AddCart = function ({ children, onClick } ) {
   return (
-    <Styled.AddCart>
+    <Styled.AddCart onClick={onClick}>
         + Cart
     </Styled.AddCart>
   )
