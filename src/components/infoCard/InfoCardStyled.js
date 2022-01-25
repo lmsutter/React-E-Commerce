@@ -3,7 +3,9 @@ import { Card } from '../reUsable/Card'
 import { Button } from '../reUsable/Button'
 import * as Content from '../../components/content/ContentStyled'
 
-export const InfoCard = styled(Card)`
+export const InfoCard = styled.section``
+
+export const Front = styled(Card)`
   
   background-color: ${({theme}) => theme.lightgrey};
   width: 1200px;
@@ -12,6 +14,11 @@ export const InfoCard = styled(Card)`
   display: flex; 
   flex-direction: column;
   margin: 2em auto;
+  backface-visibility: hidden;
+
+  & * {
+    backface-visibility: hidden;
+  }
 
   --widthCalc: calc((100% - 2em)/3);
   display: grid;
@@ -36,6 +43,10 @@ export const InfoCard = styled(Card)`
     justify-self: start;
   }
 
+  img.main:hover {
+    cursor: zoom-in;
+  }
+
 
   @media (min-width: 970px) {
     grid-template-columns: 50% 50%;
@@ -53,6 +64,42 @@ export const InfoCard = styled(Card)`
 
   }
 
+`
+
+export const FlipOuter = styled.section`
+  background-color: transparent;
+  perspective: 1500px;
+`
+
+export const FlipInner = styled.div`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  transform: ${({flipped}) => flipped && 'rotateY(180deg)'};
+`
+
+
+export const Back = styled.div`
+  transform: rotateY(180deg) translateX(-50%);
+  backface-visibility: hidden;
+  position: absolute;
+  width: 1200px;
+  top: -2em;
+  right: 50%;
+
+  img.fullsize {
+    object-fit: contain;
+    width: auto;
+    max-height: 90vh;
+    z-index: 3;
+  }
+
+  img.fullsize:hover {
+    cursor: zoom-out;
+  }
 `
 
 export const CartConfirmationCard = styled(Card)`
@@ -189,6 +236,7 @@ export const SuggestionsBox = styled.div`
   overflow-y: auto;
   height: 200px;
   margin-right: 1em;
+  display: ${({flipped}) => flipped ? 'none' : ''};
 
   .suggestionItem {
     position: relative;

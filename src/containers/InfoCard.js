@@ -21,6 +21,8 @@ export default function InfoCard ({data, cartUpdater}) {
   const [quantity, setQuantity] = useState(1)
   const [dimensions, setDimensions] = useState({height: window.innerHeight, width: window.innerWidth})
   const [limitedCategory, setLimitedCategory] = useState([])
+  const [flipped, setFlipped] = useState(false)
+  console.log(flipped)
 
   const history = useHistory()
 
@@ -76,31 +78,42 @@ export default function InfoCard ({data, cartUpdater}) {
 
       {!data[item] ? null : (
         <InfoCardComponent>
-          
-          <InfoCardComponent.Image src={data[currentItemIndex].image}></InfoCardComponent.Image>
-          <InfoCardComponent.Title>
-            {data[currentItemIndex].title}
-          </InfoCardComponent.Title>
-          <InfoCardComponent.Price>${data[currentItemIndex].price}</InfoCardComponent.Price>
-          
-          <InfoCardComponent.FullRating >{data[currentItemIndex].rating.rate} {dimensions.width < 970 ? <Star rating={data[currentItemIndex].rating.rate} /> : StarSet(data[currentItemIndex].rating.rate)} </InfoCardComponent.FullRating>
-          <InfoCardComponent.Description> {data[currentItemIndex].description} </InfoCardComponent.Description>
-          <div className="buttons">
-            <InfoCardComponent.QuantityTitle>Quantity:</InfoCardComponent.QuantityTitle>
-            <InfoCardComponent.Quantity setQuantity={setQuantity} > {quantity}</InfoCardComponent.Quantity>
-            <InfoCardComponent.AddCart onClick={() => cartUpdater(data[currentItemIndex].id, quantity, history)}/>
-          </div>
-          <InfoCardComponent.SimilarText>Similar Items:</InfoCardComponent.SimilarText>
-          <InfoCardComponent.SuggestionsBox>
+          <InfoCardComponent.FlipOuter>
+            <InfoCardComponent.FlipInner flipped={flipped}>
+              <InfoCardComponent.Front>
 
-          {limitedCategory.map(e => (
-            <div key={e.id + "cartConfirmationSuggestion"} className={"suggestionItem"} id={"SB" + e.id}>
-              <InfoCardComponent.SuggestionsImage src={e.image} />
-              <InfoCardComponent.SuggestionsLink category={category} item={e.id} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>
-            </div>
-          ))}
+                <InfoCardComponent.Image className="main" src={data[currentItemIndex].image} onClick={() => setFlipped(true)} />
+                <InfoCardComponent.Title>
+                  {data[currentItemIndex].title}
+                </InfoCardComponent.Title>
+                <InfoCardComponent.Price>${data[currentItemIndex].price}</InfoCardComponent.Price>
+                
+                <InfoCardComponent.FullRating >{data[currentItemIndex].rating.rate} {dimensions.width < 970 ? <Star rating={data[currentItemIndex].rating.rate} /> : StarSet(data[currentItemIndex].rating.rate)} </InfoCardComponent.FullRating>
+                <InfoCardComponent.Description> {data[currentItemIndex].description} </InfoCardComponent.Description>
+                <div className="buttons">
+                  <InfoCardComponent.QuantityTitle>Quantity:</InfoCardComponent.QuantityTitle>
+                  <InfoCardComponent.Quantity setQuantity={setQuantity} > {quantity}</InfoCardComponent.Quantity>
+                  <InfoCardComponent.AddCart onClick={() => cartUpdater(data[currentItemIndex].id, quantity, history)}/>
+                </div>
+                <InfoCardComponent.SimilarText>Similar Items:</InfoCardComponent.SimilarText>
+                <InfoCardComponent.SuggestionsBox flipped={flipped}>
 
-          </InfoCardComponent.SuggestionsBox>
+                  {limitedCategory.map(e => (
+                    <div key={e.id + "cartConfirmationSuggestion"} className={"suggestionItem"} id={"SB" + e.id}>
+                      <InfoCardComponent.SuggestionsImage src={e.image} />
+                      <InfoCardComponent.SuggestionsLink category={category} item={e.id} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>
+                    </div>
+                  ))}
+
+                </InfoCardComponent.SuggestionsBox>
+              </InfoCardComponent.Front>
+
+              <InfoCardComponent.Back>
+                  <InfoCardComponent.Image className="fullsize" src={data[currentItemIndex].image} onClick={() => setFlipped(false)} />
+              </InfoCardComponent.Back>
+
+            </InfoCardComponent.FlipInner>
+          </InfoCardComponent.FlipOuter>
         </InfoCardComponent>
       )}
     
