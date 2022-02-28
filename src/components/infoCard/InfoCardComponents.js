@@ -10,37 +10,15 @@ export default function InfoCardComponent ({children}) {
   )
 }
 
-InfoCardComponent.FlipOuter = function ({ children }) {
+InfoCardComponent.FullContainer = function ({ src, onClick }) {
   return (
-    <Styled.FlipOuter>
-      {children}
-    </Styled.FlipOuter>
+    <Styled.FullCard onClick={onClick}>
+      <Styled.FullExit>X</Styled.FullExit> 
+      <Styled.FullImg src={src} />
+    </Styled.FullCard>
   )
 }
 
-InfoCardComponent.FlipInner = function ({ children, flipped }) {
-  return (
-    <Styled.FlipInner flipped={flipped}>
-      {children}
-    </Styled.FlipInner>
-  )
-}
-
-InfoCardComponent.Front = function ({ children }) {
-  return (
-    <Styled.Front>
-      {children}
-    </Styled.Front>
-  )
-}
-
-InfoCardComponent.Back = function ({ children }) {
-  return (
-    <Styled.Back>
-      {children}
-    </Styled.Back>
-  )
-}
 
 InfoCardComponent.CartConfirmationCard = function ({ children }) {
   return (

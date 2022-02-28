@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { Star } from '../components/svg/Svgs'
 import InfoCardComponent from "../components/infoCard/InfoCardComponents"
 import { useHistory } from 'react-router-dom'
+import { CSSTransition } from 'react-transition-group'
 
 
 function debounce(fn, ms) {
@@ -21,8 +22,8 @@ export default function InfoCard ({data, cartUpdater}) {
   const [quantity, setQuantity] = useState(1)
   const [dimensions, setDimensions] = useState({height: window.innerHeight, width: window.innerWidth})
   const [limitedCategory, setLimitedCategory] = useState([])
-  const [flipped, setFlipped] = useState(false)
-  console.log(flipped)
+  const [full, setFull] = useState(false)
+
 
   const history = useHistory()
 
@@ -78,42 +79,41 @@ export default function InfoCard ({data, cartUpdater}) {
 
       {!data[item] ? null : (
         <InfoCardComponent>
-          <InfoCardComponent.FlipOuter>
-            <InfoCardComponent.FlipInner flipped={flipped}>
-              <InfoCardComponent.Front>
 
-                <InfoCardComponent.Image className="main" src={data[currentItemIndex].image} onClick={() => setFlipped(true)} />
-                <InfoCardComponent.Title>
-                  {data[currentItemIndex].title}
-                </InfoCardComponent.Title>
-                <InfoCardComponent.Price>${data[currentItemIndex].price}</InfoCardComponent.Price>
-                
-                <InfoCardComponent.FullRating >{data[currentItemIndex].rating.rate} {dimensions.width < 970 ? <Star rating={data[currentItemIndex].rating.rate} /> : StarSet(data[currentItemIndex].rating.rate)} </InfoCardComponent.FullRating>
-                <InfoCardComponent.Description> {data[currentItemIndex].description} </InfoCardComponent.Description>
-                <div className="buttons">
-                  <InfoCardComponent.QuantityTitle>Quantity:</InfoCardComponent.QuantityTitle>
-                  <InfoCardComponent.Quantity setQuantity={setQuantity} > {quantity}</InfoCardComponent.Quantity>
-                  <InfoCardComponent.AddCart onClick={() => cartUpdater(data[currentItemIndex].id, quantity, history)}/>
-                </div>
-                <InfoCardComponent.SimilarText>Similar Items:</InfoCardComponent.SimilarText>
-                <InfoCardComponent.SuggestionsBox flipped={flipped}>
+            <CSSTransition
+              in={full}
+              classNames="flip"
+              timeout={200}
+              unmountOnExit
+            >
+              <InfoCardComponent.FullContainer onClick={() => setFull(false)} src={data[currentItemIndex].image}  />
+            </CSSTransition>
+          
+          <InfoCardComponent.Image className="main" onClick={() => setFull(true)} src={data[currentItemIndex].image} />
+          <InfoCardComponent.Title>
+            {data[currentItemIndex].title}
+          </InfoCardComponent.Title>
+          <InfoCardComponent.Price>${data[currentItemIndex].price}</InfoCardComponent.Price>
+          
+          <InfoCardComponent.FullRating >{data[currentItemIndex].rating.rate} {dimensions.width < 970 ? <Star rating={data[currentItemIndex].rating.rate} /> : StarSet(data[currentItemIndex].rating.rate)} </InfoCardComponent.FullRating>
+          <InfoCardComponent.Description> {data[currentItemIndex].description} </InfoCardComponent.Description>
+          <div className="buttons">
+            <InfoCardComponent.QuantityTitle>Quantity:</InfoCardComponent.QuantityTitle>
+            <InfoCardComponent.Quantity setQuantity={setQuantity} > {quantity}</InfoCardComponent.Quantity>
+            <InfoCardComponent.AddCart onClick={() => cartUpdater(data[currentItemIndex].id, quantity, history)}/>
+          </div>
+          <InfoCardComponent.SimilarText>Similar Items:</InfoCardComponent.SimilarText>
+          <InfoCardComponent.SuggestionsBox >
 
-                  {limitedCategory.map(e => (
-                    <div key={e.id + "cartConfirmationSuggestion"} className={"suggestionItem"} id={"SB" + e.id}>
-                      <InfoCardComponent.SuggestionsImage src={e.image} />
-                      <InfoCardComponent.SuggestionsLink category={category} item={e.id} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>
-                    </div>
-                  ))}
+            {limitedCategory.map(e => (
+              <div key={e.id + "cartConfirmationSuggestion"} className={"suggestionItem"} id={"SB" + e.id}>
+                <InfoCardComponent.SuggestionsImage src={e.image} />
+                <InfoCardComponent.SuggestionsLink category={category} item={e.id} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>
+              </div>
+            ))}
 
-                </InfoCardComponent.SuggestionsBox>
-              </InfoCardComponent.Front>
+          </InfoCardComponent.SuggestionsBox>
 
-              <InfoCardComponent.Back>
-                  <InfoCardComponent.Image className="fullsize" src={data[currentItemIndex].image} onClick={() => setFlipped(false)} />
-              </InfoCardComponent.Back>
-
-            </InfoCardComponent.FlipInner>
-          </InfoCardComponent.FlipOuter>
         </InfoCardComponent>
       )}
     

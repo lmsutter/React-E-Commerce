@@ -3,9 +3,8 @@ import { Card } from '../reUsable/Card'
 import { Button } from '../reUsable/Button'
 import * as Content from '../../components/content/ContentStyled'
 
-export const InfoCard = styled.section``
 
-export const Front = styled(Card)`
+export const InfoCard = styled(Card)`
   
   background-color: ${({theme}) => theme.lightgrey};
   width: 1200px;
@@ -14,11 +13,6 @@ export const Front = styled(Card)`
   display: flex; 
   flex-direction: column;
   margin: 2em auto;
-  backface-visibility: hidden;
-
-  & * {
-    backface-visibility: hidden;
-  }
 
   --widthCalc: calc((100% - 2em)/3);
   display: grid;
@@ -43,8 +37,23 @@ export const Front = styled(Card)`
     justify-self: start;
   }
 
-  img.main:hover {
-    cursor: zoom-in;
+  .flip-enter {
+    opacity: 0;
+  }
+  
+  .flip-enter-active {
+    opacity: 1;
+    transition: opacity 500ms;
+  }
+
+  .flip-exit {
+    opacity: 1
+  }
+
+  .flip-exit-active {
+    opacity: 0;
+    transition: opacity 500ms;
+
   }
 
 
@@ -66,41 +75,62 @@ export const Front = styled(Card)`
 
 `
 
-export const FlipOuter = styled.section`
-  background-color: transparent;
-  perspective: 1500px;
-`
-
-export const FlipInner = styled.div`
-  position: relative;
-  width: 100%;
-  height: 100%;
-  text-align: center;
-  transition: transform 1s;
-  transform-style: preserve-3d;
-  transform: ${({flipped}) => flipped && 'rotateY(180deg)'};
-`
-
-
-export const Back = styled.div`
-  transform: rotateY(180deg) translateX(-50%);
-  backface-visibility: hidden;
+export const FullCard = styled.section`
   position: absolute;
-  width: 1200px;
-  top: -2em;
-  right: 50%;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(20, 20, 20, .7);
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 10vh;
+`
 
-  img.fullsize {
-    object-fit: contain;
-    width: auto;
-    max-height: 90vh;
-    z-index: 3;
+export const FullExit = styled.button`
+  align-self: start;
+  font-size: 2rem;
+  margin-right: 2em;
+  padding: 6px;
+  border-radius: 5px;
+  border: none;  
+`
+
+export const FullImg = styled.img`
+  width: auto;
+  height: auto;
+  max-height: 90vh;
+  max-width: 90vw;
+  border-radius: 0;
+
+  .flip-enter & {
+    transform: scale(.7) translateX(-30%);
+
   }
 
-  img.fullsize:hover {
+  .flip-enter-active & {
+    transform: scale(1) translateX(0);
+    transition: transform 500ms;
+  }
+
+  .flip-exit & {
+    transform: scale(1) ;
+
+  }
+
+  .flip-exit-active & {
+    transform: scale(.7) translateX(-30%);
+    transition: transform 500ms;
+  }
+
+  &:hover {
     cursor: zoom-out;
   }
 `
+
+
 
 export const CartConfirmationCard = styled(Card)`
   margin: 2em auto;
@@ -131,6 +161,10 @@ export const Image = styled.img`
   aspect-ratio: 1 /1;
   object-fit: cover;
   object-position: top;
+  &:hover {
+    cursor: zoom-in;
+  }
+
   @media (min-width: 970px) {
     grid-area: image;
   }
