@@ -39,68 +39,66 @@ CartComponents.CartItem = function ({ children, qty, itemData }) {
 }
 
 CartComponents.CartTotal = function CartTotal ({ children }) {
-  const [slideDiff, setSlideDiff] = useState(320)
+  const [top, setTop] = useState(300)
+  console.log(top)
+  
+  const elementRef = useRef(null)
+  const initial = useRef({ isMouseDown: false, clickPos: null, elementTop: null })
 
-  const currentPos = useRef(null)
-  const mouseData = useRef({down: false, startingY: 0})
+  const mouseCurrentPos = useRef(null)
   const animationID = useRef(null)
-  console.log(mouseData.current, currentPos.current)
 
+  const handleMouseUp = (e) => {
+    initial.current.isMouseDown = false
+    initial.current.clickPos = null
+    initial.current.elementTop = null
+    mouseCurrentPos.current = null
+  }
 
-  // console.log(mouseData, currentPos.current)
-
-  //handle mousedown, start a animation function loop (& get starting position)
-  //handle onMouseMove, update location, pass the diff down to the component & have it translate based on that pixel diff
-  //each animation loop check diff between current & starting position
-  // state: isDown, starting position, current position
-  // try keeping the current position in a ref so that it doesn't trigger a re-render
-
-  //try keeping the mouse start data in a ref
+  const handleMouseMove = (e) => {
+    if(initial.current.isMouseDown) {
+      e.preventDefault()
+      mouseCurrentPos.current = e.pageY
+    }
+  }
 
   useEffect(() => {
     slideFunction()
-    return () => cancelAnimationFrame(animationID.current)
+    document.addEventListener('mouseup', handleMouseUp)
+    document.addEventListener('mousemove', handleMouseMove)
+    return () => {
+      cancelAnimationFrame(animationID.current)
+      document.removeEventListener('mouseup', handleMouseUp)
+    }
   }, [])
 
   function slideFunction ()  {
-    console.log(mouseData.current, currentPos.current)
+    setTop(previous => initial.current.isMouseDown && mouseCurrentPos.current ? 
+        (initial.current.elementTop - (initial.current.clickPos - mouseCurrentPos.current)) :
+        previous)
 
-    setSlideDiff(current => {
-      if(!mouseData.current.down) {
-        return current
-      } else {
-        return currentPos.current - mouseData.current.startingY
-      }
-    })
     animationID.current = requestAnimationFrame(slideFunction)
     
   }
 
 
+
   const handleMouseDown = (e) => {
-    mouseData.current = {down: true, startingY: e.clientY}
-    currentPos.current = e.clientY
+    // offSet.current = card.current.getBoundingClientRect().y - e.pageY 
+    console.log(elementRef.current.getBoundingClientRect().y, e.pageY)
+    initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
+    initial.current.clickPos = e.pageY
+    initial.current.isMouseDown = true
   }
 
-  const handleMouseMove = (e) => {
-    if(mouseData.current.down) {
-      currentPos.current = e.clientY
-    }
-  }
 
-  const handleMouseUp = (e) => {
-    mouseData.current = { ...mouseData.current, down: false}
-  }
-  
 
   return (
-    <Styled.CartTotal slideDiff={slideDiff}>
+    <Styled.CartTotal top={top} ref={elementRef}>
       <Icon 
         icon="akar-icons:circle-chevron-up" 
         className="swipe" 
         onMouseDown={handleMouseDown}
-        onMouseUp={handleMouseUp}
-        onMouseMove={handleMouseMove}
       />
       <div className='subCard'>
         <div className='totalInfo'>

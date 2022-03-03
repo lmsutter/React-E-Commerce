@@ -100,10 +100,11 @@ export const CartItem = styled.div`
 `
 
 export const CartTotal = styled(Card)`
-  margin: 1em;
+  /* margin: 1em; */
   position: fixed;
-  bottom: 0px;
-  transform: ${({slideDiff}) => (`translateY(${slideDiff}px)`)};
+  /* bottom: 0px; */
+  /* transform: ${({slideDiff}) => (`translateY(${slideDiff}px)`)}; */
+  top: ${({top}) => top + 'px'};
 
   .subCard {
     background-color: #E5E5E5;
@@ -132,7 +133,7 @@ export const CartTotal = styled(Card)`
     top: -.8em;
     left: 50%;
     transform: translateX(-50%);
-    font-size: 2.3em;
+    font-size: 3em;
   }
 
 `
