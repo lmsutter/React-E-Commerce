@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import { Star } from '../components/svg/Svgs'
 import InfoCardComponent from "../components/infoCard/InfoCardComponents"
 import { useHistory } from 'react-router-dom'
+import { CSSTransition } from 'react-transition-group'
 
 
 function debounce(fn, ms) {
@@ -21,6 +22,8 @@ export default function InfoCard ({data, cartUpdater}) {
   const [quantity, setQuantity] = useState(1)
   const [dimensions, setDimensions] = useState({height: window.innerHeight, width: window.innerWidth})
   const [limitedCategory, setLimitedCategory] = useState([])
+  const [full, setFull] = useState(false)
+
 
   const history = useHistory()
 
@@ -76,8 +79,17 @@ export default function InfoCard ({data, cartUpdater}) {
 
       {!data[item] ? null : (
         <InfoCardComponent>
+
+            <CSSTransition
+              in={full}
+              classNames="flip"
+              timeout={200}
+              unmountOnExit
+            >
+              <InfoCardComponent.FullContainer onClick={() => setFull(false)} src={data[currentItemIndex].image}  />
+            </CSSTransition>
           
-          <InfoCardComponent.Image src={data[currentItemIndex].image}></InfoCardComponent.Image>
+          <InfoCardComponent.Image className="main" onClick={() => setFull(true)} src={data[currentItemIndex].image} />
           <InfoCardComponent.Title>
             {data[currentItemIndex].title}
           </InfoCardComponent.Title>
@@ -91,16 +103,17 @@ export default function InfoCard ({data, cartUpdater}) {
             <InfoCardComponent.AddCart onClick={() => cartUpdater(data[currentItemIndex].id, quantity, history)}/>
           </div>
           <InfoCardComponent.SimilarText>Similar Items:</InfoCardComponent.SimilarText>
-          <InfoCardComponent.SuggestionsBox>
+          <InfoCardComponent.SuggestionsBox >
 
-          {limitedCategory.map(e => (
-            <div key={e.id + "cartConfirmationSuggestion"} className={"suggestionItem"} id={"SB" + e.id}>
-              <InfoCardComponent.SuggestionsImage src={e.image} />
-              <InfoCardComponent.SuggestionsLink category={category} item={e.id} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>
-            </div>
-          ))}
+            {limitedCategory.map(e => (
+              <div key={e.id + "cartConfirmationSuggestion"} className={"suggestionItem"} id={"SB" + e.id}>
+                <InfoCardComponent.SuggestionsImage src={e.image} />
+                <InfoCardComponent.SuggestionsLink category={category} item={e.id} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>
+              </div>
+            ))}
 
           </InfoCardComponent.SuggestionsBox>
+
         </InfoCardComponent>
       )}
     

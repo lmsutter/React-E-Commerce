@@ -10,6 +10,16 @@ export default function InfoCardComponent ({children}) {
   )
 }
 
+InfoCardComponent.FullContainer = function ({ src, onClick }) {
+  return (
+    <Styled.FullCard onClick={onClick}>
+      <Styled.FullExit>X</Styled.FullExit> 
+      <Styled.FullImg src={src} />
+    </Styled.FullCard>
+  )
+}
+
+
 InfoCardComponent.CartConfirmationCard = function ({ children }) {
   return (
     <Styled.CartConfirmationCard>
@@ -26,9 +36,9 @@ InfoCardComponent.Title = function ({ children }) {
   )
 }
 
-InfoCardComponent.Image = function ({ children, src }) {
+InfoCardComponent.Image = function ({ children, src, onClick, className }) {
   return (
-    <Styled.Image src={src}>
+    <Styled.Image src={src} onClick={onClick} className={className}>
       {children}
     </Styled.Image>
   )
@@ -150,9 +160,9 @@ InfoCardComponent.Quantity = function DropDown ({ children, setQuantity }) {
 
 
 
-InfoCardComponent.SuggestionsBox = function ({ children }) {
+InfoCardComponent.SuggestionsBox = function ({ children, flipped }) {
   return (
-    <Styled.SuggestionsBox>
+    <Styled.SuggestionsBox flipped={flipped} >
       {children}
     </Styled.SuggestionsBox>
   )

@@ -3,6 +3,7 @@ import { Card } from '../reUsable/Card'
 import { Button } from '../reUsable/Button'
 import * as Content from '../../components/content/ContentStyled'
 
+
 export const InfoCard = styled(Card)`
   
   background-color: ${({theme}) => theme.lightgrey};
@@ -36,6 +37,25 @@ export const InfoCard = styled(Card)`
     justify-self: start;
   }
 
+  .flip-enter {
+    opacity: 0;
+  }
+  
+  .flip-enter-active {
+    opacity: 1;
+    transition: opacity 500ms;
+  }
+
+  .flip-exit {
+    opacity: 1
+  }
+
+  .flip-exit-active {
+    opacity: 0;
+    transition: opacity 500ms;
+
+  }
+
 
   @media (min-width: 970px) {
     grid-template-columns: 50% 50%;
@@ -54,6 +74,63 @@ export const InfoCard = styled(Card)`
   }
 
 `
+
+export const FullCard = styled.section`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: rgba(20, 20, 20, .7);
+  z-index: 4;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 10vh;
+`
+
+export const FullExit = styled.button`
+  align-self: start;
+  font-size: 2rem;
+  margin-right: 2em;
+  padding: 6px;
+  border-radius: 5px;
+  border: none;  
+`
+
+export const FullImg = styled.img`
+  width: auto;
+  height: auto;
+  max-height: 90vh;
+  max-width: 90vw;
+  border-radius: 0;
+
+  .flip-enter & {
+    transform: scale(.7) translateX(-30%);
+
+  }
+
+  .flip-enter-active & {
+    transform: scale(1) translateX(0);
+    transition: transform 500ms;
+  }
+
+  .flip-exit & {
+    transform: scale(1) ;
+
+  }
+
+  .flip-exit-active & {
+    transform: scale(.7) translateX(-30%);
+    transition: transform 500ms;
+  }
+
+  &:hover {
+    cursor: zoom-out;
+  }
+`
+
+
 
 export const CartConfirmationCard = styled(Card)`
   margin: 2em auto;
@@ -84,6 +161,10 @@ export const Image = styled.img`
   aspect-ratio: 1 /1;
   object-fit: cover;
   object-position: top;
+  &:hover {
+    cursor: zoom-in;
+  }
+
   @media (min-width: 970px) {
     grid-area: image;
   }
@@ -189,6 +270,7 @@ export const SuggestionsBox = styled.div`
   overflow-y: auto;
   height: 200px;
   margin-right: 1em;
+  display: ${({flipped}) => flipped ? 'none' : ''};
 
   .suggestionItem {
     position: relative;

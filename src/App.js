@@ -13,6 +13,7 @@ import Footer from './containers/Footer'
 import InfoPage from './pages/InfoPage'
 import CartConfirmation from './pages/CartConfirmation';
 import useCartUpdater from './hooks/useCartUpdater';
+import Cart from './pages/Cart';
 
 
 function App() {
@@ -20,7 +21,6 @@ function App() {
   const [sortFilterOption, setSortFilterOption] = useState(
     {sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'}
   )
-  // console.log(data)
 
   const [cartData, setCartData] = useLocalStorage('cart', [])
   const cartUpdater = useCartUpdater(cartData, setCartData)
@@ -28,10 +28,9 @@ function App() {
 
   useEffect(() => {
     fetch('https://fakestoreapi.com/products')
-            .then(res=>res.json())
-            .then(json=>{
-              updateData(json)
-            })
+            .then(res=>{
+              return res.json()})
+            .then(json=>updateData(json))
             .catch(error => {
               updateData(null)
             })
@@ -60,7 +59,7 @@ function App() {
               sortFilterOption={sortFilterOption} 
               setSortFilterOption={setSortFilterOption}
               cartUpdater={cartUpdater}
-              />
+            />
           </Route>
 
           <Route path='/category/:category/:item'>
@@ -68,11 +67,11 @@ function App() {
           </Route>
 
           <Route exact path='/cart'>
-            Cart
+            <Cart cartData={cartData} data={data} />
           </Route>
 
           <Route path='/cart-confirmation/:item'>
-            <CartConfirmation data={data} />
+            <CartConfirmation data={data} cartData={cartData} />
           </Route>
 
         </Switch>

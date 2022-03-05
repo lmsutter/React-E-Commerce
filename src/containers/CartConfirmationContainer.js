@@ -4,11 +4,12 @@ import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
 import { SuggestionsBox } from '../components/infoCard/InfoCardStyled'
 
 
-export default function CartConfirmationContainer ({ data}) {
+export default function CartConfirmationContainer ({ data, cartData }) {
 
   const { item } = useParams()
   const currentIndex = item - 1 
   const itemInfo = data[currentIndex]
+  const cartLength = cartData.reduce((accum, current) => accum = current.quantity + accum, 0)
 
   const limitedCategory = data.filter(e => {
     return (e.category === itemInfo.category) && (e.id !== item)
@@ -24,7 +25,7 @@ export default function CartConfirmationContainer ({ data}) {
       <CircleCheckFill className="checkMark" strokeWidth={3} size={24} />
           Item Successfully Added to Cart!
       </InfoCardComponent.Title>
-      <InfoCardComponent.CConfirmationText>Total items in cart: {NaN}</InfoCardComponent.CConfirmationText>
+      <InfoCardComponent.CConfirmationText>Total items in cart: {cartLength}</InfoCardComponent.CConfirmationText>
       <SuggestionsBox>
         {limitedCategory.map((e, i)=> (
           <div key={i+"suggestion"} className={"suggestionItem"} id={"SB" + e.id}>

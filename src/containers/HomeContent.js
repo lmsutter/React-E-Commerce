@@ -52,9 +52,8 @@ export default function HomeContentContainer ({ data, cartUpdater }) {
     <>
        {data && <ProgressBar onClick={() => setPaused(c => !c)} remaining={countdown} paused={paused} />} 
       <Content.Frame>
-        { highlights.map(e => {
+        { data.length > 0 && highlights.map(e => {
           let item = data[e]
-          if(item) {
             return (
               <Content.ContentCard key={item.id + 'h'}>
                 <Content.Image src={item.image} />
@@ -70,7 +69,6 @@ export default function HomeContentContainer ({ data, cartUpdater }) {
                 <Content.AddCart onClick={() => cartUpdater(item.id, 1, history)} />
               </Content.ContentCard>
             )
-          }
            
         })}
       </Content.Frame>

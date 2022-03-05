@@ -7,6 +7,7 @@ export const Button = styled.button`
   background-color: ${props=>props.theme.color2};
   color: white;
   font-size: 1.2rem;
+  backface-visibility: hidden;
 
   &:hover {
     cursor: pointer;
