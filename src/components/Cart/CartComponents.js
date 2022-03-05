@@ -40,19 +40,26 @@ CartComponents.CartItem = function ({ children, qty, itemData }) {
 
 CartComponents.CartTotal = function CartTotal ({ children }) {
   const [top, setTop] = useState(300)
-  console.log(top)
   
   const elementRef = useRef(null)
   const initial = useRef({ isMouseDown: false, clickPos: null, elementTop: null })
-
+  
   const mouseCurrentPos = useRef(null)
   const animationID = useRef(null)
+  
+  const velocity = useRef(NaN)
+  const mouseDiffs = useRef([])
+
 
   const handleMouseUp = (e) => {
     initial.current.isMouseDown = false
     initial.current.clickPos = null
     initial.current.elementTop = null
     mouseCurrentPos.current = null
+
+    const temp = mouseDiffs.current.reduce((prev, curr) => {return prev + curr}, 0)
+
+    velocity.current = (temp/mouseDiffs.current.length)
   }
 
   const handleMouseMove = (e) => {
@@ -72,20 +79,56 @@ CartComponents.CartTotal = function CartTotal ({ children }) {
     }
   }, [])
 
-  function slideFunction ()  {
-    setTop(previous => initial.current.isMouseDown && mouseCurrentPos.current ? 
-        (initial.current.elementTop - (initial.current.clickPos - mouseCurrentPos.current)) :
-        previous)
 
-    animationID.current = requestAnimationFrame(slideFunction)
+  function slideFunction (oldTime, previousMouse)  {
+    //velocity: set in handleMouse up by reducing the array
+    //v: then, every time slide function is called set velocity by constant # & set top by reducing velocity
+
+    let currentTime = new Date().getTime()
+    let mouseData = previousMouse ? previousMouse : mouseCurrentPos.current
+    
+    if (!oldTime || currentTime - oldTime > 100) {
+      mouseData = mouseCurrentPos.current
+
+      let temp = [...mouseDiffs.current]
+
+      if(previousMouse !== null && mouseData !== null) {
+        temp.push((previousMouse - mouseData))
+      } else {temp.push(0)}
+      if (temp.length > 5) temp.shift()
+
+      mouseDiffs.current = temp
+      
+      
+    } else { currentTime = oldTime }
+
+
+    setTop(previous => {
+      if(initial.current.isMouseDown && mouseCurrentPos.current) {
+        return initial.current.elementTop - (initial.current.clickPos - mouseCurrentPos.current) 
+      } else if (!initial.current.isMouseDown && (velocity.current > .5 || velocity.current < .5)) {
+        return previous - velocity.current
+      } else {
+        return previous
+      }
+    })
+    console.log(elementRef.current.getBoundingClientRect().y)
+    if (Math.abs(velocity.current) < .5) {
+      velocity.current = 0
+    } else if (velocity.current >= .5) {
+      velocity.current = velocity.current -.2
+    } else if (velocity.current <= -.5) {
+      velocity.current = velocity.current + .2
+    }
+
+
+    animationID.current = requestAnimationFrame(() => slideFunction( currentTime, mouseData))
     
   }
 
 
 
   const handleMouseDown = (e) => {
-    // offSet.current = card.current.getBoundingClientRect().y - e.pageY 
-    console.log(elementRef.current.getBoundingClientRect().y, e.pageY)
     initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
     initial.current.clickPos = e.pageY
     initial.current.isMouseDown = true
