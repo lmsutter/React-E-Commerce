@@ -112,7 +112,11 @@ CartComponents.CartTotal = function CartTotal ({ children }) {
         return previous
       }
     })
-    console.log(elementRef.current.getBoundingClientRect().y)
+
+    /*
+      Set this to be based on location
+      - if above centerline
+    */
     if (Math.abs(velocity.current) < .5) {
       velocity.current = 0
     } else if (velocity.current >= .5) {
@@ -129,6 +133,7 @@ CartComponents.CartTotal = function CartTotal ({ children }) {
 
 
   const handleMouseDown = (e) => {
+    e.preventDefault()
     initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
     initial.current.clickPos = e.pageY
     initial.current.isMouseDown = true
