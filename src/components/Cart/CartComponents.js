@@ -1,5 +1,6 @@
 import * as Styled from './CartStyled'
 import { Icon } from '@iconify/react'
+import { PassiveListener } from 'react-event-injector'
 
 import { useState, useRef, useEffect } from 'react'
 
@@ -50,6 +51,34 @@ CartComponents.CartTotal = function CartTotal ({ children }) {
   const velocity = useRef(NaN)
   const mouseDiffs = useRef([])
 
+  const handleTouchDown = e => {
+    e.preventDefault()
+    initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
+    initial.current.clickPos = e.changedTouches.item(0).pageY
+    initial.current.isMouseDown = true
+  }
+  
+  const handleTouchMove = (e) => {
+    console.log(e.changedTouches.item(0).pageY)
+    if(initial.current.isMouseDown) {
+      e.preventDefault()
+      mouseCurrentPos.current = e.changedTouches.item(0).pageY
+    }
+  }
+  
+  const handleMouseDown = e => {
+    e.preventDefault()
+    initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
+    initial.current.clickPos = e.pageY
+    initial.current.isMouseDown = true
+  }
+
+  const handleMouseMove = (e) => {
+    if(initial.current.isMouseDown) {
+      e.preventDefault()
+      mouseCurrentPos.current = e.pageY
+    }
+  }
 
   const handleMouseUp = (e) => {
     initial.current.isMouseDown = false
@@ -62,17 +91,11 @@ CartComponents.CartTotal = function CartTotal ({ children }) {
     velocity.current = (temp/mouseDiffs.current.length)
   }
 
-  const handleMouseMove = (e) => {
-    if(initial.current.isMouseDown) {
-      e.preventDefault()
-      mouseCurrentPos.current = e.pageY
-    }
-  }
-
   useEffect(() => {
     slideFunction()
     document.addEventListener('mouseup', handleMouseUp)
     document.addEventListener('mousemove', handleMouseMove)
+
     return () => {
       cancelAnimationFrame(animationID.current)
       document.removeEventListener('mouseup', handleMouseUp)
@@ -126,29 +149,19 @@ CartComponents.CartTotal = function CartTotal ({ children }) {
     
   }
 
-
-
-  const handleMouseDown = (e) => {
-    e.preventDefault()
-    console.log('hi')
-    initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
-    initial.current.clickPos = e.pageY
-    initial.current.isMouseDown = true
-  }
-
-
-
   return (
     <Styled.CartTotal top={top} ref={elementRef}>
-      <Icon 
-        icon="akar-icons:circle-chevron-up" 
-        className="swipe" 
-        onMouseDown={handleMouseDown}
-        touchStart={console.log('touchstart')}
-        onTouchMove={console.log('touchmove')}
-        touchEnd={console.log('touchend')}
-
-      />
+      <PassiveListener
+        onTouchStart={handleTouchDown}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleMouseUp}
+      >
+        <Icon 
+          icon="akar-icons:circle-chevron-up" 
+          className="swipe" 
+          onMouseDown={handleMouseDown}
+        />
+      </PassiveListener>
       <div className='subCard'>
         <div className='totalInfo'>
           <p>Subtotal</p>

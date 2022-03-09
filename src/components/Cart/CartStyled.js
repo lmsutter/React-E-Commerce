@@ -100,12 +100,12 @@ export const CartItem = styled.div`
 `
 
 export const CartTotal = styled(Card)`
-  /* margin: 1em; */
   position: fixed;
-  /* bottom: 0px; */
-  /* transform: ${({slideDiff}) => (`translateY(${slideDiff}px)`)}; */
   top: ${({top}) => top + 'px'};
   touch-action: none;
+  * {
+    touch-action: none;
+  }
 
   .subCard {
     background-color: #E5E5E5;
