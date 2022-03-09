@@ -5,6 +5,10 @@ import { ChevronDown } from 'akar-icons'
 
 const height = '100px'
 
+export const Header = styled.section`
+
+`
+
 export const Toggle = styled.div`
   position: fixed;
   top: 15px;
@@ -44,13 +48,11 @@ export const Toggle = styled.div`
 
 export const Frame = styled.div`
 
-  transform: ${({open})=> open ? 'translateX(0)' : 'translateX(100%)'};
-  transition: transform .2s ease-in;
   display: flex;
   flex-direction: column;
-  background: white;
   justify-content: center;
   align-items: center;
+  overflow-x: hidden;
 
   position: absolute;
   top: 0; 
@@ -61,17 +63,24 @@ export const Frame = styled.div`
 
  @media (min-width: 970px) {
    flex-direction: row;
-   height: ${() => height};
+   height: ${height};
    width: 100vw; 
    position: static;
    justify-content: space-between;
    transform: translateX(0);
-
+   overflow-x: inherit;
+   background: white;
  }
 `
 
 export const Nav = styled.nav`
   height: 100%;
+  z-index: 1;
+  width: 100%;
+  background: white;
+  
+  transform: ${({open})=> open ? 'translateX(0)' : 'translateX(100%)'};
+  transition: transform .2s ease-in;
  
 
   ul:first-child {
@@ -93,9 +102,11 @@ export const Nav = styled.nav`
   }
 
   @media (min-width: 970px) {
+    transform: translateX(0);
     li {
       display: block; 
       margin-right: 1.5em;
+      
     }
     ul:first-child {
       flex-direction: row;

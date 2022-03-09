@@ -105,6 +105,7 @@ export const CartTotal = styled(Card)`
   /* bottom: 0px; */
   /* transform: ${({slideDiff}) => (`translateY(${slideDiff}px)`)}; */
   top: ${({top}) => top + 'px'};
+  touch-action: none;
 
   .subCard {
     background-color: #E5E5E5;
@@ -134,6 +135,7 @@ export const CartTotal = styled(Card)`
     left: 50%;
     transform: translateX(-50%);
     font-size: 3em;
+    touch-action: none;
   }
 
 `

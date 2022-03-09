@@ -33,9 +33,9 @@ TextBlock.Group = function ({ children }) {
   )
 }
 
-TextBlock.Section = function ({children, mflex}) {
+TextBlock.Section = function ({children, mflex, overflow}) {
   return (
-    <Styled.Section mflex={mflex}>
+    <Styled.Section overflow={overflow} mflex={mflex}>
       {children}
     </Styled.Section>
   )

@@ -113,10 +113,6 @@ CartComponents.CartTotal = function CartTotal ({ children }) {
       }
     })
 
-    /*
-      Set this to be based on location
-      - if above centerline
-    */
     if (Math.abs(velocity.current) < .5) {
       velocity.current = 0
     } else if (velocity.current >= .5) {
@@ -134,6 +130,7 @@ CartComponents.CartTotal = function CartTotal ({ children }) {
 
   const handleMouseDown = (e) => {
     e.preventDefault()
+    console.log('hi')
     initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
     initial.current.clickPos = e.pageY
     initial.current.isMouseDown = true
@@ -147,6 +144,10 @@ CartComponents.CartTotal = function CartTotal ({ children }) {
         icon="akar-icons:circle-chevron-up" 
         className="swipe" 
         onMouseDown={handleMouseDown}
+        touchStart={console.log('touchstart')}
+        onTouchMove={console.log('touchmove')}
+        touchEnd={console.log('touchend')}
+
       />
       <div className='subCard'>
         <div className='totalInfo'>

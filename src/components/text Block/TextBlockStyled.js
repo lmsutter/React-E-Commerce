@@ -18,6 +18,7 @@ export const Container = styled.div`
   max-width: 80vw;
   display: flex;
   flex-direction: row;
+  overflow-x: scroll;
 `
 
 export const Title = styled.h2`
@@ -28,6 +29,8 @@ export const Section = styled.div`
   display: flex;
   flex-direction: ${({ mflex }) => mflex ? mflex : 'row'};
   margin: 0 1em 1em 1em;
+  ${({overflow}) => overflow ? 'overflow-x: scroll;' : ''}
+
  &:last-of-type {
   margin-bottom: 0;
  }

@@ -4,8 +4,7 @@ import useClickOutside from '../../hooks/useClickOutside'
 import { useEffect, useState, useRef } from "react";
 
 export default function Header ({ children}) {
-
-  return <> {children} </>
+  return <Styled.Header> {children} </Styled.Header>
 }
 
 Header.Frame = function Frame ({ open, setOpen, children})  {
@@ -36,9 +35,9 @@ Header.Title = ({children, mobile}) => {
   )
 }
 
-Header.Nav = ({children}) => {
+Header.Nav = ({children, open}) => {
   return (
-    <Styled.Nav>
+    <Styled.Nav open={open}>
       <ul>
         {children}
       </ul>

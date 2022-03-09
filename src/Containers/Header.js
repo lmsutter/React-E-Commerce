@@ -13,11 +13,13 @@ export default function HeaderContainer ({ setSortFilterOption }) {
 
   return (
     <Header>
+  
+
       <Header.Toggle open={open} onMouseDown={() => setOpen(c => !c)} />
       <Header.Title mobile={true}>React E-Commerce</Header.Title>
-      <Header.Frame setOpen={setOpen} open={open} >
+      <Header.Frame setOpen={setOpen} >
         <Header.Title mobile={false}>React E-Commerce</Header.Title>
-        <Header.Nav >
+        <Header.Nav open={open}>
 
           <Header.Link
             to='/'  
