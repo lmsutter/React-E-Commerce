@@ -1,5 +1,6 @@
 import * as Styled from './ContentStyled' 
 import { Link } from 'react-router-dom'
+import { BallTriangle } from 'svg-loaders-react'
 
 export default function Content ({children}) {
   return <> {children} </>
@@ -26,6 +27,15 @@ Content.Frame = function Frame ({ children }) {
     <Styled.Frame>
       {children}
     </Styled.Frame>
+  )
+}
+
+Content.Loading = function Frame ({ children }) {
+  return (
+    <Styled.Loading>
+      <BallTriangle fill="#fff" color="#fff" />
+      {children}
+    </Styled.Loading>
   )
 }
 

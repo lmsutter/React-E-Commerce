@@ -14,9 +14,8 @@ export const InfoCard = styled(Card)`
   flex-direction: column;
   margin: 2em auto;
 
-  --widthCalc: calc((100% - 2em)/3);
   display: grid;
-  grid-template-columns: repeat(3, var(---widthCalc));
+  grid-template-columns: 1fr 2fr 2fr;
   grid-template-rows: auto;
   grid-template-areas: 
     "name name name"
@@ -84,22 +83,28 @@ export const FullCard = styled.section`
   background-color: rgba(20, 20, 20, .7);
   z-index: 4;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: stretch;
   padding: 10vh;
+
+  @media (min-width: 970px) {
+    flex-direction: row;
+  }
 `
 
 export const FullExit = styled.button`
   align-self: start;
   font-size: 2rem;
   margin-right: 2em;
+  margin-bottom: 2em;
   padding: 6px;
   border-radius: 5px;
   border: none;  
 `
 
 export const FullImg = styled.img`
-  width: auto;
+  width: 90vw;
   height: auto;
   max-height: 90vh;
   max-width: 90vw;
@@ -255,6 +260,7 @@ export const QuantityFrame = styled.div`
 export const AddCart = styled(Button)`
   background-color: ${({theme}) => theme.color1};
   align-self: center;
+  margin-left: .7em;
   &:hover {
     cursor: pointer;
   }

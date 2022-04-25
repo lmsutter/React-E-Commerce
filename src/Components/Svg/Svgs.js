@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 const Svg = styled.svg.attrs({
   version: '1.1', 
   xmlns: 'http://www.w3.org/2000/svg', 
@@ -57,3 +58,5 @@ export const Star = ({rating}) => {
       <rect x="0" y="0" fill="black" width={`${percentage}%`} height="100%" clipPath="url(#star)" /> 
     </SvgStar>
   )}
+
+

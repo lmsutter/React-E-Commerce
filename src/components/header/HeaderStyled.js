@@ -6,6 +6,8 @@ import { ChevronDown } from 'akar-icons'
 const height = '100px'
 
 export const Header = styled.section`
+  position: relative;
+  z-index: 5;
 
 `
 
@@ -52,14 +54,15 @@ export const Frame = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow-x: hidden;
 
-  position: absolute;
+  position: fixed;
   top: 0; 
   right: 0;
   height: 100vh;
   box-sizing: border-box;
-  z-index: 1;
+  transform: ${({open})=> open ? 'translateX(0)' : 'translateX(100%)'};
+  transition: transform .3s ease-in;
+
 
  @media (min-width: 970px) {
    flex-direction: row;
@@ -75,12 +78,11 @@ export const Frame = styled.div`
 
 export const Nav = styled.nav`
   height: 100%;
-  z-index: 1;
+  z-index: 5;
   width: 100%;
   background: white;
+  position: relative;
   
-  transform: ${({open})=> open ? 'translateX(0)' : 'translateX(100%)'};
-  transition: transform .2s ease-in;
  
 
   ul:first-child {
@@ -103,6 +105,7 @@ export const Nav = styled.nav`
 
   @media (min-width: 970px) {
     transform: translateX(0);
+    position: 
     li {
       display: block; 
       margin-right: 1.5em;

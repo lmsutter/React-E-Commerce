@@ -5,7 +5,7 @@ export default function useClickOutside(ref, handler) {
   useEffect(() => {
     const listener = event => {
       const el = ref?.current
-      const toggle = event.target.classList.contains('toggle')
+      const toggle = event.target.classList.value.includes('toggle')
       if(!el || el.contains(event.target) || toggle) {
         return
       }

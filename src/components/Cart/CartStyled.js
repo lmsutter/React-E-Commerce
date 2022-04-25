@@ -2,12 +2,23 @@ import styled from "styled-components";
 import { Card } from "../reUsable/Card";
 
 export const Frame = styled.section`
-
+  @media (min-width: 600px) {
+    display: flex; 
+    flex-direction: row;
+    max-width: 800px;
+    margin: 1em auto;
+  }
 ` 
 
 export const CartCard = styled(Card)`
   background-color: rgba(0, 0, 0, 0);
   box-shadow: none;
+
+  @media (min-width: 600px) {
+    background-color: rgba(255, 255, 255, 1);
+    margin-right: 1.5em;
+    box-shadow: 0 0 20px 5px rgba(50, 50, 50, .35);
+  }
 `
 
 export const CartItem = styled.div`
@@ -15,7 +26,7 @@ export const CartItem = styled.div`
   margin-bottom: 1em;
   padding: .5em;
   border-radius: 1.5em;
-  width: 90vw;
+  width: 100%;
   position: relative;
 
   display: grid;
@@ -26,7 +37,7 @@ export const CartItem = styled.div`
     'image costs count'
     'image costs count';
 
-  .exit {
+  .delete {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -101,11 +112,13 @@ export const CartItem = styled.div`
 
 export const CartTotal = styled(Card)`
   position: fixed;
+  z-index: 1;
   top: ${({top}) => top + 'px'};
   touch-action: none;
-  * {
-    touch-action: none;
-  }
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(80vw, 300px);
+ 
 
   .subCard {
     background-color: #E5E5E5;
@@ -138,6 +151,17 @@ export const CartTotal = styled(Card)`
     touch-action: none;
   }
 
+  @media (min-width: 600px) {
+    position: static;
+    z-index: 0;
+    transform: unset;
+    align-self: start;
+    width: 300px;
+
+    .swipe {
+      display: none;
+    }
+  }
 `
 
 

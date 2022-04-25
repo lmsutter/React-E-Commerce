@@ -17,9 +17,9 @@ TextBlock.Container = function ({children}){
   )
 }
 
-TextBlock.Title = function ({children}) {
+TextBlock.Title = function ({children, mobile}) {
   return (
-    <Styled.Title>
+    <Styled.Title mobile={mobile}>
       {children}
     </Styled.Title>
   )
