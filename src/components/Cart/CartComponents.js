@@ -55,18 +55,28 @@ CartComponents.CartItem = function ({ children, qty, itemData, setCartData, cart
 
 CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
   const [top, setTop] = useState(window.innerHeight - 20)
-  console.log(cartData)
 
   const elementRef = useRef(null)
-  const initial = useRef({ isMouseDown: false, clickPos: null, elementTop: null })
+  const initial = useRef({ isMouseDown: false, clickPos: null, elementTop: null, time: NaN })
   
   const mouseCurrentPos = useRef(null)
+  const timeBetweenDownUp = useRef(NaN)
   const animationID = useRef(null)
   
   const velocity = useRef(NaN)
   const mouseDiffs = useRef([])
 
+  const upperTarget = window.innerHeight * 1/4
+  const lowerTarget = window.innerHeight - 20 
+
+  let aboveTransitionLine = elementRef.current && elementRef.current.getBoundingClientRect().y < window.innerHeight * 2/3
+  let atUpperTarget =  elementRef.current && elementRef.current.getBoundingClientRect().y <= upperTarget
+  let atLowerTarget =  elementRef.current &&  elementRef.current.getBoundingClientRect().y >= lowerTarget
+
+  const velocityMin = 5
+
   const handleTouchDown = (e) => {
+    initial.current.time = e.timeStamp
     initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
     initial.current.clickPos = e.changedTouches.item(0).pageY
     initial.current.isMouseDown = true
@@ -80,6 +90,7 @@ CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
 
   const handleMouseDown = (e) => {
     e.preventDefault()
+    initial.current.time = e.timeStamp
     initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
     initial.current.clickPos = e.pageY
     initial.current.isMouseDown = true
@@ -90,15 +101,6 @@ CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
     mouseCurrentPos.current = e.pageY
   }
 
-  const upperTarget = window.innerHeight * 1/4
-  const lowerTarget = window.innerHeight - 20 
-
-  let aboveTransitionLine = elementRef.current && elementRef.current.getBoundingClientRect().y < window.innerHeight * 2/3
-  let atUpperTarget =  elementRef.current && elementRef.current.getBoundingClientRect().y <= upperTarget
-  let atLowerTarget =  elementRef.current &&  elementRef.current.getBoundingClientRect().y >= lowerTarget
-
-  const velocityMin = 5
-  
   const handleMouseUp = (e) => {
     initial.current.isMouseDown = false
     initial.current.clickPos = null
@@ -106,10 +108,9 @@ CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
     mouseCurrentPos.current = NaN
     
     let calculatedVelocity = mouseDiffs.current.reduce((accumulator, current) => {
-      
       return accumulator + current
-      
     }, 0)/mouseDiffs.current.length
+
     mouseDiffs.current = []
     
     if (atUpperTarget || atLowerTarget) {
@@ -286,11 +287,11 @@ CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
 
       <div className='subCard'>
         <p>Accepted Payments</p>
-        <div>
-        <Icon icon="akar-icons:credit-card" />
-        <Icon icon="akar-icons:credit-card" />
-        <Icon icon="akar-icons:credit-card" />
-        <Icon icon="akar-icons:credit-card" />
+        <div className="creditCards">
+          <Icon icon="akar-icons:credit-card" />
+          <Icon icon="akar-icons:credit-card" />
+          <Icon icon="akar-icons:credit-card" />
+          <Icon icon="akar-icons:credit-card" />
         </div>
       </div>
       {children}

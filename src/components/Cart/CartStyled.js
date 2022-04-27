@@ -13,8 +13,9 @@ export const Frame = styled.section`
 export const CartCard = styled(Card)`
   background-color: rgba(0, 0, 0, 0);
   box-shadow: none;
-
+  
   @media (min-width: 600px) {
+    align-self: flex-start;
     background-color: rgba(255, 255, 255, 1);
     margin-right: 1.5em;
     box-shadow: 0 0 20px 5px rgba(50, 50, 50, .35);
@@ -117,7 +118,7 @@ export const CartTotal = styled(Card)`
   touch-action: none;
   left: 50%;
   transform: translateX(-50%);
-  width: min(80vw, 300px);
+  width: min(80vw, 350px);
  
 
   .subCard {
@@ -142,6 +143,13 @@ export const CartTotal = styled(Card)`
     }
   }
 
+  .creditCards {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin-top: .5em;
+  }
+
   .swipe {
     position: absolute;
     top: -.8em;
@@ -155,12 +163,19 @@ export const CartTotal = styled(Card)`
     position: static;
     z-index: 0;
     transform: unset;
-    align-self: start;
-    width: 300px;
+    align-self: flex-start;
+    width: 400px;
 
     .swipe {
       display: none;
     }
+
+    .totalInfo p:nth-child(2) {
+      width: 70px;
+      display: inline-block;
+      text-align: right;
+    }
+
   }
 `
 
