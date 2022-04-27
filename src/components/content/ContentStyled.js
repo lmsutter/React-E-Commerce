@@ -21,6 +21,7 @@ export const SortFilter = styled.div`
   position: fixed;
   top: 7em; 
   left: 0;
+  z-index: 10;
   width: 335px;
 
   transform: 
@@ -114,6 +115,7 @@ export const SortFilter = styled.div`
     flex-direction: row;
     align-items: center;
     background-color: #fff;
+    z-index: 0;
 
     h3 {
       background-color: #fff;
@@ -163,6 +165,7 @@ export const Frame = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex-grow: 1;
 
   @media (min-width: 600px) {
     flex-direction: row;
@@ -171,6 +174,13 @@ export const Frame = styled.div`
     overflow-y: auto;
     margin: 0 auto;
     justify-content: center;
+  }
+`
+
+export const Loading = styled.div`
+  svg {
+    height: 150px;
+    width: auto;
   }
 `
 

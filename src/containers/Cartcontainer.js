@@ -1,6 +1,6 @@
 import CartComponents from "../components/Cart/CartComponents"
 
-export default function CartContainer ({ cartData, data, children }) {
+export default function CartContainer ({ cartData, data, setCartData }) {
   return (
     <CartComponents>
       <CartComponents.CartCard>
@@ -9,10 +9,12 @@ export default function CartContainer ({ cartData, data, children }) {
             key={`CartItem + ${e.id}`}
             qty={e.quantity}
             itemData={data.find(data => data.id === e.id)}
+            setCartData={setCartData}
+            cartData={cartData}
          />
         ))}
       </CartComponents.CartCard>
-      <CartComponents.CartTotal />
+      <CartComponents.CartTotal cartData={cartData} data={data} />
     </CartComponents>
   )
 }

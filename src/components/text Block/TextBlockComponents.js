@@ -17,9 +17,9 @@ TextBlock.Container = function ({children}){
   )
 }
 
-TextBlock.Title = function ({children}) {
+TextBlock.Title = function ({children, mobile}) {
   return (
-    <Styled.Title>
+    <Styled.Title mobile={mobile}>
       {children}
     </Styled.Title>
   )
@@ -33,9 +33,9 @@ TextBlock.Group = function ({ children }) {
   )
 }
 
-TextBlock.Section = function ({children, mflex}) {
+TextBlock.Section = function ({children, mflex, overflow}) {
   return (
-    <Styled.Section mflex={mflex}>
+    <Styled.Section overflow={overflow} mflex={mflex}>
       {children}
     </Styled.Section>
   )

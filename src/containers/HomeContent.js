@@ -48,11 +48,10 @@ export default function HomeContentContainer ({ data, cartUpdater }) {
 
 
   return (
-    //here map over the highlights arrary replacing it with the info from data (this probably wouldn't scale?)
     <>
-       {data && <ProgressBar onClick={() => setPaused(c => !c)} remaining={countdown} paused={paused} />} 
+       {data.length > 0 && <ProgressBar onClick={() => setPaused(c => !c)} remaining={countdown} paused={paused} />} 
       <Content.Frame>
-        { data.length > 0 && highlights.map(e => {
+        { data.length === 0 ? (<Content.Loading />) : highlights.map(e => {
           let item = data[e]
             return (
               <Content.ContentCard key={item.id + 'h'}>

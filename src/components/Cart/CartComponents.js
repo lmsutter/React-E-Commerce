@@ -1,5 +1,7 @@
 import * as Styled from './CartStyled'
 import { Icon } from '@iconify/react'
+import { PassiveListener } from 'react-event-injector'
+import throttle from '../../helpers/throttle'
 
 import { useState, useRef, useEffect } from 'react'
 
@@ -19,161 +21,277 @@ CartComponents.CartCard = function ({ children }) {
   )
 }
 
-CartComponents.CartItem = function ({ children, qty, itemData }) {
+CartComponents.CartItem = function ({ children, qty, itemData, setCartData, cartData }) {
+
+  function updateCartData(id, newQty) {
+    const itemCartArrayIndex = cartData.findIndex(element => element.id === id)
+    const cartCopy = [...cartData]
+    if (newQty !== 0) {
+      console.log(cartCopy[itemCartArrayIndex])
+      cartCopy[itemCartArrayIndex].quantity = newQty
+    } else {
+      cartCopy.splice(itemCartArrayIndex, 1)
+    }
+    setCartData(cartCopy)
+  }
+
   return (
     <Styled.CartItem>
       <img src={itemData.image} alt={itemData.title} />
       <h2>{itemData.title}</h2>
-      <button className="exit">X</button>
+      <button className="delete" onClick={() => updateCartData(itemData.id, 0)}>X</button>
       <div className="costs">
-        <p>Cost: {itemData.price}</p>
-        <p>Total: {itemData.price * qty}</p>
-      </div>
+        <p>Cost: $ {itemData.price}</p>
+        <p>Total: $ {itemData.price * qty}</p>
+      </div> 
       <div className="count">
-        <button><Icon icon="akar-icons:circle-plus-fill" /></button>
+        <button onClick={() => updateCartData(itemData.id, qty + 1)}><Icon icon="akar-icons:circle-plus-fill" /></button>
         <p className="quantity">{qty}</p>
-        <button><Icon icon="akar-icons:circle-minus-fill" /></button>
+        <button onClick={() => updateCartData(itemData.id, qty - 1)}><Icon icon="akar-icons:circle-minus-fill" /></button>
       </div>
     </Styled.CartItem>
   )
 }
 
-CartComponents.CartTotal = function CartTotal ({ children }) {
-  const [top, setTop] = useState(300)
-  
+CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
+  const [top, setTop] = useState(window.innerHeight - 20)
+
   const elementRef = useRef(null)
-  const initial = useRef({ isMouseDown: false, clickPos: null, elementTop: null })
+  const initial = useRef({ isMouseDown: false, clickPos: null, elementTop: null, time: NaN })
   
   const mouseCurrentPos = useRef(null)
+  const timeBetweenDownUp = useRef(NaN)
   const animationID = useRef(null)
   
   const velocity = useRef(NaN)
   const mouseDiffs = useRef([])
 
+  const upperTarget = window.innerHeight * 1/4
+  const lowerTarget = window.innerHeight - 20 
+
+  let aboveTransitionLine = elementRef.current && elementRef.current.getBoundingClientRect().y < window.innerHeight * 2/3
+  let atUpperTarget =  elementRef.current && elementRef.current.getBoundingClientRect().y <= upperTarget
+  let atLowerTarget =  elementRef.current &&  elementRef.current.getBoundingClientRect().y >= lowerTarget
+
+  const velocityMin = 5
+
+  const handleTouchDown = (e) => {
+    initial.current.time = e.timeStamp
+    initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
+    initial.current.clickPos = e.changedTouches.item(0).pageY
+    initial.current.isMouseDown = true
+  }
+  
+  const handleTouchMove = (e) => {
+    if(initial.current.isMouseDown) {
+      mouseCurrentPos.current = e.changedTouches.item(0).pageY
+    }
+  }
+
+  const handleMouseDown = (e) => {
+    e.preventDefault()
+    initial.current.time = e.timeStamp
+    initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
+    initial.current.clickPos = e.pageY
+    initial.current.isMouseDown = true
+    mouseCurrentPos.current = e.pageY
+  }
+
+  const handleMouseMove = (e) => {
+    mouseCurrentPos.current = e.pageY
+  }
 
   const handleMouseUp = (e) => {
     initial.current.isMouseDown = false
     initial.current.clickPos = null
     initial.current.elementTop = null
-    mouseCurrentPos.current = null
+    mouseCurrentPos.current = NaN
+    
+    let calculatedVelocity = mouseDiffs.current.reduce((accumulator, current) => {
+      return accumulator + current
+    }, 0)/mouseDiffs.current.length
 
-    const temp = mouseDiffs.current.reduce((prev, curr) => {return prev + curr}, 0)
-
-    velocity.current = (temp/mouseDiffs.current.length)
-  }
-
-  const handleMouseMove = (e) => {
-    if(initial.current.isMouseDown) {
-      e.preventDefault()
-      mouseCurrentPos.current = e.pageY
+    mouseDiffs.current = []
+    
+    if (atUpperTarget || atLowerTarget) {
+      velocity.current = 0
+    } else if (Math.abs(calculatedVelocity) > velocityMin) {
+      velocity.current = calculatedVelocity
+    } else if (aboveTransitionLine) {
+      velocity.current = -velocityMin
+    } else {
+      velocity.current = velocityMin
     }
   }
 
-  useEffect(() => {
+  const isMobileRef = useRef(null) 
+
+  const addSwipeFunctionality = () => {
     slideFunction()
     document.addEventListener('mouseup', handleMouseUp)
     document.addEventListener('mousemove', handleMouseMove)
+    isMobileRef.current = false
+  }
+
+  const removeSwipeFunctionality = () => {
+    cancelAnimationFrame(animationID.current)
+    document.removeEventListener('mouseup', handleMouseUp)
+    document.removeEventListener('mousemove', handleMouseMove)
+    isMobileRef.current = true
+  }
+
+  function resizeHandler() {
+    if (window.innerWidth <= 600 && !isMobileRef.current) {
+      addSwipeFunctionality()
+    } else if ( window.innerWidth > 600 && isMobileRef.current) { 
+      removeSwipeFunctionality()
+    }
+  }
+
+  const throttledResize = throttle(resizeHandler, 1000)
+
+  useEffect(() => {
+    if(window.innerWidth <= 600) {
+      addSwipeFunctionality()
+    }
+    window.addEventListener('resize', throttledResize)
+
     return () => {
-      cancelAnimationFrame(animationID.current)
-      document.removeEventListener('mouseup', handleMouseUp)
+      removeSwipeFunctionality()
+      window.removeEventListener('resize', throttledResize)
     }
   }, [])
 
+  function slideFunction (oldMouse)  {
+    //This below section sets mouseDiffs, which is where velocity comes from, mousediffs is an array of recent differences in mouse position
+    //first if checks if more than a minimum time has passed before setting mouse diffs
+    if (initial.current.isMouseDown) {
+      if(mouseCurrentPos.current && oldMouse) {
 
-  function slideFunction (oldTime, previousMouse)  {
-    //velocity: set in handleMouse up by reducing the array
-    //v: then, every time slide function is called set velocity by constant # & set top by reducing velocity
-
-    let currentTime = new Date().getTime()
-    let mouseData = previousMouse ? previousMouse : mouseCurrentPos.current
-    
-    if (!oldTime || currentTime - oldTime > 100) {
-      mouseData = mouseCurrentPos.current
-
-      let temp = [...mouseDiffs.current]
-
-      if(previousMouse !== null && mouseData !== null) {
-        temp.push((previousMouse - mouseData))
-      } else {temp.push(0)}
-      if (temp.length > 5) temp.shift()
-
-      mouseDiffs.current = temp
+        mouseDiffs.current.push(mouseCurrentPos.current - oldMouse)
+      }
+      if (mouseDiffs.current.length > 8) {
+        mouseDiffs.current.shift()
+      }
       
-      
-    } else { currentTime = oldTime }
+      oldMouse = mouseCurrentPos.current
+    } 
 
+    aboveTransitionLine = elementRef.current && elementRef.current.getBoundingClientRect().y < window.innerHeight * 2/3
 
     setTop(previous => {
-      if(initial.current.isMouseDown && mouseCurrentPos.current) {
-        return initial.current.elementTop - (initial.current.clickPos - mouseCurrentPos.current) 
-      } else if (!initial.current.isMouseDown && (velocity.current > .5 || velocity.current < .5)) {
-        return previous - velocity.current
+      if (initial.current.isMouseDown) {
+        //two possible categories of states, mouse is down: 
+        if(mouseCurrentPos.current && mouseCurrentPos.current <= upperTarget) {
+          //I think this is triggering when the mouse is near the bottom even
+          //if mouse is above the upper target for the element keep element at target
+          return upperTarget
+        } else if (mouseCurrentPos.current && mouseCurrentPos.current >= lowerTarget) {
+          //if mouse is below the lower target for the element keep element at target
+          return lowerTarget
+        } else if(mouseCurrentPos.current) {
+          //if you have a mouse position the top should be the difference between the initial top of the element
+          //and the difference between the initial mouse click and the current mouse position
+          return initial.current.elementTop - (initial.current.clickPos - mouseCurrentPos.current) 
+        } else {
+          //fail safe in case
+          return previous
+        }
       } else {
-        return previous
+        //if mouse isn't down
+        if (elementRef.current.getBoundingClientRect().y <= upperTarget) {
+          //first check if the element is at or above the upperTarget and keep it at the upperTarget
+          return upperTarget
+        } else if (elementRef.current.getBoundingClientRect().y >= lowerTarget) {
+          //then check if element is at or below lowerTarget
+          return lowerTarget
+        } else if (velocity.current) {
+          //if the mouse isn't down & the element isn't at a target, it should keep moving towards the target
+          return previous + velocity.current
+        } else {
+          return previous
+        }
       }
     })
 
-    /*
-      Set this to be based on location
-      - if above centerline
-    */
-    if (Math.abs(velocity.current) < .5) {
-      velocity.current = 0
-    } else if (velocity.current >= .5) {
-      velocity.current = velocity.current -.2
-    } else if (velocity.current <= -.5) {
-      velocity.current = velocity.current + .2
+    //after you set the top by a velocity, reduce absolute value of velocity
+    if (Math.abs(velocity.current) <= velocityMin) {
+      if(aboveTransitionLine) {
+        velocity.current = -velocityMin
+      } else {
+        velocity.current = velocityMin
+      }
+    } else if (velocity.current >= velocityMin) {
+      velocity.current = velocity.current - .3
+    } else if (velocity.current <= -velocityMin) {
+      velocity.current = velocity.current + .3
     }
 
 
-    animationID.current = requestAnimationFrame(() => slideFunction( currentTime, mouseData))
+    animationID.current = requestAnimationFrame(() => slideFunction(oldMouse))
     
   }
 
-
-
-  const handleMouseDown = (e) => {
-    e.preventDefault()
-    initial.current.elementTop = elementRef.current.getBoundingClientRect().y 
-    initial.current.clickPos = e.pageY
-    initial.current.isMouseDown = true
+  function getTotal () {
+    return cartData.reduce((accumulator, current) => {
+      const matchedItem = data.find(item => item.id === current.id)
+      if(!matchedItem) return 0
+      return Math.round(accumulator + (matchedItem.price * current.quantity))
+    }, 0)
   }
 
+  function getTax () {
+    return Math.round(getTotal() * .2)
+  }
 
+  function getShipping () {
+    const amount = cartData.reduce((accumulator, current) => {
+      return current.quantity + accumulator
+    }, 0)
+    if(amount > 5) {
+      return 10
+    } else return 5
+  }
 
   return (
     <Styled.CartTotal top={top} ref={elementRef}>
-      <Icon 
-        icon="akar-icons:circle-chevron-up" 
-        className="swipe" 
-        onMouseDown={handleMouseDown}
-      />
+      <PassiveListener
+        onTouchStart={handleTouchDown}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleMouseUp}
+      >
+        <Icon 
+          icon="akar-icons:circle-chevron-up" 
+          className="swipe" 
+          onMouseDown={handleMouseDown}
+        />
+      </PassiveListener>
       <div className='subCard'>
         <div className='totalInfo'>
           <p>Subtotal</p>
-          <p>$$$</p>
+          <p>$ {getTotal()}</p>
         </div>
         <div className='totalInfo'>
           <p>Estimated Tax</p>
-          <p>$$$</p>
+          <p>$ {getTax()}</p>
         </div>
         <div className='totalInfo'>
           <p>Estimated Shipping</p>
-          <p>$$$</p>
+          <p>$ {getShipping()}</p>
         </div>
         <div className='totalInfo'>
           <p>Estimated Total</p>
-          <p>$$$</p>
+          <p>$ {getTotal() + getTax() + getShipping()}</p>
         </div>
       </div>
 
       <div className='subCard'>
         <p>Accepted Payments</p>
-        <div>
-        <Icon icon="akar-icons:credit-card" />
-        <Icon icon="akar-icons:credit-card" />
-        <Icon icon="akar-icons:credit-card" />
-        <Icon icon="akar-icons:credit-card" />
+        <div className="creditCards">
+          <Icon icon="akar-icons:credit-card" />
+          <Icon icon="akar-icons:credit-card" />
+          <Icon icon="akar-icons:credit-card" />
+          <Icon icon="akar-icons:credit-card" />
         </div>
       </div>
       {children}

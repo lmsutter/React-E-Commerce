@@ -4,7 +4,8 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Montserrat', sans-serif;
     background-color: white;
-    max-width: 100vw;
+    max-width: 100%;
+    height: 100%;
     overflow-X: hidden;
     margin: 0;
     padding: 0;
@@ -12,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
     overflow-y: auto;
   }
 
-  * {
+  html, body, * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;

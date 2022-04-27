@@ -18,16 +18,25 @@ export const Container = styled.div`
   max-width: 80vw;
   display: flex;
   flex-direction: row;
+  overflow-x: auto;
 `
 
 export const Title = styled.h2`
   margin-bottom: .5em;
+  display: ${({mobile}) => mobile ? 'inlin-block' : 'none'};
+  text-align: center;
+
+  @media (min-width: ${mediaBP}) {
+    display: ${({mobile}) => mobile ? 'none' : 'initial'}
+  }
 `
 
 export const Section = styled.div`
   display: flex;
   flex-direction: ${({ mflex }) => mflex ? mflex : 'row'};
   margin: 0 1em 1em 1em;
+  ${({overflow}) => overflow ? 'overflow-x: scroll;' : ''}
+
  &:last-of-type {
   margin-bottom: 0;
  }
@@ -55,6 +64,7 @@ export const Subtitle = styled.h3`
 
 export const Text = styled.p`
    margin-left: 1em;
+   width: 80vw;
   &:first-child {
     margin-left: 0;
   } 
@@ -62,6 +72,7 @@ export const Text = styled.p`
   @media (min-width: ${mediaBP}) {
     margin-left: 0;
     margin-bottom: .7em;
+    width: auto;
   }
 `
 

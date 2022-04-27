@@ -3,19 +3,18 @@ import { NavLink } from "react-router-dom"
 import useClickOutside from '../../hooks/useClickOutside'
 import { useEffect, useState, useRef } from "react";
 
-export default function Header ({ children}) {
-
-  return <> {children} </>
-}
-
-Header.Frame = function Frame ({ open, setOpen, children})  {
+export default function Header ({ children, open, setOpen}) {
   const ref = useRef(null)  
   useClickOutside(ref, () => {
     open && setOpen(false)
   })
+  return <Styled.Header ref={ref}> {children} </Styled.Header>
+}
+
+Header.Frame = function Frame ({ open, children})  {
   
   return (
-    <Styled.Frame ref={ref} open={open}>{children}</Styled.Frame>
+    <Styled.Frame  open={open}>{children}</Styled.Frame>
   )
 }
 
@@ -36,9 +35,9 @@ Header.Title = ({children, mobile}) => {
   )
 }
 
-Header.Nav = ({children}) => {
+Header.Nav = ({children, open}) => {
   return (
-    <Styled.Nav>
+    <Styled.Nav open={open}>
       <ul>
         {children}
       </ul>
