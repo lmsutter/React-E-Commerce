@@ -35,8 +35,9 @@ CartComponents.CartItem = function ({ children, qty, itemData, setCartData, cart
   }
 
   function textLimiter(text) {
-    if (text.length > 100) {
-      
+
+    if (text.length > 50) {
+      return text.split('').slice(0, 50).join('') + '...'
     }
     return text
   }
@@ -44,7 +45,7 @@ CartComponents.CartItem = function ({ children, qty, itemData, setCartData, cart
   return (
     <Styled.CartItem>
       <img src={itemData.image} alt={itemData.title} />
-      <h2>{itemData.title}</h2>
+      <h2>{textLimiter(itemData.title)}</h2>
       <button className="delete" onClick={() => updateCartData(itemData.id, 0)}>X</button>
       <div className="costs">
         <p>Cost: $ {itemData.price}</p>
@@ -212,7 +213,9 @@ CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
 
   useEffect(() => {
     //anytime top (of the element) or tap changes, change velocity
-    if(tap.direction !== null) {
+
+    if(tap.time < 500 && tap.time !== null) {
+
       if(tap.direction === 'up' && elementRef.current.getBoundingClientRect().y >= upperTarget) {
         //if the element has been tapped and is going up but is not above the upperTarget, velocity is negative
         velocity.current = -(velocityMin*2)
@@ -287,8 +290,8 @@ CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
         </div>
       </div>
 
-      <div className='subCard'>
-        <p>Accepted Payments</p>
+      <div className='subCard payMethods'>
+        <p className='subCard-title'>Accepted Payments</p>
         <div className="creditCards">
           <Icon icon="akar-icons:credit-card" />
           <Icon icon="akar-icons:credit-card" />

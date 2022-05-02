@@ -61,8 +61,8 @@ Header.Link = ({to, children, onClick }) => {
   )
 }
 
-Header.Cart = ({ to, children }) => (
-  <li>
+Header.Cart = ({ to, children, onClick }) => (
+  <li onClick={onClick}>
     <NavLink to={to}>
       <Styled.CartButton>{children}</Styled.CartButton>
     </NavLink>
