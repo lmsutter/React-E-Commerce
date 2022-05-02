@@ -143,12 +143,26 @@ export const CartTotal = styled(Card)`
     }
   }
 
+  .subCard.payMethods {
+    padding: 1em;
+  }
+
+  .subCard-title {
+    text-align: center;
+  }
+
   .creditCards {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     margin-top: .5em;
+
+    svg {
+      font-size: 2em;
+    }
   }
+
+  
 
   .swipe {
     position: absolute;
