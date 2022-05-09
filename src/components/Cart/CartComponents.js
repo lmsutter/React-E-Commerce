@@ -35,6 +35,7 @@ CartComponents.CartItem = function ({ children, qty, itemData, setCartData, cart
   }
 
   function textLimiter(text) {
+
     if (text.length > 50) {
       return text.split('').slice(0, 50).join('') + '...'
     }
@@ -212,7 +213,9 @@ CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
 
   useEffect(() => {
     //anytime top (of the element) or tap changes, change velocity
+
     if(tap.time < 500 && tap.time !== null) {
+
       if(tap.direction === 'up' && elementRef.current.getBoundingClientRect().y >= upperTarget) {
         //if the element has been tapped and is going up but is not above the upperTarget, velocity is negative
         velocity.current = -(velocityMin*2)
