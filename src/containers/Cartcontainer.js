@@ -1,4 +1,4 @@
-import CartComponents from "../components/Cart/CartComponents"
+import CartComponents from "../components/cart/CartComponents"
 
 export default function CartContainer ({ cartData, data, setCartData }) {
   return (
