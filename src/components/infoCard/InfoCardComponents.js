@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom'
 import { useState, useRef, useEffect } from 'react'
 import * as Styled from './InfoCardStyled'
 
-export default function InfoCardComponent ({children}) {
+export default function InfoCardComponent ({children, className}) {
   return (
-  <Styled.InfoCard>
+  <Styled.InfoCard >
     {children}
   </Styled.InfoCard>
   )
