@@ -20,7 +20,7 @@ export default function CartConfirmationContainer ({ data, cartData }) {
   }
 
   return (
-    <InfoCardComponent.CartConfirmationCard>
+    <InfoCardComponent.CartConfirmationCard >
       <InfoCardComponent.Title>
       <CircleCheckFill className="checkMark" strokeWidth={3} size={24} />
           Item Successfully Added to Cart!
