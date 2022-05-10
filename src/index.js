@@ -6,10 +6,9 @@ import ThemeContextProvider from './context/ThemeProvider'
 
 //deploy to github by just npm run deploy. It will automatically deploy to the right repo and be available at the page site
 async function request () {
-  const response = await fetch ('http://localhost:8888/netlify/functions/getItems')
+  const response = await fetch ('/.netlify/functions/getItems')
   const data = await response.json()
   console.log(data)
-  // return string
 }
 
 request()
