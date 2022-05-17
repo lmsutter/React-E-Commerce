@@ -5,14 +5,6 @@ import GlobalStyle from './GlobalStyles'
 import ThemeContextProvider from './context/ThemeProvider'
 
 //deploy to github by just npm run deploy. It will automatically deploy to the right repo and be available at the page site
-async function request () {
-  const response = await fetch ('/.netlify/functions/getItems')
-  const data = await response.json()
-  console.log(data)
-}
-
-request()
-
 ReactDOM.render(
  
     <>

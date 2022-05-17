@@ -23,6 +23,8 @@ function App() {
     {sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'}
   )
 
+  console.log(data)
+
   const [cartData, setCartData] = useLocalStorage('cart', [])
   const cartUpdater = useCartUpdater(cartData, setCartData)
 
