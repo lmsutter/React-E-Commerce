@@ -17,27 +17,31 @@ function debounce(fn, ms) {
   }
 }
 
-export default function InfoCard ({data, cartUpdater}) {
-  const {category, item} = useParams()
+export default function InfoCard ({ cartUpdater}) {
   const [quantity, setQuantity] = useState(1)
+  const [categoryItems, setCategoryItems] = useState(null)
+  const [item, setItem] = useState(null)
   const [dimensions, setDimensions] = useState({height: window.innerHeight, width: window.innerWidth})
-  const [limitedCategory, setLimitedCategory] = useState([])
   const [full, setFull] = useState(false)
-
-
+  console.log(item, categoryItems)
+  
+  
+  const {category, id} = useParams()
   const history = useHistory()
 
-  const currentItemIndex = parseInt(item) - 1
-
   useEffect(() => {
-    setLimitedCategory(data.filter(e => {
+    async function getData() {
+      const categoryResponse = await fetch(`/.netlify/functions/getItemsByCategory?category=${category}`)
+      const categoryData = await categoryResponse.json()
+      setCategoryItems(categoryData)
 
-      return (e.category === category) && ((e.id - 1) !== parseInt(item - 1 ))
-    }).sort(() => .5 - Math.random()).slice(0, 3))
-    setQuantity(1)
-  }, [item, data, category])
-   
-
+      const itemResponse = await fetch(`.netlify/functions/getItemsById?id=${id}`)
+      const itemData = await itemResponse.json()
+      setItem(itemData.items[0])
+    }
+  
+    getData()
+  }, [])
 
   function limiter(title, count) {
     return title.slice(0, count) + "..." 
@@ -77,7 +81,7 @@ export default function InfoCard ({data, cartUpdater}) {
   return (
     <>
 
-      {!data[item] ? null : (
+      {item === null ? null : (
         <InfoCardComponent>
 
             <CSSTransition
@@ -86,26 +90,26 @@ export default function InfoCard ({data, cartUpdater}) {
               timeout={200}
               unmountOnExit
             >
-              <InfoCardComponent.FullContainer onClick={() => setFull(false)} src={data[currentItemIndex].image}  />
+              <InfoCardComponent.FullContainer onClick={() => setFull(false)} src={item.image}  />
             </CSSTransition>
           
-          <InfoCardComponent.Image className="main" onClick={() => setFull(true)} src={data[currentItemIndex].image} />
+          <InfoCardComponent.Image className="main" onClick={() => setFull(true)} src={item.image} />
           <InfoCardComponent.Title>
-            {data[currentItemIndex].title}
+            {item.title}
           </InfoCardComponent.Title>
-          <InfoCardComponent.Price>${data[currentItemIndex].price}</InfoCardComponent.Price>
+          <InfoCardComponent.Price>${item.price}</InfoCardComponent.Price>
           
-          <InfoCardComponent.FullRating >{data[currentItemIndex].rating.rate} {dimensions.width < 970 ? <Star rating={data[currentItemIndex].rating.rate} /> : StarSet(data[currentItemIndex].rating.rate)} </InfoCardComponent.FullRating>
-          <InfoCardComponent.Description> {data[currentItemIndex].description} </InfoCardComponent.Description>
+          <InfoCardComponent.FullRating >{item.ratingRate} {dimensions.width < 970 ? <Star rating={item.ratingRate} /> : StarSet(item.ratingRate)} </InfoCardComponent.FullRating>
+          <InfoCardComponent.Description> {item.description} </InfoCardComponent.Description>
           <div className="buttons">
             <InfoCardComponent.QuantityTitle>Quantity:</InfoCardComponent.QuantityTitle>
             <InfoCardComponent.Quantity setQuantity={setQuantity} > {quantity}</InfoCardComponent.Quantity>
-            <InfoCardComponent.AddCart onClick={() => cartUpdater(data[currentItemIndex].id, quantity, history)}/>
+            <InfoCardComponent.AddCart onClick={() => cartUpdater(item.id, quantity, history)}/>
           </div>
           <InfoCardComponent.SimilarText>Similar Items:</InfoCardComponent.SimilarText>
           <InfoCardComponent.SuggestionsBox >
 
-            {limitedCategory.map(e => (
+            {categoryItems.map(e => (
               <div key={e.id + "cartConfirmationSuggestion"} className={"suggestionItem"} id={"SB" + e.id}>
                 <InfoCardComponent.SuggestionsImage src={e.image} />
                 <InfoCardComponent.SuggestionsLink category={category} item={e.id} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>

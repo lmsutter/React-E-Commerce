@@ -12,10 +12,10 @@ import Home from './pages/Home'
 import Footer from './containers/Footer'
 import InfoPage from './pages/InfoPage'
 import CartConfirmation from './pages/CartConfirmation';
-import useCartUpdater from './hooks/useCartUpdater';
 import Cart from './pages/Cart';
 import Wrapper from './components/PageWrapper'
 
+import useCartUpdater from './hooks/useCartUpdater';
 
 function App() {
   const [data, updateData] = useState([])
@@ -51,12 +51,11 @@ function App() {
 
           <Switch>
             <Route path='/' exact >
-              <Home data={data} cartUpdater={cartUpdater} />
+              <Home cartUpdater={cartUpdater} />
             </Route>
 
             <Route path='/category/:category' exact>
               <Category 
-                data={data} 
                 breakpoints={breakpoints} 
                 sortFilterOption={sortFilterOption} 
                 setSortFilterOption={setSortFilterOption}
@@ -64,16 +63,16 @@ function App() {
               />
             </Route>
 
-            <Route path='/category/:category/:item'>
-              <InfoPage data={data} cartUpdater={cartUpdater} />
+            <Route path='/category/:category/:id'>
+              <InfoPage cartUpdater={cartUpdater} />
             </Route>
 
             <Route exact path='/cart'>
-              <Cart cartData={cartData} data={data} setCartData={setCartData} />
+              <Cart cartData={cartData} setCartData={setCartData} />
             </Route>
 
-            <Route path='/cart-confirmation/:item'>
-              <CartConfirmation data={data} cartData={cartData}  />
+            <Route path='/cart-confirmation/:id'>
+              <CartConfirmation cartData={cartData}  />
             </Route>
 
           </Switch>

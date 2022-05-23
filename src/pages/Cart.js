@@ -1,8 +1,8 @@
 import CartContainer from "../containers/Cartcontainer"
 
-export default function Cart ({ cartData, data, setCartData }) {
+export default function Cart ({ cartData, setCartData }) {
   return (
-    <CartContainer cartData={cartData} data={data} setCartData={setCartData} /> 
+    <CartContainer cartData={cartData} setCartData={setCartData} /> 
   )
 
 }
