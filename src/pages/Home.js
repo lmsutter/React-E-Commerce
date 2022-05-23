@@ -1,10 +1,10 @@
 import CompanyMotto from '../containers/CompanyMotto'
 import HomeContentContainer from '../containers/HomeContent'
 
-export default function Home ({ data, cartUpdater }) {
+export default function Home ({ cartUpdater }) {
   return (
     <>
-      <HomeContentContainer data={data} cartUpdater={cartUpdater} />
+      <HomeContentContainer cartUpdater={cartUpdater} />
       <CompanyMotto />
     </>
   )

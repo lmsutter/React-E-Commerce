@@ -49,7 +49,7 @@ CartComponents.CartItem = function ({ children, qty, itemData, setCartData, cart
       <button className="delete" onClick={() => updateCartData(itemData.id, 0)}>X</button>
       <div className="costs">
         <p>Cost: $ {itemData.price}</p>
-        <p>Total: $ {itemData.price * qty}</p>
+        <p>Total: $ {(itemData.price * 100 * qty)/100}</p>
       </div> 
       <div className="count">
         <button onClick={() => updateCartData(itemData.id, qty + 1)}><Icon icon="akar-icons:circle-plus-fill" /></button>
@@ -60,7 +60,9 @@ CartComponents.CartItem = function ({ children, qty, itemData, setCartData, cart
   )
 }
 
-CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
+CartComponents.CartTotal = function CartTotal ({ cartData, cartItems, children }) {
+
+  //animation 
   const [top, setTop] = useState(window.innerHeight - 20)
   const [tap, setTap] = useState({time: null, direction: null})
 
@@ -238,9 +240,13 @@ CartComponents.CartTotal = function CartTotal ({ cartData, data, children }) {
     }
   }, [top, tap])
 
+  //number display logic
+
   function getTotal () {
+    if (cartItems === null) return 0
     return cartData.reduce((accumulator, current) => {
-      const matchedItem = data.find(item => item.id === current.id)
+      console.log(cartItems)
+      const matchedItem = cartItems.find(item => item.id === current.id)
       if(!matchedItem) return 0
       return Math.round(accumulator + (matchedItem.price * current.quantity))
     }, 0)

@@ -1,5 +1,6 @@
 import Content from '../components/content/ContentComponents'
 import { Star } from '../components/svg/Svgs' 
+import { Loading } from '../components/reUsable/Loading'
 import { useState, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
 
@@ -15,12 +16,9 @@ export default function ContentContainer ({
  })  {
 
   const [open, setOpen] = useState('')
-
   const [filteredData, setFilteredData] = useState([])
 
   const history = useHistory()
-
-
 
   useEffect(() => {
     setFilteredData(data)
@@ -41,11 +39,11 @@ export default function ContentContainer ({
       })
     } else if (filterOption === 'rating') {
       newData = data.filter(item => {
-        return item.rating.rate >= filterValue[0] && item.rating.rate <= filterValue[1]
+        return item.ratingRate >= filterValue[0] && item.ratingRate <= filterValue[1]
       })
     } else if (filterOption === 'popularity') {
       newData = data.filter(item => {
-        return item.rating.count >= filterValue[0] && item.rating.count <= filterValue[1]
+        return item.ratingCount >= filterValue[0] && item.ratingCount <= filterValue[1]
       })
     }
     
@@ -55,11 +53,11 @@ export default function ContentContainer ({
       })
     } else if (sortOption === 'rating') {
       newData.sort((a,b) => {
-        return sortValue === 'HighLow' ? b.rating.rate - a.rating.rate : a.rating.rate - b.rating.rate
+        return sortValue === 'HighLow' ? b.ratingRate - a.ratingRate : a.ratingRate - b.ratingRate
       })
     } else if (sortOption === 'popularity') {
       newData.sort((a,b) => {
-        return sortValue === 'HighLow' ? b.rating.count - a.rating.count : a.rating.count - b.rating.count
+        return sortValue === 'HighLow' ? b.ratingCount - a.ratingCount : a.ratingCount - b.ratingCount
       })
     }
 
@@ -219,8 +217,8 @@ export default function ContentContainer ({
             <Content.InfoBox>
               <Content.Price>${item.price}</Content.Price>
               <Content.Rating>
-                {item.rating.rate}
-                <Star rating={item.rating.rate}/>
+                {item.ratingRate}
+                <Star rating={item.ratingRate}/>
               </Content.Rating>
             </Content.InfoBox>
             <Content.MoreInfo category={category} item={item.id}/>
