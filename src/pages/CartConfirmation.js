@@ -1,8 +1,8 @@
 import CartConfirmationContainer from "../containers/CartConfirmationContainer"
 
 
-export default function CartConfirmation ({ data, cartData}) {
+export default function CartConfirmation ({ cartData}) {
   return (
-    <CartConfirmationContainer data={data} cartData={cartData} />
+    <CartConfirmationContainer cartData={cartData} />
   )
 }

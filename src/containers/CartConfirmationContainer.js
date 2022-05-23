@@ -1,20 +1,28 @@
+import {useEffect, useState} from 'react'
 import InfoCardComponent from '../components/infoCard/InfoCardComponents'
 import { CircleCheckFill } from 'akar-icons'
 import { useParams } from 'react-router-dom/cjs/react-router-dom.min'
 import { SuggestionsBox } from '../components/infoCard/InfoCardStyled'
 
 
-export default function CartConfirmationContainer ({ data, cartData }) {
+export default function CartConfirmationContainer ({ cartData }) {
 
-  const { item } = useParams()
-  const currentIndex = item - 1 
-  const itemInfo = data[currentIndex]
+  const { id } = useParams()
+  const [categoryItems, setCategoryItems] = useState(null)
+  
+  useEffect(() => {
+    async function initialize () {
+      const values = await fetch(`/.netlify/functions/getCategoryById?id=${id}`)
+      const data = await values.json()
+      console.log(data)
+      setCategoryItems(data)
+    }
+    initialize()
+  }, [cartData])
+
   const cartLength = cartData.reduce((accum, current) => accum = current.quantity + accum, 0)
 
-  const limitedCategory = data.filter(e => {
-    return (e.category === itemInfo.category) && (e.id !== item)
-  }).sort(() => .5 - Math.random()).slice(0, 3)
-
+ 
   function limiter(title, count) {
     return title.slice(0, count) + "..." 
   }
@@ -27,10 +35,10 @@ export default function CartConfirmationContainer ({ data, cartData }) {
       </InfoCardComponent.Title>
       <InfoCardComponent.CConfirmationText>Total items in cart: {cartLength}</InfoCardComponent.CConfirmationText>
       <SuggestionsBox>
-        {limitedCategory.map((e, i)=> (
+        {categoryItems !== null && categoryItems.map((e, i)=> (
           <div key={i+"suggestion"} className={"suggestionItem"} id={"SB" + e.id}>
             <InfoCardComponent.SuggestionsImage src={e.image} />
-            <InfoCardComponent.SuggestionsLink category={itemInfo.category} item={e.id} >{limiter(e.title, 14)}</InfoCardComponent.SuggestionsLink>
+            <InfoCardComponent.SuggestionsLink category={categoryItems[0].category} item={e.id} >{limiter(e.title, 14)}</InfoCardComponent.SuggestionsLink>
           </div>
         ))}
       </SuggestionsBox>

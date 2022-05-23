@@ -2,10 +2,11 @@
 const allDataUtil = require('./allDataUtil')
 
 exports.handler = async function (event, context) {
+  const idsToMatch = event.queryStringParameters.id.split(',')
   const data = await allDataUtil()
-  const item = data.find(item => item.id === event.queryStringParameters.id)
+  const items = data.filter(item => idsToMatch.includes(item.id))
   return {
     statusCode: 200,
-    body: JSON.stringify({ item }),
+    body: JSON.stringify({ items }),
   };
 } 

@@ -1,36 +1,64 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { useHistory } from 'react-router-dom'
 
 import Content from '../components/content/ContentComponents'
 import ProgressBar from '../components/progressbar/ProgressBarComponents'
+import { Loading } from '../components/reUsable/Loading'
 import { Star } from '../components/svg/Svgs'
 
-export default function HomeContentContainer ({ data, cartUpdater }) {
-  const [highlights, setHighlights] = useState([2, 5, 10])
+export default function HomeContentContainer ({ cartUpdater }) {
+  const [highlights, setHighlights] = useState(null)
   const [countdown, setCountdown] = useState(10)
   const [paused, setPaused] = useState(false)
 
+  const stagedHighlights = useRef(null)
+
   const history = useHistory()
-  
+
   useEffect(() => {
+    async function initialize () {
+      const nums = randomNums(20).join(',')
+      const values = await fetch(`/.netlify/functions/getItemsById?id=${nums}`)
+      const data = await values.json()
+      setHighlights(data)
+    }
+    initialize()
+  }, [])
+
+  function randomNums (max) {
+    let newArr = []
+    do {
+      let num = Math.floor(Math.random() * max);
+      if(!newArr.includes(num)) {
+        newArr.push(num)
+      }
+    } while (newArr.length < 3)
+
+    return newArr
+  }
+  
+  async function getHighlights() {
     
-    function randomNums () {
-      let newArr = []
+    const nums = randomNums(20).join(',')
+    const values = await fetch(`/.netlify/functions/getItemsById?id=${nums}`)
+    const data = await values.json()
+    return data
+  }
 
-      do {
-        let num = Math.floor(Math.random() * 20);
-        if(!newArr.includes(num)) {
-          newArr.push(num)
-        }
-      } while (newArr.length < 3)
 
-      return newArr
+  useEffect(() => {
+
+    if (countdown === 10) {
+      (async function () {
+        stagedHighlights.current = await getHighlights()
+      } )()
     }
 
-
-    if(countdown === 0) {
-      setHighlights(randomNums())
-    }
+    setHighlights(previous => {
+      if(countdown === 0) {
+        return stagedHighlights.current
+      } else return previous
+    })
 
     
     let timer = setTimeout(() => {
@@ -45,31 +73,27 @@ export default function HomeContentContainer ({ data, cartUpdater }) {
     return () => clearTimeout(timer)
   }, [countdown, paused])
 
-
-
+  console.log(countdown)
   return (
     <>
-       {data.length > 0 && <ProgressBar onClick={() => setPaused(c => !c)} remaining={countdown} paused={paused} />} 
+       {highlights !== null && <ProgressBar onClick={() => setPaused(c => !c)} remaining={countdown} paused={paused} />} 
       <Content.Frame>
-        { data.length === 0 ? (<Content.Loading />) : highlights.map(e => {
-          let item = data[e]
-            return (
-              <Content.ContentCard key={item.id + 'h'}>
-                <Content.Image src={item.image} />
-                <Content.Name>{item.title}</Content.Name>
+        { highlights === null ? (<Loading />) : highlights.items.map(highlight => (
+              <Content.ContentCard key={highlight.id + 'h'}>
+                <Content.Image src={highlight.image} />
+                <Content.Name>{highlight.title}</Content.Name>
                 <Content.InfoBox>
-                  <Content.Price>${item.price}</Content.Price>
+                  <Content.Price>${highlight.price}</Content.Price>
                   <Content.Rating>
-                    {item.rating.rate}
-                    <Star rating={item.rating.rate}/>
+                    {highlight.ratingRate}
+                    <Star rating={highlight.ratingRate}/>
                   </Content.Rating>
                 </Content.InfoBox>
-                <Content.MoreInfo category={item.category} item={item.id}/>
-                <Content.AddCart onClick={() => cartUpdater(item.id, 1, history)} />
+                <Content.MoreInfo category={highlight.category} item={highlight.id}/>
+                <Content.AddCart onClick={() => cartUpdater(highlight.id, 1, history)} />
               </Content.ContentCard>
             )
-           
-        })}
+        )}
       </Content.Frame>
     </>
   )

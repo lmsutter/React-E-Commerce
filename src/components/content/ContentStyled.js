@@ -177,12 +177,7 @@ export const Frame = styled.div`
   }
 `
 
-export const Loading = styled.div`
-  svg {
-    height: 150px;
-    width: auto;
-  }
-`
+
 
 export const Category = styled.div`
   display: flex;
