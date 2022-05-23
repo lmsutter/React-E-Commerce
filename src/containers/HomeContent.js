@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom'
 
 import Content from '../components/content/ContentComponents'
 import ProgressBar from '../components/progressbar/ProgressBarComponents'
+import { Loading } from '../components/reUsable/Loading'
 import { Star } from '../components/svg/Svgs'
 
 export default function HomeContentContainer ({ cartUpdater }) {
@@ -77,7 +78,7 @@ export default function HomeContentContainer ({ cartUpdater }) {
     <>
        {highlights !== null && <ProgressBar onClick={() => setPaused(c => !c)} remaining={countdown} paused={paused} />} 
       <Content.Frame>
-        { highlights === null ? (<Content.Loading />) : highlights.items.map(highlight => (
+        { highlights === null ? (<Loading />) : highlights.items.map(highlight => (
               <Content.ContentCard key={highlight.id + 'h'}>
                 <Content.Image src={highlight.image} />
                 <Content.Name>{highlight.title}</Content.Name>
