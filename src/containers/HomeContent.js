@@ -18,7 +18,7 @@ export default function HomeContentContainer ({ cartUpdater }) {
   useEffect(() => {
     async function initialize () {
       const nums = randomNums(20).join(',')
-      const values = await fetch(`/.netlify/functions/getItemsById?id=${nums}`)
+      const values = await fetch(`${process.env.BASE_URL}/.netlify/functions/getItemsById?id=${nums}`)
       const data = await values.json()
       setHighlights(data)
     }
