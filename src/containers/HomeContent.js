@@ -45,7 +45,6 @@ export default function HomeContentContainer ({ cartUpdater }) {
     return data
   }
 
-
   useEffect(() => {
 
     if (countdown === 10) {
@@ -73,7 +72,6 @@ export default function HomeContentContainer ({ cartUpdater }) {
     return () => clearTimeout(timer)
   }, [countdown, paused])
 
-  console.log(countdown)
   return (
     <>
        {highlights !== null && <ProgressBar onClick={() => setPaused(c => !c)} remaining={countdown} paused={paused} />} 
