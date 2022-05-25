@@ -9,6 +9,7 @@ module.exports = async () => {
       client_email: 'lukesutter@react-e-commerce-db-349813.iam.gserviceaccount.com',
       private_key: process.env.REACT_APP_API_KEY.replace(/\\n/g, "\n")
     })
+    console.log(process.env.REACT_APP_API_KEY.replace(/\\n/g, "\n"))
     
     await doc.loadInfo()
 
