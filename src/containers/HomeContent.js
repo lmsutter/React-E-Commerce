@@ -18,7 +18,7 @@ export default function HomeContentContainer ({ cartUpdater }) {
   useEffect(() => {
     async function initialize () {
       const nums = randomNums(20).join(',')
-      const values = await fetch(`/.netlify/functions/getItemsById?id=${nums}`)
+      const values = await fetch(`${process.env.BASE_URL}/.netlify/functions/getItemsById?id=${nums}`)
       const data = await values.json()
       setHighlights(data)
     }
@@ -44,7 +44,6 @@ export default function HomeContentContainer ({ cartUpdater }) {
     const data = await values.json()
     return data
   }
-
 
   useEffect(() => {
 
@@ -73,7 +72,6 @@ export default function HomeContentContainer ({ cartUpdater }) {
     return () => clearTimeout(timer)
   }, [countdown, paused])
 
-  console.log(countdown)
   return (
     <>
        {highlights !== null && <ProgressBar onClick={() => setPaused(c => !c)} remaining={countdown} paused={paused} />} 

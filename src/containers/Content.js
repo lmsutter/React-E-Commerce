@@ -6,7 +6,7 @@ import { useHistory } from 'react-router-dom'
 
 
 export default function ContentContainer ({ 
-  data, 
+  categoryItems, 
   category, 
   breakpoints, 
   categoryPretty, 
@@ -19,30 +19,26 @@ export default function ContentContainer ({
   const [filteredData, setFilteredData] = useState([])
 
   const history = useHistory()
-
-  useEffect(() => {
-    setFilteredData(data)
-  }, [data])
   
 
   useEffect(() => {
-    let newData = []
+    let newData = categoryItems
 
     let {sortOption, sortValue, filterOption, filterValue } = sortFilterOption
 
 
     if(filterOption === 'none') {
-      newData = data
+      
     } else if(filterOption === 'price') {
-      newData = data.filter(item => {
+      newData = categoryItems.filter(item => {
         return item.price >= filterValue[0] && item.price <= filterValue[1]
       })
     } else if (filterOption === 'rating') {
-      newData = data.filter(item => {
+      newData = categoryItems.filter(item => {
         return item.ratingRate >= filterValue[0] && item.ratingRate <= filterValue[1]
       })
     } else if (filterOption === 'popularity') {
-      newData = data.filter(item => {
+      newData = categoryItems.filter(item => {
         return item.ratingCount >= filterValue[0] && item.ratingCount <= filterValue[1]
       })
     }
@@ -64,7 +60,7 @@ export default function ContentContainer ({
     //used JSON.parse here because it wasn't recognizing that the data had changed.
     setFilteredData( JSON.parse(JSON.stringify(newData)))
 
-  }, [data, sortFilterOption])
+  }, [categoryItems, sortFilterOption])
 
 
   const currentBP = breakpoints[category.replaceAll('-', ' ')]
@@ -198,7 +194,7 @@ export default function ContentContainer ({
           </div>
         </Content.SortFilter>
       </Content.Options>
-      {!data ? 
+      {categoryItems === null ? 
       <Content.Category>
         <h2>Items not found, try reloading the page</h2>
       </Content.Category>
