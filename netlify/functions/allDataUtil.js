@@ -26,6 +26,7 @@ module.exports = async () => {
       return tempObj
     })
 
+    
     console.log(items[0])
     return items
   } catch (e) {
