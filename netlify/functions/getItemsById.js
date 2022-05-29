@@ -6,7 +6,7 @@ exports.handler = async function (event, context) {
   // const data = await allDataUtil()
   // const items = data.filter(item => idsToMatch.includes(item.id))
 
-  console.log(process.env)
+  console.log(process.env.REACT_APP_API_KEY)
  
   console.log('here')
   return {
