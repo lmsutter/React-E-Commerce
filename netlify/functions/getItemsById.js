@@ -3,18 +3,22 @@ const allDataUtil = require('./allDataUtil')
 
 exports.handler = async function (event, context) {
   const idsToMatch = event.queryStringParameters.id.split(',')
-  // const data = await allDataUtil()
-  // const items = data.filter(item => idsToMatch.includes(item.id))
 
-  console.log(process.env.REACT_APP_API_KEY)
- 
-  console.log('here')
-  return {
-    statusCode: 200,
-    body: JSON.stringify({ items: [1, 2, 3] }),
-    headers: {
-      'Access-Control-Allow-Origin': '*', 
-      'Access-Control-Allow-Credentials': 'true' 
-    },
-  };
-} 
+  try {
+    const data = await allDataUtil()
+    const items = data.filter(item => idsToMatch.includes(item.id))
+  
+   
+    return {
+      statusCode: 200,
+      body: JSON.stringify({ items: [1, 2, 3] }),
+      headers: {
+        'Access-Control-Allow-Origin': '*', 
+        'Access-Control-Allow-Credentials': 'true' 
+      },
+    }
+    
+  } catch (error) {
+    console.log(error)
+  }
+};
