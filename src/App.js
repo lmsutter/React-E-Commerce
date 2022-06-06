@@ -1,7 +1,6 @@
 
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import { HashRouter as Router, Switch, Route } from 'react-router-dom'
-import useBreakpoints from './hooks/useBreakpoints';
 import useLocalStorage from './hooks/useLocalStorage'
 
 //Components
@@ -14,33 +13,17 @@ import InfoPage from './pages/InfoPage'
 import CartConfirmation from './pages/CartConfirmation';
 import Cart from './pages/Cart';
 import Wrapper from './components/PageWrapper'
+import SwitchStyled from './components/StyledSwitch';
 
 import useCartUpdater from './hooks/useCartUpdater';
 
 function App() {
-  const [data, updateData] = useState([])
   const [sortFilterOption, setSortFilterOption] = useState(
     {sortOption: 'none', sortValue: 'none', filterOption: 'none', filterValue: 'none'}
   )
 
   const [cartData, setCartData] = useLocalStorage('cart', [])
   const cartUpdater = useCartUpdater(cartData, setCartData)
-
-
-  useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
-            .then(res=>{
-              return res.json()})
-            .then(json=>updateData(json))
-            .catch(error => {
-              updateData(null)
-            })
-    
-  }, [])
-
-
-  const breakpoints = useBreakpoints(data)
-
 
   return (
     <>
@@ -49,14 +32,14 @@ function App() {
           <Background />
           <HeaderContainer setSortFilterOption={setSortFilterOption} />
 
-          <Switch>
+          <SwitchStyled>
             <Route path='/' exact >
               <Home cartUpdater={cartUpdater} />
             </Route>
 
             <Route path='/category/:category' exact>
               <Category 
-                breakpoints={breakpoints} 
+
                 sortFilterOption={sortFilterOption} 
                 setSortFilterOption={setSortFilterOption}
                 cartUpdater={cartUpdater}
@@ -75,7 +58,7 @@ function App() {
               <CartConfirmation cartData={cartData}  />
             </Route>
 
-          </Switch>
+          </SwitchStyled>
 
 
           <Footer />

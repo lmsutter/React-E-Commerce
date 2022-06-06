@@ -15,20 +15,10 @@ export default function HomeContentContainer ({ cartUpdater }) {
 
   const history = useHistory()
 
-  useEffect(() => {
-    async function initialize () {
-      const nums = randomNums(20).join(',')
-      const values = await fetch(`${process.env.BASE_URL}/.netlify/functions/getItemsById?id=${nums}`)
-      const data = await values.json()
-      setHighlights(data)
-    }
-    initialize()
-  }, [])
-
   function randomNums (max) {
     let newArr = []
     do {
-      let num = Math.floor(Math.random() * max);
+      let num = Math.floor(Math.random() * max) + 1;
       if(!newArr.includes(num)) {
         newArr.push(num)
       }
@@ -36,6 +26,17 @@ export default function HomeContentContainer ({ cartUpdater }) {
 
     return newArr
   }
+
+  useEffect(() => {
+    async function initialize () {
+      const nums = randomNums(20).join(',')
+      const values = await fetch(`/.netlify/functions/getItemsById?id=${nums}`)
+      const data = await values.json()
+      setHighlights(data)
+    }
+    initialize()
+  }, [])
+
   
   async function getHighlights() {
     
@@ -53,7 +54,8 @@ export default function HomeContentContainer ({ cartUpdater }) {
       } )()
     }
 
-    setHighlights(previous => {
+    setHighlights( previous => {
+  
       if(countdown === 0) {
         return stagedHighlights.current
       } else return previous
@@ -76,7 +78,7 @@ export default function HomeContentContainer ({ cartUpdater }) {
     <>
        {highlights !== null && <ProgressBar onClick={() => setPaused(c => !c)} remaining={countdown} paused={paused} />} 
       <Content.Frame>
-        { highlights === null ? (<Loading />) : highlights.items.map(highlight => (
+        { highlights === null ? <Loading /> : highlights.items.map(highlight => (
               <Content.ContentCard key={highlight.id + 'h'}>
                 <Content.Image src={highlight.image} />
                 <Content.Name>{highlight.title}</Content.Name>
