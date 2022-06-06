@@ -52,6 +52,10 @@ export const CartItem = styled.div`
     aspect-ratio: 1/1;
   }
 
+  .delete:hover {
+    cursor: pointer;
+  }
+
   img {
     grid-area: image;
     height: 100%;
@@ -94,7 +98,10 @@ export const CartItem = styled.div`
         height: 100%;
         color: ${({theme}) => theme.color1}
       }
-      
+    }
+
+    button:hover {
+      cursor: pointer;
     }
 
     .quantity {
@@ -162,8 +169,6 @@ export const CartTotal = styled(Card)`
     }
   }
 
-  
-
   .swipe {
     position: absolute;
     top: -.8em;
@@ -171,6 +176,13 @@ export const CartTotal = styled(Card)`
     transform: translateX(-50%);
     font-size: 3em;
     touch-action: none;
+  }
+
+  .placeOrder {
+    margin: .7em auto 0 auto;
+    border-radius: 40px;
+    width: 100%;
+    height: 3em;
   }
 
   @media (min-width: 600px) {

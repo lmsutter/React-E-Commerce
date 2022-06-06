@@ -4,6 +4,7 @@ import { PassiveListener } from 'react-event-injector'
 import throttle from '../../helpers/throttle'
 
 import { useState, useRef, useEffect } from 'react'
+import { Button } from '../reUsable/Button'
 
 export default function CartComponents ({ children }) {
   return (
@@ -305,6 +306,9 @@ CartComponents.CartTotal = function CartTotal ({ cartData, cartItems, children }
           <Icon icon="akar-icons:credit-card" />
         </div>
       </div>
+      <Button className='placeOrder'>
+        Place Order!
+      </Button>
       {children}
     </Styled.CartTotal>
   )

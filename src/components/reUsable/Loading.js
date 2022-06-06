@@ -3,6 +3,11 @@ import { BallTriangle } from 'svg-loaders-react'
 
 
 const StyledLoading = styled.div`
+  display: flex; 
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
   svg {
     height: 150px;
     width: auto;
