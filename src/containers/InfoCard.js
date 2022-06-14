@@ -1,6 +1,7 @@
 import { useParams } from "react-router"
 import { useState, useEffect } from 'react'
 import { Star } from '../components/svg/Svgs'
+import { Loading } from '../components/reUsable/Loading'
 import InfoCardComponent from "../components/infoCard/InfoCardComponents"
 import { useHistory } from 'react-router-dom'
 import { CSSTransition } from 'react-transition-group'
@@ -80,8 +81,7 @@ export default function InfoCard ({ cartUpdater}) {
 
   return (
     <>
-
-      {item === null ? null : (
+      {item === null ? <Loading /> : (
         <InfoCardComponent>
 
             <CSSTransition

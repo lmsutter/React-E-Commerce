@@ -14,7 +14,11 @@ const Wrapper = styled.div`
   align-items: center;
   
   div {
-    width: 80%
+    width: 80%;
+  }
+  @media (max-width: 600px) {
+    transform: scale(2.5) translateY(-5%);
+
   }
 `
 

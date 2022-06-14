@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useParams } from "react-router-dom"
 import { Loading } from "../components/reUsable/Loading"
 import ContentContainer from "../containers/Content"
-import styled from "styled-components"
+import { StyledMain } from "../components/StyledMain"
 
 export default function Category ( { sortFilterOption, setSortFilterOption, cartUpdater } )  {
   const [categoryItems, setCategoryItems] = useState(null)
@@ -25,11 +25,9 @@ useEffect(() => {
 
   return (
 
-    <>
+    <StyledMain>
     {categoryItems === null ?
-        <StyledWrapper>
-          <Loading />
-        </StyledWrapper> :
+          <Loading /> :
 
         <ContentContainer 
           categoryItems={categoryItems} 
@@ -37,19 +35,13 @@ useEffect(() => {
           categoryPretty={categoryPretty} 
           sortFilterOption={sortFilterOption} 
           setSortFilterOption={setSortFilterOption}
-          cartUpdater={cartUpdater}
-        />
+          cartUpdater={cartUpdater} 
+        /> 
 
       
-    }
+    } 
     
-    </>
+    </StyledMain>
   )
 }
 
-const StyledWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`

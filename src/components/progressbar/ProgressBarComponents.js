@@ -11,11 +11,11 @@ export default function ProgressBar ({ remaining, onClick, paused }) {
 
   return (
     <Styled.Container>
-      <Styled.Pause paused={paused} onClick={onClick}>| |</Styled.Pause>
-      <Styled.BarContainer >
+      <Styled.BarContainer>
         <Styled.Cover ref={cover} className={remaining > 0 ? 'animation' : ''}/>
         <Styled.Bar  />
       </Styled.BarContainer>
+      <Styled.Pause paused={paused} onClick={onClick}>| |</Styled.Pause>
     </Styled.Container>
   )
 }
