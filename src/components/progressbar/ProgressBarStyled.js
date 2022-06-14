@@ -30,6 +30,7 @@ export const BarContainer = styled.div`
   border-radius: 150px;
   position: relative;
   overflow: hidden;
+  z-index: 1;
   
 
   .animation {
@@ -49,7 +50,6 @@ export const Cover = styled.div`
   width: 100%;
   height: 100%;
   background-color: ${({ theme}) => theme.grey};
-
 `
 
 export const Pause = styled.button`
