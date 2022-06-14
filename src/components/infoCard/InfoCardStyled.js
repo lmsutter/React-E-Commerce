@@ -141,6 +141,7 @@ export const CartConfirmationCard = styled(Card)`
   margin: 2em auto;
   padding: 1.5em;
   width: 630px;
+  max-width: 90%;
 
   .checkMark {
     margin-right: .4em;

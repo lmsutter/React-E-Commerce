@@ -1,21 +1,21 @@
-
-import {  useState } from 'react';
-import { HashRouter as Router, Switch, Route } from 'react-router-dom'
+import React, {  useState } from 'react';
+import { HashRouter as Router,  Route, Switch } from 'react-router-dom'
 import useLocalStorage from './hooks/useLocalStorage'
+import useCartUpdater from './hooks/useCartUpdater';
+
+import Wrapper from './components/PageWrapper'; 
 
 //Components
-import Category from './pages/Category';
-import HeaderContainer from './containers/Header'
-import Background from './containers/Background'
-import Home from './pages/Home'
-import Footer from './containers/Footer'
-import InfoPage from './pages/InfoPage'
-import CartConfirmation from './pages/CartConfirmation';
-import Cart from './pages/Cart';
-import Wrapper from './components/PageWrapper'
-import SwitchStyled from './components/StyledSwitch';
+const Category = React.lazy( () => import('./pages/Category')) ;
+const HeaderContainer = React.lazy( () => import ('./containers/Header')); 
+const Background = React.lazy( () => import ('./containers/Background')); 
+const Home = React.lazy( () => import ('./pages/Home')); 
+const Footer = React.lazy( () => import ('./containers/Footer')); 
+const InfoPage = React.lazy( () => import ('./pages/InfoPage')); 
+const CartConfirmation = React.lazy( () => import ('./pages/CartConfirmation'));
+const Cart = React.lazy( () => import ('./pages/Cart'));
 
-import useCartUpdater from './hooks/useCartUpdater';
+
 
 function App() {
   const [sortFilterOption, setSortFilterOption] = useState(
@@ -27,43 +27,43 @@ function App() {
 
   return (
     <>
-      <Router basename={process.env.PUBLIC_URL}>
-        <Wrapper>
-          <Background />
-          <HeaderContainer setSortFilterOption={setSortFilterOption} />
+      <Wrapper className="StyledWrapper">
+        <React.Suspense fallback={<p>loading...</p>}>
+        <Router basename={process.env.PUBLIC_URL}>
+            <Background />
+            <HeaderContainer setSortFilterOption={setSortFilterOption} />
 
-          <SwitchStyled>
-            <Route path='/' exact >
-              <Home cartUpdater={cartUpdater} />
-            </Route>
+            <Switch >
+              <Route path='/' exact >
+                <Home cartUpdater={cartUpdater} />
+              </Route>
 
-            <Route path='/category/:category' exact>
-              <Category 
+              <Route path='/category/:category' exact>
+                <Category 
 
-                sortFilterOption={sortFilterOption} 
-                setSortFilterOption={setSortFilterOption}
-                cartUpdater={cartUpdater}
-              />
-            </Route>
+                  sortFilterOption={sortFilterOption} 
+                  setSortFilterOption={setSortFilterOption}
+                  cartUpdater={cartUpdater}
+                />
+              </Route>
 
-            <Route path='/category/:category/:id'>
-              <InfoPage cartUpdater={cartUpdater} />
-            </Route>
+              <Route path='/category/:category/:id'>
+                <InfoPage cartUpdater={cartUpdater} />
+              </Route>
 
-            <Route exact path='/cart'>
-              <Cart cartData={cartData} setCartData={setCartData} />
-            </Route>
+              <Route exact path='/cart'>
+                <Cart cartData={cartData} setCartData={setCartData} />
+              </Route>
 
-            <Route path='/cart-confirmation/:id'>
-              <CartConfirmation cartData={cartData}  />
-            </Route>
+              <Route path='/cart-confirmation/:id'>
+                <CartConfirmation cartData={cartData}  />
+              </Route>
 
-          </SwitchStyled>
-
-
-          <Footer />
-        </Wrapper>
-      </Router>
+            </Switch>
+            <Footer />
+        </Router>
+        </React.Suspense >
+      </Wrapper>
   </>
   );
 }

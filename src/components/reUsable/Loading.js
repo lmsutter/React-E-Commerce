@@ -7,6 +7,8 @@ const StyledLoading = styled.div`
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  margin-bottom: 2em;
+  flex-grow: 1;
 
   svg {
     height: 150px;

@@ -14,6 +14,8 @@ export const Container = styled.div`
   position: relative;
   display: inline-block;
   margin: 0 auto;
+  align-self: center;
+  width: 100%;
 `
 
 export const BarContainer = styled.div`
@@ -66,10 +68,15 @@ export const Pause = styled.button`
   transition: transform .2s ease-in;
   opacity: 0;
   
-  ${Container}:hover & {
+  ${BarContainer}:hover ~ & {
     transform: translateX(-50%) translateY(-50%) scale(1);
     opacity: 1;
   }
+  &:hover {
+    transform: translateX(-50%) translateY(-50%) scale(1);
+    opacity: 1;
+  }
+
   ${({paused}) => paused && (
       `transform: translateX(-50%) translateY(-50%) scale(1);
       opacity: 1;`
