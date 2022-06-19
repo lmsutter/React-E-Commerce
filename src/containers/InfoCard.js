@@ -93,7 +93,7 @@ export default function InfoCard ({ cartUpdater}) {
               <InfoCardComponent.FullContainer onClick={() => setFull(false)} src={item.image}  />
             </CSSTransition>
           
-          <InfoCardComponent.Image className="main" onClick={() => setFull(true)} src={item.image} />
+          <InfoCardComponent.Image className="main" onClick={() => setFull(true)} alt={item.description} src={item.image} />
           <InfoCardComponent.Title>
             {item.title}
           </InfoCardComponent.Title>
@@ -111,7 +111,7 @@ export default function InfoCard ({ cartUpdater}) {
 
             {categoryItems.map(e => (
               <div key={e.id + "cartConfirmationSuggestion"} className={"suggestionItem"} id={"SB" + e.id}>
-                <InfoCardComponent.SuggestionsImage src={e.image} />
+                <InfoCardComponent.SuggestionsImage alt={e.description} src={e.image} />
                 <InfoCardComponent.SuggestionsLink category={category} item={e.id} >{limiter(e.title, 10)}</InfoCardComponent.SuggestionsLink>
               </div>
             ))}

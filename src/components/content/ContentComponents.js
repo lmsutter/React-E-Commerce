@@ -39,9 +39,9 @@ Content.Name = function Name ({children}) {
   return <Styled.Name>{children}</Styled.Name>
 }
 
-Content.Image = function Image ({ children, src }) {
+Content.Image = function Image ({ children, src, alt }) {
   return (
-    <Styled.Image src={src}>
+    <Styled.Image alt={alt} src={src}>
       {children}
     </Styled.Image>
   )

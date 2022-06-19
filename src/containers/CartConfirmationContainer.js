@@ -37,7 +37,7 @@ export default function CartConfirmationContainer ({ cartData }) {
       <SuggestionsBox>
         {categoryItems !== null && categoryItems.map((e, i)=> (
           <div key={i+"suggestion"} className={"suggestionItem"} id={"SB" + e.id}>
-            <InfoCardComponent.SuggestionsImage src={e.image} />
+            <InfoCardComponent.SuggestionsImage alt={e.description} src={e.image} />
             <InfoCardComponent.SuggestionsLink category={categoryItems[0].category} item={e.id} >{limiter(e.title, 14)}</InfoCardComponent.SuggestionsLink>
           </div>
         ))}

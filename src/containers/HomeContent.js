@@ -80,7 +80,7 @@ export default function HomeContentContainer ({ cartUpdater }) {
       <Content.Frame>
         { highlights === null ? <Loading /> : highlights.items.map(highlight => (
               <Content.ContentCard key={highlight.id + 'h'}>
-                <Content.Image src={highlight.image} />
+                <Content.Image alt={highlight.description} src={highlight.image} />
                 <Content.Name>{highlight.title}</Content.Name>
                 <Content.InfoBox>
                   <Content.Price>${highlight.price}</Content.Price>

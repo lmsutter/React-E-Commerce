@@ -99,20 +99,20 @@ export default function ContentContainer ({
       {breakpoints  && <>
         <Content.Options>
           <Content.SortFilter onClick={() => openToggle('sort')} y={'0'} x={'-243px'} open={open === 'sort'}>
-            <h3>Sort</h3>
+            <h2>Sort</h2>
             <div className="sort optionContainer">
             <div className="option">
-                <h4 
+                <h3 
                   className="catHeader first none" 
                   onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'none', sortValue: 'none'}})}
                 >
                   None  
                   <div className={sortFilterOption.sortOption === "none" ? "activeSF" : ""} ></div>
-                </h4>
+                </h3>
                 
               </div>
               <div className="option first">
-                <h4 className="catHeader" >Price</h4>
+                <h3 className="catHeader" >Price</h3>
                 <div 
                   className="subOption" 
                   onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'price', sortValue: 'LowHigh'}})}
@@ -128,7 +128,7 @@ export default function ContentContainer ({
                 </div>
               </div>
               <div className="option">
-                <h4 className="catHeader">Rating</h4>
+                <h3 className="catHeader">Rating</h3>
                 <div 
                   className="subOption" 
                   onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'rating', sortValue: 'LowHigh'}})}
@@ -145,7 +145,7 @@ export default function ContentContainer ({
                 </div>
               </div>
               <div className="option">
-                <h4 className="catHeader">Popularity</h4>
+                <h3 className="catHeader">Popularity</h3>
                 <div 
                   className="subOption" 
                   onClick={() => setSortFilterOption(c => {return {...c, sortOption: 'popularity', sortValue: 'LowHigh'}})}
@@ -164,31 +164,31 @@ export default function ContentContainer ({
             </div>
           </Content.SortFilter>
           <Content.SortFilter onClick={() => openToggle('filter')} y={'100px'} x='-243px' open={open === 'filter'}>
-            <h3>Filter</h3>
+            <h2>Filter</h2>
             <div className="filter optionContainer">
               <div className="option">
-                <h4 
+                <h3 
                   className="catHeader first none" 
                   onClick={() => setSortFilterOption(c => {return {...c, filterOption: 'none', filterValue: 'none'}})}
                 >
                   None
                   <div className={sortFilterOption.filterOption === "none" ? "activeSF" : ""} ></div>
-                </h4>
+                </h3>
               </div>
               <div className="option first">
-                <h4 className="catHeader">Price</h4>
+                <h3 className="catHeader">Price</h3>
                 {makeFilterBp('price', breakpoints.price[0], breakpoints.price[1])}
                 {makeFilterBp('price', breakpoints.price[2], breakpoints.price[3])}
                 {makeFilterBp('price', breakpoints.price[4], Infinity) }
               </div>
               <div className="option">
-                <h4 className="catHeader">Rating</h4>
+                <h3 className="catHeader">Rating</h3>
                 {makeFilterBp('rating', breakpoints.rating[0], breakpoints.rating[1])}
                 {makeFilterBp('rating', breakpoints.rating[2], breakpoints.rating[3])}
                 {makeFilterBp('rating', breakpoints.rating[4], Infinity)}
               </div>
               <div className="option">
-                <h4 className="catHeader">Popularity</h4>
+                <h3 className="catHeader">Popularity</h3>
                 {makeFilterBp('popularity', breakpoints.popularity[0], breakpoints.popularity[1])}
                 {makeFilterBp('popularity', breakpoints.popularity[2], breakpoints.popularity[3])}
                 {makeFilterBp('popularity', breakpoints.popularity[4], Infinity)}
@@ -212,7 +212,7 @@ export default function ContentContainer ({
         <Content.Frame>
         {!filteredData ? null : filteredData.map(item => (
           <Content.ContentCard key={item.id + 'j'}>
-            <Content.Image src={item.image}/>
+            <Content.Image alt={item.description} src={item.image}/>
             <Content.Name>{item.title}</Content.Name>
             <Content.InfoBox>
               <Content.Price>${item.price}</Content.Price>
