@@ -36,9 +36,9 @@ InfoCardComponent.Title = function ({ children }) {
   )
 }
 
-InfoCardComponent.Image = function ({ children, src, onClick, className }) {
+InfoCardComponent.Image = function ({ children, src, onClick, className, alt }) {
   return (
-    <Styled.Image src={src} onClick={onClick} className={className}>
+    <Styled.Image src={src} onClick={onClick} className={className} alt={alt}>
       {children}
     </Styled.Image>
   )
@@ -168,9 +168,9 @@ InfoCardComponent.SuggestionsBox = function ({ children, flipped }) {
   )
 }
 
-InfoCardComponent.SuggestionsImage = function ({ children, src }) {
+InfoCardComponent.SuggestionsImage = function ({ children, src, alt }) {
   return (
-    <Styled.SuggestionsImage src={src}>
+    <Styled.SuggestionsImage alt={alt} src={src}>
       {children}
     </Styled.SuggestionsImage>
   )

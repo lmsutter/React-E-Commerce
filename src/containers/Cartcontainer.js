@@ -4,7 +4,6 @@ import { Loading } from "../components/reUsable/Loading"
 
 export default function CartContainer ({ cartData, setCartData }) {
   const [cartItems, setCartItems] = useState(null)
-  console.log(cartItems)
 
   const idList = cartData.map(item => item.id).join(',')
 

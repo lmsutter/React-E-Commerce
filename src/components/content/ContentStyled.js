@@ -31,7 +31,7 @@ export const SortFilter = styled.div`
     }};
   transition: all .5s ease-in-out;
 
-  h3 {
+  h2 {
     background-color: ${({theme}) => theme.color3};
     margin: 0;
     padding: .2em .5em;
@@ -41,8 +41,8 @@ export const SortFilter = styled.div`
     transform: translateY(2px);
   }
 
-  h3:hover,
-  h3:focus {
+  h2:hover,
+  h2:focus {
     cursor: pointer;
   }
 
@@ -117,13 +117,13 @@ export const SortFilter = styled.div`
     background-color: #fff;
     z-index: 0;
 
-    h3 {
+    h2 {
       background-color: #fff;
       margin-right: 1em;
     }
 
-    h3:hover,
-    h3:focus {
+    h2:hover,
+    h2:focus {
       cursor: default;
     }
 

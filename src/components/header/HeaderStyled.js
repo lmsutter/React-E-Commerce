@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { Button } from '../reUsable/Button'
 import { ChevronDown } from 'akar-icons'
 
 const height = '100px'
@@ -132,10 +131,21 @@ export const PageTitle = styled.h1`
   }
 `
 
-export const CartButton = styled(Button)`
+export const ButtonNavLink = styled(NavLink)`
   background-color: ${ props  => props.theme.color1 };
   margin: 0 2em;
   font-size: 1.3rem;
+  border-radius: 2em;
+  padding: .6em 1.7em;
+  border: none;
+  color: white;
+  text-decoration: none;
+  display: inline-block;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
 `
 
 export const SNavLink = styled(NavLink)`
@@ -222,8 +232,12 @@ export const StyledDropDown = styled.li`
       display: flex;
       align-items: center;
       justify-content: center;
+
     }
-   
+    
+    & div:first-child:hover {
+      cursor:pointer;
+    }
   }
 `
 

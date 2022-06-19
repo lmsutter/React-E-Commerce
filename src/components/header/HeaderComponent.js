@@ -2,6 +2,7 @@ import * as Styled from './HeaderStyled'
 import { NavLink } from "react-router-dom"
 import useClickOutside from '../../hooks/useClickOutside'
 import { useEffect, useState, useRef } from "react";
+import { StatisticUp } from 'akar-icons';
 
 export default function Header ({ children, open, setOpen}) {
   const ref = useRef(null)  
@@ -45,7 +46,7 @@ Header.Nav = ({children, open}) => {
   )
 }
 
-Header.Link = ({to, children, onClick }) => {
+Header.Link = ({to, children, onClick, onBlur }) => {
   return (
     <li>
       <Styled.SNavLink 
@@ -63,9 +64,9 @@ Header.Link = ({to, children, onClick }) => {
 
 Header.Cart = ({ to, children, onClick }) => (
   <li onClick={onClick}>
-    <NavLink to={to}>
-      <Styled.CartButton>{children}</Styled.CartButton>
-    </NavLink>
+    <Styled.ButtonNavLink to={to}>
+      {children}
+    </Styled.ButtonNavLink>
   </li>
 )
 
@@ -74,6 +75,7 @@ Header.Cart = ({ to, children, onClick }) => (
 Header.DropDown = function DropDownComponent ({ title, active, onClick, children }) {
   const [open, setOpen] = useState(false)
   const dropper = useRef()
+  const dropDown = useRef(null)
 
   const collapse = () => {
     let sectionHeight = dropper.current.scrollHeight
@@ -106,10 +108,24 @@ Header.DropDown = function DropDownComponent ({ title, active, onClick, children
     }
     return expand()
   }, [open])
+
+  function focusCheck (newFocus) {
+    setOpen(previous => {
+      if(dropDown.current.contains(newFocus)) {
+        return previous
+      }
+      return false
+    })
+  }
   
 
   return ( 
-    <Styled.StyledDropDown onClick={onClick}>
+    <Styled.StyledDropDown 
+      ref={dropDown} 
+      onClick={onClick} 
+      onFocus={() => setOpen(true) } 
+      onBlur={event => focusCheck(event.relatedTarget)}
+    >
       <div>
         {title} 
         <Styled.StyledChevronDown open={open} size={24} />

@@ -246,7 +246,6 @@ CartComponents.CartTotal = function CartTotal ({ cartData, cartItems, children }
   function getTotal () {
     if (cartItems === null) return 0
     return cartData.reduce((accumulator, current) => {
-      console.log(cartItems)
       const matchedItem = cartItems.find(item => item.id === current.id)
       if(!matchedItem) return 0
       return Math.round(accumulator + (matchedItem.price * current.quantity))
